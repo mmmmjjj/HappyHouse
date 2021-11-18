@@ -18,9 +18,9 @@ public class MemberDto {
 	private String joindate;
 	
 	@ApiModelProperty(value = "탈퇴여부")
-	private int delflag;
+	private int delflag = 0;
 	@ApiModelProperty(value = "관리자여부")
-	private int admin;
+	private int admin = 0;
 	@ApiModelProperty(value = "회원 거주지")
 	private String region;
 

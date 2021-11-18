@@ -20,4 +20,10 @@
 		insert into ssafy_member (userid, username, userpwd, email, joindate, region)
 		values (#{userid}, #{username}, #{userpwd}, #{email}, now(), #{region})
 	</insert>
+	
+	<update id="deleteMember" parameterType="String">
+		update ssafy_member
+		set delflag = 1
+		where userid = #{userid}
+	</update>
 </mapper>
