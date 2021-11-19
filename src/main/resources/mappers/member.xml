@@ -11,7 +11,7 @@
 	</select>
 	
 	<select id="userInfo" parameterType="String" resultType="memberDto">
-		select username, userid, email, joindate
+		select username, userid, email, joindate, region
 		from ssafy_member
 		where userid = #{userid}
 	</select>
@@ -24,6 +24,17 @@
 	<update id="deleteMember" parameterType="String">
 		update ssafy_member
 		set delflag = 1
+		where userid = #{userid}
+	</update>
+	
+	<update id="updateMember" parameterType="MemberDto">
+		update ssafy_member
+		<trim prefix="set" suffixOverrides=",">
+			<if test="username != null">username = #{username},</if>
+			<if test="userpwd != null">userpwd = #{userpwd},</if>
+			<if test="email != null">email = #{email},</if>
+			<if test="region != null">region = #{region},</if>
+		</trim>
 		where userid = #{userid}
 	</update>
 </mapper>

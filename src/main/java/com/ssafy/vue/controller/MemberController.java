@@ -118,4 +118,13 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	
+	@ApiOperation(value = "회원정보수정", notes = "회원정보수정을 한다.", response = Map.class)
+	@PutMapping("/update")
+	public String update(@RequestBody MemberDto memberDto, Model model) throws Exception {
+		logger.debug("memberDto info : {}", memberDto);
+		System.out.println(memberDto);
+		memberService.updateMember(memberDto);
+		return "redirect:/";
+	}
 }
