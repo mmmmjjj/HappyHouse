@@ -102,29 +102,35 @@ public class MemberController {
 	//회원가입
 	@ApiOperation(value = "회원가입", notes = "회원가입을 한다.", response = Map.class)
 	@PostMapping("/register")
-	public String register(@RequestBody MemberDto memberDto, Model model) throws Exception {
+	public ResponseEntity<String> register(@RequestBody MemberDto memberDto, Model model) throws Exception {
 		logger.debug("memberDto info : {}", memberDto);
-		memberService.registerMember(memberDto);
-		return "redirect:/user/login";
+		if(memberService.registerMember(memberDto)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
 	//회원탈퇴
 	@ApiOperation(value = "회원탈퇴 ", notes = "회원탈퇴를 한다.", response = Map.class)
 	@PutMapping("/withdraw")
-	public String withdraw(@RequestBody MemberDto memberDto, HttpSession session) throws Exception {
+	public ResponseEntity<String> withdraw(@RequestBody MemberDto memberDto, HttpSession session) throws Exception {
 		String userid = memberDto.getUserid();
-		memberService.deleteMember(userid);
+		if(memberService.deleteMember(userid)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			}
 		session.invalidate();
 		
-		return "redirect:/";
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
 	@ApiOperation(value = "회원정보수정", notes = "회원정보수정을 한다.", response = Map.class)
 	@PutMapping("/update")
-	public String update(@RequestBody MemberDto memberDto, Model model) throws Exception {
+	public ResponseEntity<String> update(@RequestBody MemberDto memberDto, Model model) throws Exception {
 		logger.debug("memberDto info : {}", memberDto);
 		System.out.println(memberDto);
-		memberService.updateMember(memberDto);
-		return "redirect:/";
+		if(memberService.updateMember(memberDto)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 }

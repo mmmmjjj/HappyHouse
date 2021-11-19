@@ -37,4 +37,10 @@
 		</trim>
 		where userid = #{userid}
 	</update>
+	
+	<select id="idCheck" parameterType="memberDto" resultType="int">
+		select count(userid)
+		from member
+		where userid = #{userid}
+	</select>
 </mapper>

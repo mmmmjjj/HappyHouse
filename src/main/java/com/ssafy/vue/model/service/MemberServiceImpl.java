@@ -30,9 +30,9 @@ public class MemberServiceImpl implements MemberService {
 
 	
 	@Override
-	public void registerMember(MemberDto memberDto) throws Exception {
+	public boolean registerMember(MemberDto memberDto) throws Exception {
 //		validation check
-		sqlSession.getMapper(MemberMapper.class).registerMember(memberDto);
+		return sqlSession.getMapper(MemberMapper.class).registerMember(memberDto);
 	}
 	
 	//----------------------------------------
@@ -54,13 +54,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateMember(MemberDto memberDto) throws Exception {
-		sqlSession.getMapper(MemberMapper.class).updateMember(memberDto);
+	public boolean updateMember(MemberDto memberDto) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).updateMember(memberDto);
 	}
 
 	@Override
-	public void deleteMember(String userId) throws Exception {
-		sqlSession.getMapper(MemberMapper.class).deleteMember(userId);
+	public boolean deleteMember(String userId) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).deleteMember(userId);
 	}
 	
 	@Override

@@ -10,13 +10,13 @@ public interface MemberService {
 	public MemberDto login(MemberDto memberDto) throws Exception;
 	public MemberDto userInfo(String userid) throws Exception;
 	
-	void registerMember(MemberDto memberDto) throws Exception;
+	boolean registerMember(MemberDto memberDto) throws Exception;
 	
 	int idCheck(String checkId) throws Exception;
 	List<MemberDto> listMember() throws Exception;
 	MemberDto getMember(String userId) throws Exception;
-	void updateMember(MemberDto memberDto) throws Exception;
-	void deleteMember(String userId) throws Exception;
+	boolean updateMember(MemberDto memberDto) throws Exception;
+	boolean deleteMember(String userId) throws Exception;
 	
 	List<MemberDto> searchMemberById(String userId) throws Exception;
     List<MemberDto> searchMemberByName(String userName) throws Exception;
