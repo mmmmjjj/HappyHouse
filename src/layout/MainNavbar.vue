@@ -68,6 +68,7 @@
                 target="_blank"
                 v-if="showDownload"
               > -->
+
               <md-list-item @click="moveToNotice">
                 <i class="material-icons">content_paste</i>
                 <p>Documentation</p>
@@ -152,21 +153,108 @@
                               >Register</md-button
                             > -->
               <!-- 관리자 -->
-
+              <li class="md-list-item" v-if="user">
+                <a
+                  href="javascript:void(0)"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content" v-if="user.admin == 1">
+                    <drop-down direction="down">
+                      <md-button
+                        slot="title"
+                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        data-toggle="dropdown"
+                      >
+                        <md-icon>settings</md-icon>
+                      </md-button>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                          <a class="dropdown-item" @click="moveToLogin"
+                            >관리자모드</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#pablo" class="dropdown-item">로그아웃</a>
+                        </li>
+                      </ul>
+                    </drop-down>
+                  </div>
+                </a>
+              </li>
               <!-- 일반사용자 -->
-
+              <li class="md-list-item" v-if="user">
+                <a
+                  href="javascript:void(0)"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content" v-if="user.admin == 0">
+                    <drop-down direction="down">
+                      <md-button
+                        slot="title"
+                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        data-toggle="dropdown"
+                      >
+                        <md-icon>settings</md-icon>
+                      </md-button>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                          <a class="dropdown-item" @click="moveToLogin"
+                            >{{ user.username }}({{ user.userid }})님
+                            환영합니다.</a
+                          >
+                        </li>
+                        <li>
+                          <a class="dropdown-item" @click="onClickLogout"
+                            >로그아웃</a
+                          >
+                        </li>
+                      </ul>
+                    </drop-down>
+                  </div>
+                </a>
+              </li>
               <!-- 로그인 안했을때 -->
-              <md-list-item @click="moveToLogin">
+              <li class="md-list-item" v-else>
+                <a
+                  href="javascript:void(0)"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <drop-down direction="down">
+                      <md-button
+                        slot="title"
+                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        data-toggle="dropdown"
+                      >
+                        <md-icon>settings</md-icon>
+                      </md-button>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li>
+                          <a class="dropdown-item" @click="moveToLogin"
+                            >로그인</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#pablo" class="dropdown-item">회원가입</a>
+                        </li>
+                      </ul>
+                    </drop-down>
+                  </div>
+                </a>
+              </li>
+              <!-- <md-list-item @click="moveToLogin" v-if="user == null">
                 <md-button class="md-rose md-round">
-                  <!-- <md-list-item @click="moveToLogin"> -->
+                  <md-list-item @click="moveToLogin">
                   <i class="fab fa-instagram"></i>
-                  <p class="hidden-lg">Instagram</p>
-                  <!-- </md-list-item></md-button --></md-button
+                  <p class="hidden-lg">로그인하세요</p>
+                  <p>로그인하세요</p>
+                  </md-list-item></md-button
+                  </md-button
                 >
                 <md-tooltip md-direction="bottom"
                   >Follow us on Instagram
                 </md-tooltip>
-              </md-list-item>
+              </md-list-item> -->
             </md-list>
           </div>
         </div>
@@ -221,6 +309,15 @@ export default {
   },
   data() {
     return {
+      user: {
+        userid: "",
+        username: "",
+        userpwd: "",
+        pwdchk: "",
+        email: "",
+        region: "",
+        admin: "",
+      },
       extraNavClasses: "",
       toggledClass: false,
     };
