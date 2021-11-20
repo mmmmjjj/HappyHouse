@@ -2,6 +2,7 @@ package com.ssafy.vue.model.service;
 
 import java.util.List;
 
+import com.ssafy.vue.model.BoardParameterDto;
 import com.ssafy.vue.model.HospitalDto;
 import com.ssafy.vue.model.MemberDto;
 
@@ -13,7 +14,7 @@ public interface MemberService {
 	boolean registerMember(MemberDto memberDto) throws Exception;
 	
 	int idCheck(String checkId) throws Exception;
-	List<MemberDto> listMember() throws Exception;
+	List<MemberDto> listMember(BoardParameterDto boardParameterDto) throws Exception;
 	MemberDto getMember(String userId) throws Exception;
 	boolean updateMember(MemberDto memberDto) throws Exception;
 	boolean deleteMember(String userId) throws Exception;

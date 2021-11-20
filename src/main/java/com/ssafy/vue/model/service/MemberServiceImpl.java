@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.vue.model.BoardParameterDto;
 import com.ssafy.vue.model.HospitalDto;
 import com.ssafy.vue.model.MemberDto;
 import com.ssafy.vue.model.mapper.MemberMapper;
@@ -44,8 +45,10 @@ public class MemberServiceImpl implements MemberService {
 
 	
 	@Override
-	public List<MemberDto> listMember() throws Exception {
-		return sqlSession.getMapper(MemberMapper.class).listMember();
+	public List<MemberDto> listMember(BoardParameterDto boardParameterDto) throws Exception {
+		int start = boardParameterDto.getPg() == 0 ? 0 : (boardParameterDto.getPg() - 1) * boardParameterDto.getSpp();
+		boardParameterDto.setStart(start);
+		return sqlSession.getMapper(MemberMapper.class).listMember(boardParameterDto);
 	}
 
 	@Override

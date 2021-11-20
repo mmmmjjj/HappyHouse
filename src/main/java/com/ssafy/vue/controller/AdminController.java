@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.vue.model.BoardParameterDto;
 import com.ssafy.vue.model.HospitalDto;
 import com.ssafy.vue.model.MemberDto;
 import com.ssafy.vue.model.service.MemberService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -49,8 +51,8 @@ public class AdminController {
 		@ApiResponse(code = 500, message = "서버에러!!")
 	})
 	@GetMapping(value = "/user")
-	public ResponseEntity<List<MemberDto>> userList() throws Exception {
-		List<MemberDto> list = memberService.listMember();
+	public ResponseEntity<List<MemberDto>> userList(@ApiParam(value = "회원리스트를 얻기위한 부가정보.", required = true) BoardParameterDto boardParameterDto) throws Exception {
+		List<MemberDto> list = memberService.listMember(boardParameterDto);
 		System.out.println("userlist를 불러왔습니다.");
 		if(list != null && !list.isEmpty()) {
 			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
@@ -74,13 +76,13 @@ public class AdminController {
 		}
 	}
 	
-	@ApiOperation(value = "회원등록", notes = "회원의 정보를 받아 처리.")
-	@PostMapping(value = "/user")
-	public ResponseEntity<List<MemberDto>> userRegister(@RequestBody MemberDto memberDto) throws Exception {
-		memberService.registerMember(memberDto);
-		List<MemberDto> list = memberService.listMember();
-		return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
-	}
+//	@ApiOperation(value = "회원등록", notes = "회원의 정보를 받아 처리.")
+//	@PostMapping(value = "/user")
+//	public ResponseEntity<List<MemberDto>> userRegister(@RequestBody MemberDto memberDto) throws Exception {
+//		memberService.registerMember(memberDto);
+//		List<MemberDto> list = memberService.listMember();
+//		return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
+//	}
 	
 	@ApiOperation(value = "회원정보", notes = "회원한명에 대한 정보.")
 	@GetMapping(value = "/user/{userid}")
@@ -93,21 +95,21 @@ public class AdminController {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 	
-	@ApiOperation(value = "회원정보수정", notes = "회원정보를 수정합니다.")
-	@PutMapping(value = "/user")
-	public ResponseEntity<List<MemberDto>> userModify(@RequestBody MemberDto memberDto) throws Exception {
-		memberService.updateMember(memberDto);
-		List<MemberDto> list = memberService.listMember();
-		return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
-	}
-	
-	@ApiOperation(value = "회원정보삭제", notes = "회원정보를 삭제합니다.")
-	@DeleteMapping(value = "/user/{userid}")
-	public ResponseEntity<List<MemberDto>> userDelete(@PathVariable("userid") String userid) throws Exception {
-		memberService.deleteMember(userid);
-		List<MemberDto> list = memberService.listMember();
-		return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
-	}
+//	@ApiOperation(value = "회원정보수정", notes = "회원정보를 수정합니다.")
+//	@PutMapping(value = "/user")
+//	public ResponseEntity<List<MemberDto>> userModify(@RequestBody MemberDto memberDto) throws Exception {
+//		memberService.updateMember(memberDto);
+//		List<MemberDto> list = memberService.listMember();
+//		return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
+//	}
+//	
+//	@ApiOperation(value = "회원정보삭제", notes = "회원정보를 삭제합니다.")
+//	@DeleteMapping(value = "/user/{userid}")
+//	public ResponseEntity<List<MemberDto>> userDelete(@PathVariable("userid") String userid) throws Exception {
+//		memberService.deleteMember(userid);
+//		List<MemberDto> list = memberService.listMember();
+//		return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
+//	}
 	
 	@GetMapping("/search")
 	public ResponseEntity<List<MemberDto>> search(@RequestParam Map<String, String> map, Model model) throws Exception {
