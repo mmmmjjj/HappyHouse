@@ -19,7 +19,7 @@
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>lock_outline</md-icon>
                 <label>Password...</label>
-                <md-input v-model="user.userpwd"></md-input>
+                <md-input v-model="user.userpwd" type="password"></md-input>
               </md-field>
               <md-button
                 slot="footer"
