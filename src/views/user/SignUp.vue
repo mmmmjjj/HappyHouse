@@ -26,15 +26,17 @@
                   ref="userpwd"
                   v-model="user.userpwd"
                   type="password"
+                  @keyup="keyPress"
                 ></md-input>
               </md-field>
               <md-field :class="pwdCheck" slot="inputs">
                 <md-icon>lock_outline</md-icon>
-                <label>다시 한번 입력하세요...</label>
+                <label>{{ pwdtxt }}</label>
                 <md-input
                   ref="pwdchk"
                   v-model="user.pwdchk"
                   type="password"
+                  @keyup="keyPress"
                 ></md-input>
               </md-field>
               <md-field class="md-form-group" slot="inputs">
@@ -154,13 +156,12 @@ export default {
       sidoCode: null,
       gugunCode: null,
       isCheckedPwd: null,
+      pwdtxt: "다시 한번 입력해주세요...",
     };
   },
   created() {
     this.CLEAR_SIDO_LIST();
     this.getSido();
-
-    console.log(this.sidos);
   },
   methods: {
     ...mapActions(houseStore, ["getSido", "getGugun", "getHouseList"]),
@@ -239,6 +240,20 @@ export default {
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
+    keyPress() {
+      let pwdchk = this.$refs.pwdchk.$options.propsData.value;
+      let pwd = this.$refs.userpwd.$options.propsData.value;
+      console.log(pwdchk);
+      if (pwdchk == null) this.isCheckedPwd = null;
+      else if (pwd == pwdchk) {
+        this.isCheckedPwd = true;
+        this.pwdtxt = "사용 가능합니다.";
+      }
+      if (pwd != pwdchk && pwdchk != null) {
+        this.isCheckedPwd = false;
+        this.pwdtxt = "비밀번호가 올바르지 않습니다.";
+      }
+    },
   },
   watch: {
     userpwd: {},
@@ -256,15 +271,13 @@ export default {
       };
     },
     pwdCheck: function() {
+      console.log(this.isCheckedPwd);
       return {
         "md-form-group": this.isCheckedPwd == null,
         "md-error": this.isCheckedPwd == false,
-        "md-valid": this.isCheckedPwd,
+        "md-valid": this.isCheckedPwd == true,
       };
     },
-    // isCheckedPwd: function() {
-    //   if(this.userpwd == this.pwdchk) return
-    // },
   },
   mounted() {
     this.leafActive();
