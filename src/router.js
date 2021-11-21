@@ -10,7 +10,45 @@ import MainFooter from "./layout/MainFooter.vue";
 import BoardList from "@/views/notice/BoardList.vue";
 import SignUpPage from "@/views/user/SignUp.vue";
 
+import Admin from "@/views/Admin.vue";
+import AdminList from "@/views/admin/MemberList.vue";
+
 Vue.use(Router);
+
+const onlyAuthUser = async (to, from, next) => {
+  // console.log(store);
+  const checkUserInfo = store.getters["memberStore/checkUserInfo"];
+  const getUserInfo = store._actions["memberStore/getUserInfo"];
+  let token = sessionStorage.getItem("access-token");
+  if (checkUserInfo == null && token) {
+    await getUserInfo(token);
+  }
+  if (checkUserInfo === null) {
+    alert("로그인이 필요한 페이지입니다..");
+    // next({ name: "SignIn" });
+    router.push({ name: "SignIn" });
+  } else {
+    // console.log("로그인 했다.");
+    next();
+  }
+};
+
+const onlyAdmin = async (to, from, next) => {
+  // console.log(store);
+  const checkUserInfo = store.getters["memberStore/checkUserInfo"];
+  const getUserInfo = store._actions["memberStore/getUserInfo"];
+  let token = sessionStorage.getItem("access-token");
+  if (checkUserInfo == null && token) {
+    await getUserInfo(token);
+  }
+  if (checkUserInfo === null || checkUserInfo.admin == 0) {
+    alert("관리자만 접근 가능한 페이지입니다..");
+    // next({ name: "SignIn" });
+    router.push({ name: "Home" });
+  } else {
+    next();
+  }
+};
 
 export default new Router({
   routes: [
@@ -44,6 +82,27 @@ export default new Router({
         header: MainNavbar,
         footer: MainFooter,
       },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      components: {
+        default: Admin,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
+      redirect: "/admin/list",
+      children: [
+        {
+          path: "list",
+          name: "AdminList",
+          component: AdminList,
+        },
+      ],
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },

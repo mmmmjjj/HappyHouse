@@ -169,7 +169,7 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li>
-                          <a class="dropdown-item" @click="moveToLogin"
+                          <a class="dropdown-item" @click="moveToAdmin"
                             >관리자모드</a
                           >
                         </li>
@@ -339,6 +339,9 @@ export default {
     },
     moveToSignUp() {
       this.$router.push({ name: "signup" });
+    },
+    moveToAdmin() {
+      this.$router.push({ name: "admin" });
     },
     moveToNotice() {
       this.$router.push({ name: "boardlist" });
