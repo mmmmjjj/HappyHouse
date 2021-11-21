@@ -31,6 +31,8 @@ import MemberMyPage from "@/views/user/MemberMyPage.vue";
 import Admin from "@/views/Admin.vue";
 import AdminList from "@/views/admin/MemberList.vue";
 
+import store from "@/store/index.js";
+
 Vue.use(Router);
 
 const onlyAuthUser = async (to, from, next) => {
@@ -180,7 +182,11 @@ export default new Router({
     {
       path: "/membermypage",
       name: "membermypage",
-      components: { default: MemberMyPage, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: MemberMyPage,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -198,7 +204,11 @@ export default new Router({
     {
       path: "/updateanddelete",
       name: "updateanddelete",
-      components: { default: UpdateAndDelete, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: UpdateAndDelete,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -256,7 +266,7 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
-    
+
     {
       path: "/landing",
       name: "landing",
