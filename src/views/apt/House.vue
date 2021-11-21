@@ -10,7 +10,7 @@
             <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
               <h1>Vue Material Kit</h1>
-              <h3>메인화면입니다</h3>
+              <h3>아파트정보확인</h3>
             </div>
           </div>
         </div>
@@ -24,6 +24,26 @@
           </div>
           <basic-elements></basic-elements>
         </div>
+        <!-- -->
+        <b-container class="bv-example-row mt-3 text-center">
+          <h3 class="underline-orange">
+            <b-icon icon="house-fill"></b-icon> House Service
+          </h3>
+          <b-row>
+            <b-col>
+              <house-search-bar></house-search-bar>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="6" align="left">
+              <house-list />
+            </b-col>
+            <b-col cols="6">
+              <house-detail />
+            </b-col>
+          </b-row>
+        </b-container>
+        <!-- -->
       </div>
       <div class="section section-navbars">
         <div class="container">
@@ -267,29 +287,16 @@
 </template>
 
 <script>
-import BasicElements from "./components/BasicElementsSection";
-import Navigation from "./components/NavigationSection";
-import SmallNavigation from "./components/SmallNavigationSection";
-import Tabs from "./components/TabsSection";
-import NavPills from "./components/NavPillsSection";
-import Notifications from "./components/NotificationsSection";
-import TypographyImages from "./components/TypographyImagesSection";
-import JavascriptComponents from "./components/JavascriptComponentsSection";
-import { LoginCard } from "@/components";
-
+import HouseSearchBar from "@/views/apt/HouseSearchBar.vue";
+import HouseList from "@/views/apt/HouseList.vue";
+import HouseDetail from "@/views/apt/HouseDetail.vue";
 export default {
   components: {
-    BasicElements,
-    Navigation,
-    SmallNavigation,
-    Tabs,
-    NavPills,
-    Notifications,
-    TypographyImages,
-    JavascriptComponents,
-    LoginCard,
+    HouseSearchBar,
+    HouseList,
+    HouseDetail,
   },
-  name: "index",
+  name: "house",
   bodyClass: "index-page",
   props: {
     image: {
@@ -361,7 +368,6 @@ export default {
   beforeDestroy() {
     window.removeEventListener("resize", this.leafActive);
   },
-  created() {},
 };
 </script>
 <style lang="scss">

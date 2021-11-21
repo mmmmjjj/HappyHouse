@@ -74,6 +74,7 @@ const houseStore = {
       const params = {
         LAWD_CD: gugunCode,
         DEAL_YMD: "202110",
+        numOfRows: encodeURIComponent("1000"),
         serviceKey: decodeURIComponent(SERVICE_KEY),
       };
       houseList(

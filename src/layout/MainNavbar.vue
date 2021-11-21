@@ -8,7 +8,7 @@
   >
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
-        <h3 class="md-title">Vue Material Kit</h3>
+        <h3 class="md-title" @click="moveToHome">Vue Material Kit</h3>
       </div>
       <div class="md-toolbar-section-end">
         <md-button
@@ -69,20 +69,71 @@
                 v-if="showDownload"
               > -->
 
-              <md-list-item @click="moveToNotice">
+              <li class="md-list-item">
+                <a
+                  href="javascript:void(0)"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <drop-down direction="down">
+                      <md-button
+                        slot="title"
+                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        data-toggle="dropdown"
+                      >
+                        <md-icon>settings</md-icon>
+                      </md-button>
+                      <ul class="dropdown-menu dropdown-menu-right">
+                        <li class="dropdown-header">Dropdown header</li>
+                        <li>
+                          <a class="dropdown-item" @click="goToAptList"
+                            >아파트정보</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#pablo" class="dropdown-item"
+                            >Another action</a
+                          >
+                        </li>
+                        <li>
+                          <a href="#pablo" class="dropdown-item"
+                            >Something else here</a
+                          >
+                        </li>
+                        <li class="dropdown-divider"></li>
+                        <li>
+                          <a href="#pablo" class="dropdown-item"
+                            >Separated link</a
+                          >
+                        </li>
+                        <li class="dropdown-divider"></li>
+                        <li>
+                          <a href="#pablo" class="dropdown-item"
+                            >One more separated link</a
+                          >
+                        </li>
+                      </ul>
+                    </drop-down>
+                  </div>
+                </a>
+              </li>
+
+              <md-list-item
+                href="javascript:void(0)"
+                @click="moveToNotice"
+                v-if="showDownload"
+              >
                 <i class="material-icons">content_paste</i>
-                <p>Documentation</p>
+                <p>공지사항</p>
               </md-list-item>
 
               <md-list-item
                 href="javascript:void(0)"
-                @click="scrollToElement()"
+                @click="moveToQna"
                 v-if="showDownload"
               >
-                <i class="material-icons" @click="moveToLogin"
-                  >cloud_download</i
-                >
-                <p>Download</p>
+                <i class="material-icons">cloud_download</i>
+                <p>질문게시판</p>
               </md-list-item>
 
               <li class="md-list-item" v-else>
@@ -174,7 +225,11 @@
                           >
                         </li>
                         <li>
-                          <a href="#pablo" class="dropdown-item">로그아웃</a>
+                          <a
+                            class="dropdown-item"
+                            @click.prevent="onClickLogout"
+                            >로그아웃</a
+                          >
                         </li>
                       </ul>
                     </drop-down>
@@ -204,7 +259,9 @@
                           >
                         </li>
                         <li>
-                          <a class="dropdown-item" @click="onClickLogout"
+                          <a
+                            class="dropdown-item"
+                            @click.prevent="onClickLogout"
                             >로그아웃</a
                           >
                         </li>
@@ -335,8 +392,17 @@ export default {
     moveToLogin() {
       this.$router.push({ name: "loginpage" });
     },
+    goToAptList() {
+      this.$router.push({ name: "house" });
+    },
     moveToNotice() {
-      this.$router.push({ name: "boardlist" });
+      this.$router.push({ name: "noticeboardlist" });
+    },
+    moveToHome() {
+      this.$router.push({ name: "index" });
+    },
+    moveToQna() {
+      this.$router.push({ name: "qnalist" });
     },
     bodyClick() {
       let bodyClick = document.getElementById("bodyClick");

@@ -7,7 +7,9 @@ import Login from "./views/Login.vue";
 import Profile from "./views/Profile.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
-import BoardList from "@/views/notice/BoardList.vue";
+import NoticeBoardList from "@/views/notice/NoticeBoardList.vue";
+import QnaList from "@/views/qna/QnaList.vue";
+import House from "@/views/apt/House.vue";
 
 Vue.use(Router);
 
@@ -32,9 +34,27 @@ export default new Router({
       }
     },
     {
-      path: "/notice",
-      name: "boardlist",
-      components: { default: BoardList, header: MainNavbar, footer: MainFooter },
+      path: "/qnalist",
+      name: "qnalist",
+      components: { default: QnaList, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/house",
+      name: "house",
+      components: { default: House, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/noticeboardlist",
+      name: "noticeboardlist",
+      components: { default: NoticeBoardList, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }

@@ -324,7 +324,7 @@ export default {
     // LoginCard,
     PaginatedList,
   },
-  name: "boardlist",
+  name: "noticeboardlist",
   bodyClass: "index-page",
   props: {
     image: {
