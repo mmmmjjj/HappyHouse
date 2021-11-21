@@ -57,77 +57,49 @@
                             id="username-group"
                             label="이름:"
                             label-for="username"
-                            description="이름을 입력하세요."
                           >
                             <b-form-input
                               id="username"
                               v-model="user.username"
                               required
                               placeholder="이름 입력...."
+                              readonly
                             ></b-form-input>
                           </b-form-group>
-                          <b-form-group label="비밀번호:" label-for="userpwd">
-                            <b-form-input
-                              type="password"
-                              id="userpwd"
-                              v-model="user.userpwd"
-                              required
-                              placeholder="비밀번호 입력...."
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            id="pwdchk-group"
-                            label="비밀번호 확인:"
-                            label-for="pwdchk"
-                            description="비밀번호를 다시 입력해주세요."
-                          >
-                            <b-form-input
-                              type="password"
-                              id="pwdchk"
-                              ref="pwdchk"
-                              v-model="user.pwdchk"
-                              required
-                              placeholder="비밀번호 재입력...."
-                            >
-                            </b-form-input>
-                            <b-button
-                              type="button"
-                              variant="primary"
-                              @click="PasswordCheck"
-                              >비밀번호 확인</b-button
-                            >
-                          </b-form-group>
+
                           <b-form-group
                             id="email-group"
                             label="이메일:"
                             label-for="email"
-                            description="이메일을 입력하세요."
                           >
                             <b-form-input
                               id="email"
                               v-model="user.email"
                               required
-                              placeholder="이메일 입력...."
+                              readonly
                             ></b-form-input>
                           </b-form-group>
                           <b-form-group
                             id="region-group"
                             label="거주지역:"
                             label-for="region"
-                            description="거주지를 입력하세요"
                           >
                             <b-form-input
                               id="region"
                               v-model="user.region"
                               required
-                              placeholder="거주지역 입력...."
+                              readonly
                             ></b-form-input>
                           </b-form-group>
-                          <b-button type="submit" variant="primary" class="m-1"
-                            >회원정보수정</b-button
-                          ><b-button variant="danger" @click="withdraw"
-                            >회원탈퇴</b-button
+                          <b-button
+                            variant="primary"
+                            class="m-1"
+                            @click="gotoupdateanddelete"
+                            >회원정보수정및탈퇴</b-button
                           >
+                          <!-- <b-button variant="danger" @click="withdraw"
+                            >회원탈퇴</b-button
+                          > -->
                         </b-form>
                       </b-card>
                     </b-col>
@@ -553,6 +525,11 @@ export default {
       sessionStorage.removeItem("access-token");
       this.$router.push({
         name: "index",
+      });
+    },
+    gotoupdateanddelete() {
+      this.$router.push({
+        name: "updateanddelete",
       });
     },
     PasswordCheck() {

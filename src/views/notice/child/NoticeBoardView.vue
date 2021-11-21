@@ -10,7 +10,7 @@
             <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
               <h1>Vue Material Kit</h1>
-              <h3>공지사항을 확인하세요</h3>
+              <h3>공지사항 세부 보기</h3>
             </div>
           </div>
         </div>
@@ -24,34 +24,52 @@
           </div>
           <basic-elements></basic-elements>
         </div>
-        <!-- -->
         <b-container class="bv-example-row mt-3">
           <b-row>
             <b-col>
-              <b-alert show><h3>공지사항</h3></b-alert>
+              <b-alert show><h3>글보기</h3></b-alert>
             </b-col>
           </b-row>
           <b-row class="mb-1">
-            <b-col class="text-right">
-              <b-button
-                variant="outline-primary"
-                @click="moveWrite()"
-                v-if="userInfo.admin == 1"
-                >글쓰기</b-button
+            <b-col class="text-left">
+              <b-button variant="outline-primary" @click="listArticle"
+                >목록</b-button
               >
-              <!-- <b-button variant="outline-primary" @click="check">체크</b-button> -->
+            </b-col>
+            <b-col class="text-right" v-if="isWriter">
+              <b-button
+                variant="outline-info"
+                size="sm"
+                @click="moveModifyArticle"
+                class="mr-2"
+                >글수정</b-button
+              >
+              <b-button
+                variant="outline-danger"
+                size="sm"
+                @click="removeArticle"
+                >글삭제</b-button
+              >
             </b-col>
           </b-row>
-          <b-row>
-            <b-col v-if="articles.length">
-              <paginated-list :list-array="articles" />
+          <b-row class="mb-1">
+            <b-col>
+              <b-card
+                :header-html="
+                  `<h3>${article.articleno}.
+          ${article.subject} [${article.hit}]</h3><div><h6>${article.userid}</div><div>${article.regtime}</h6></div>`
+                "
+                class="mb-2"
+                border-variant="dark"
+                no-body
+              >
+                <b-card-body class="text-left">
+                  <div v-html="message"></div>
+                </b-card-body>
+              </b-card>
             </b-col>
-            <b-col v-else class="text-center"
-              >작성된 공지사항이 없습니다.</b-col
-            >
           </b-row>
         </b-container>
-        <!-- -->
       </div>
       <div class="section section-navbars">
         <div class="container">
@@ -59,11 +77,11 @@
         </div>
         <navigation></navigation>
       </div>
-      <!-- <div class="section section-tabs">
+      <div class="section section-tabs">
         <div class="container">
           <tabs></tabs>
         </div>
-      </div> -->
+      </div>
       <div class="section section-white">
         <div class="container">
           <nav-pills></nav-pills>
@@ -304,9 +322,8 @@
 // import TypographyImages from "./components/TypographyImagesSection";
 // import JavascriptComponents from "./components/JavascriptComponentsSection";
 // import { LoginCard } from "@/components";
-import { listArticle } from "@/api/board.js";
-import PaginatedList from "@/views/notice/child/PaginatedList";
-import { mapActions, mapMutations, mapState } from "vuex";
+import { getArticle, deleteArticle } from "@/api/board";
+import { mapState } from "vuex";
 
 const memberStore = "memberStore";
 export default {
@@ -320,9 +337,8 @@ export default {
     // TypographyImages,
     // JavascriptComponents,
     // LoginCard,
-    PaginatedList,
   },
-  name: "noticeboardlist",
+  name: "noticeboardview",
   bodyClass: "index-page",
   props: {
     image: {
@@ -360,24 +376,32 @@ export default {
   },
   data() {
     return {
-      user: {
-        userid: "",
-        username: "",
-        userpwd: "",
-        pwdchk: "",
-        email: "",
-        region: "",
-      },
       firstname: null,
       email: null,
       password: null,
       leafShow: false,
-      articles: [],
+      article: {},
+      isWriter: false,
     };
   },
   methods: {
-    ...mapActions(memberStore, ["getUserInfo"]),
-    ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    listArticle() {
+      this.$router.push({ name: "noticeboardlist" });
+    },
+    moveModifyArticle() {
+      this.$router.replace({
+        name: "noticeboardupdate",
+        params: { articleno: this.article.articleno },
+      });
+      //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
+    },
+    removeArticle() {
+      if (confirm("정말로 삭제?")) {
+        deleteArticle(this.article.articleno, () => {
+          this.$router.push({ name: "noticeboardlist" });
+        });
+      }
+    },
     leafActive() {
       if (window.innerWidth < 768) {
         this.leafShow = false;
@@ -385,39 +409,14 @@ export default {
         this.leafShow = true;
       }
     },
-    check() {
-      let token = sessionStorage.getItem("access-token");
-      if (this.getUserInfo(token)) {
-        console.log("sucess");
-        console.log(this.user.admin);
-      }
-    },
-    moveWrite() {
-      this.$router.push({ name: "noticeboardwrite" });
-    },
-  },
-  created() {
-    this.user = null;
-    this.user = this.userInfo;
-    let param = {
-      pg: 1,
-      spp: 20,
-      key: null,
-      word: null,
-    };
-    listArticle(
-      param,
-      (response) => {
-        this.articles = response.data;
-        console.log(this.articles);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
   },
   computed: {
-    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapState(memberStore, ["userInfo"]),
+    message() {
+      if (this.article.content)
+        return this.article.content.split("\n").join("<br>");
+      return "";
+    },
     headerStyle() {
       return {
         backgroundImage: `url(${this.image})`,
@@ -435,6 +434,18 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.leafActive);
+  },
+  created() {
+    getArticle(
+      this.$route.params.articleno,
+      (response) => {
+        this.article = response.data;
+        if (this.article.userid == this.userInfo.userid) this.isWriter = true;
+      },
+      (error) => {
+        console.log("삭제시 에러발생!!", error);
+      }
+    );
   },
 };
 </script>

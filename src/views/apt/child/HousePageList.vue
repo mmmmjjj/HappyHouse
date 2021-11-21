@@ -15,7 +15,8 @@
         ></b-img>
       </b-col>
       <b-col cols="10" class="align-self-center">
-        [{{ house.일련번호 }}] {{ house.아파트 }}
+        <!-- [{{ house.일련번호 }}] {{ house.아파트 }} -->
+        <apt-house-page-list :list-array="houses" />
       </b-col>
     </b-row>
     <div class="btn-cover">

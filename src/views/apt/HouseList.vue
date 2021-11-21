@@ -5,13 +5,13 @@
       :key="index"
       :house="house"
     />
-    <apt-pagination no-arrows v-model="defaultPagination" :page-count="5">
+    <!-- <apt-pagination no-arrows v-model="defaultPagination" :page-count="5">
     </apt-pagination>
 
-    <props-table component-name="aptpagination"></props-table>
+    <props-table component-name="aptpagination"></props-table> -->
     <b-row>
       <b-col v-if="houses.length">
-        <house-page-list :list-array="houses" />
+        <house-page-list :list-array="house" />
       </b-col>
       <b-col v-else class="text-center">주택 목록이 없습니다.</b-col>
     </b-row>
@@ -24,19 +24,19 @@
 </template>
 
 <script>
-//import HouseListRow from "@/views/apt/HouseListRow.vue";
+import HouseListRow from "@/views/apt/HouseListRow.vue";
 import { mapState } from "vuex";
 import HousePageList from "@/views/apt/child/HousePageList";
-import AptPagination from "@/views/apt/child/AptPagination";
+//import AptPagination from "@/views/apt/child/AptPagination";
 
 const houseStore = "houseStore";
 
 export default {
   name: "HouseList",
   components: {
-    //HouseListRow,
+    HouseListRow,
     HousePageList,
-    AptPagination,
+    //AptPagination,
   },
   data() {
     return {

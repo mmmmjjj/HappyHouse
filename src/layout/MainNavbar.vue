@@ -413,7 +413,7 @@ export default {
       this.$router.push({ name: "index" });
     },
     moveToQna() {
-      this.$router.push({ name: "qnalist" });
+      this.$router.push({ name: "qna" });
     },
     bodyClick() {
       let bodyClick = document.getElementById("bodyClick");

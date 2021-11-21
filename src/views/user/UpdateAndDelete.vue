@@ -10,7 +10,7 @@
             <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
               <h1>Vue Material Kit</h1>
-              <h3>본인정보확인</h3>
+              <h3>본인정보수정및탈퇴</h3>
             </div>
           </div>
         </div>
@@ -415,7 +415,7 @@ export default {
     // JavascriptComponents,
     //LoginCard,
   },
-  name: "membermypage",
+  name: "updateanddelete",
   bodyClass: "index-page",
   props: {
     image: {
@@ -522,7 +522,7 @@ export default {
         this.$refs.region.focus());
       err &&
         this.isCheckedPwd == false &&
-        ((msg = "비밀번호를 확인해주세요"),
+        ((msg = "회원정보 수정 및 탈퇴를 위해 비밀번호를 확인해주세요"),
         (err = false),
         this.$refs.pwdchk.focus());
       if (!err) alert(msg);
@@ -544,7 +544,7 @@ export default {
             alert(msg);
             let token = sessionStorage.getItem("access-token");
             this.getUserInfo(token);
-            this.$router.push({ name: "Home" });
+            this.$router.push({ name: "membermypage" });
           });
     },
     moveList() {

@@ -14,10 +14,7 @@
         <b-td>{{ p.articleno }}</b-td>
         <b-th class="text-left">
           <router-link
-            :to="{
-              name: 'noticeboardview',
-              params: { articleno: p.articleno },
-            }"
+            :to="{ name: 'qnaview', params: { articleno: p.articleno } }"
             >{{ p.subject }}</router-link
           ></b-th
         >

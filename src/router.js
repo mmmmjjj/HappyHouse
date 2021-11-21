@@ -5,12 +5,27 @@ import LoginPage from "./views/LoginPage.vue";
 import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import Profile from "./views/Profile.vue";
+import Qna from "./views/Qna.vue";
+
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
+
 import NoticeBoardList from "@/views/notice/NoticeBoardList.vue";
+import NoticeBoardWrite from "@/views/notice/NoticeBoardWrite.vue";
+import NoticeBoardView from "@/views/notice/child/NoticeBoardView.vue";
+import NoticeBoardUpdate from "@/views/notice/child/NoticeBoardUpdate.vue";
+
 import QnaList from "@/views/qna/QnaList.vue";
+import QnaWrite from "@/views/qna/QnaWrite.vue";
+import QnaView from "@/views/qna/QnaView.vue";
+import QnaUpdate from "@/views/qna/QnaUpdate.vue";
+import QnaDelete from "@/views/qna/QnaDelete.vue";
+import MemoModifyForm from "@/views/qna/child/MemoModifyForm.vue";
+
 import House from "@/views/apt/House.vue";
+
 import SignUpPage from "@/views/user/SignUp.vue";
+import UpdateAndDelete from "@/views/user/UpdateAndDelete.vue";
 import MemberMyPage from "@/views/user/MemberMyPage.vue";
 
 import Admin from "@/views/Admin.vue";
@@ -63,6 +78,48 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
       },
+    },
+    {
+      path: "/qna",
+      name: "qna",
+      components: { default: Qna, header: MainNavbar, footer: MainFooter },
+      redirect: "/qna/qnalist",
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+      children: [
+        {
+          path: "qnalist",
+          name: "qnalist",
+          component: QnaList,
+        },
+        {
+          path: "qnawrite",
+          name: "qnawrite",
+          component: QnaWrite,
+        },
+        {
+          path: "qnaview/:articleno",
+          name: "qnaview",
+          component: QnaView,
+        },
+        {
+          path: "qnaupdate/:articleno",
+          name: "qnaupdate",
+          component: QnaUpdate,
+        },
+        {
+          path: "qnadelete/:articleno",
+          name: "qnadelete",
+          component: QnaDelete,
+        },
+        {
+          path: "memomodifyform/:memono",
+          name: "memomodifyform",
+          component: MemoModifyForm,
+        },
+      ],
     },
     {
       path: "/loginpage",
@@ -139,6 +196,15 @@ export default new Router({
       },
     },
     {
+      path: "/updateanddelete",
+      name: "updateanddelete",
+      components: { default: UpdateAndDelete, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
       path: "/noticeboardlist",
       name: "noticeboardlist",
       components: {
@@ -151,6 +217,46 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+    {
+      path: "/noticeboardwrite",
+      name: "noticeboardwrite",
+      components: {
+        default: NoticeBoardWrite,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/noticeboardview/:articleno",
+      name: "noticeboardview",
+      components: {
+        default: NoticeBoardView,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/noticeboardupdate/:articleno",
+      name: "noticeboardupdate",
+      components: {
+        default: NoticeBoardUpdate,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    
     {
       path: "/landing",
       name: "landing",
