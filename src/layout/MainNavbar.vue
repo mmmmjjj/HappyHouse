@@ -220,7 +220,7 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li>
-                          <a class="dropdown-item" @click="moveToLogin"
+                          <a class="dropdown-item" @click="moveToAdmin"
                             >관리자모드</a
                           >
                         </li>
@@ -292,7 +292,9 @@
                           >
                         </li>
                         <li>
-                          <a href="#pablo" class="dropdown-item">회원가입</a>
+                          <a class="dropdown-item" @click="moveToSignUp"
+                            >회원가입</a
+                          >
                         </li>
                       </ul>
                     </drop-down>
@@ -394,6 +396,12 @@ export default {
     },
     goToAptList() {
       this.$router.push({ name: "house" });
+    },
+    moveToSignUp() {
+      this.$router.push({ name: "signup" });
+    },
+    moveToAdmin() {
+      this.$router.push({ name: "admin" });
     },
     moveToNotice() {
       this.$router.push({ name: "noticeboardlist" });
