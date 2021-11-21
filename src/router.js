@@ -8,6 +8,7 @@ import Profile from "./views/Profile.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 import BoardList from "@/views/notice/BoardList.vue";
+import SignUpPage from "@/views/user/SignUp.vue";
 
 Vue.use(Router);
 
@@ -19,26 +20,47 @@ export default new Router({
       components: { default: Index, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" }
-      }
+        footer: { backgroundColor: "black" },
+      },
     },
     {
       path: "/loginpage",
       name: "loginpage",
-      components: { default: LoginPage, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: LoginPage,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" }
-      }
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      components: {
+        default: SignUpPage,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
     },
     {
       path: "/notice",
       name: "boardlist",
-      components: { default: BoardList, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: BoardList,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" }
-      }
+        footer: { backgroundColor: "black" },
+      },
     },
     {
       path: "/landing",
@@ -46,32 +68,32 @@ export default new Router({
       components: { default: Landing, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" }
-      }
+        footer: { backgroundColor: "black" },
+      },
     },
-    {
-      path: "/login",
-      name: "login",
-      components: { default: Login, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 }
-      }
-    },
+    // {
+    //   path: "/login",
+    //   name: "login",
+    //   components: { default: Login, header: MainNavbar, footer: MainFooter },
+    //   props: {
+    //     header: { colorOnScroll: 400 }
+    //   }
+    // },
     {
       path: "/profile",
       name: "profile",
       components: { default: Profile, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" }
-      }
-    }
+        footer: { backgroundColor: "black" },
+      },
+    },
   ],
-  scrollBehavior: to => {
+  scrollBehavior: (to) => {
     if (to.hash) {
       return { selector: to.hash };
     } else {
       return { x: 0, y: 0 };
     }
-  }
+  },
 });

@@ -235,7 +235,9 @@
                           >
                         </li>
                         <li>
-                          <a href="#pablo" class="dropdown-item">회원가입</a>
+                          <a class="dropdown-item" @click="moveToSignUp"
+                            >회원가입</a
+                          >
                         </li>
                       </ul>
                     </drop-down>
@@ -334,6 +336,9 @@ export default {
     ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     moveToLogin() {
       this.$router.push({ name: "loginpage" });
+    },
+    moveToSignUp() {
+      this.$router.push({ name: "signup" });
     },
     moveToNotice() {
       this.$router.push({ name: "boardlist" });
