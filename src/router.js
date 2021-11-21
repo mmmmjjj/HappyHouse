@@ -11,6 +11,7 @@ import NoticeBoardList from "@/views/notice/NoticeBoardList.vue";
 import QnaList from "@/views/qna/QnaList.vue";
 import House from "@/views/apt/House.vue";
 import SignUpPage from "@/views/user/SignUp.vue";
+import MemberMyPage from "@/views/user/MemberMyPage.vue";
 
 import Admin from "@/views/Admin.vue";
 import AdminList from "@/views/admin/MemberList.vue";
@@ -114,6 +115,15 @@ export default new Router({
       path: "/qnalist",
       name: "qnalist",
       components: { default: QnaList, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/membermypage",
+      name: "membermypage",
+      components: { default: MemberMyPage, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },

@@ -253,7 +253,7 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li>
-                          <a class="dropdown-item" @click="moveToLogin"
+                          <a class="dropdown-item" @click="moveToMypage"
                             >{{ user.username }}({{ user.userid }})님
                             환영합니다.</a
                           >
@@ -393,6 +393,9 @@ export default {
     ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     moveToLogin() {
       this.$router.push({ name: "loginpage" });
+    },
+    moveToMypage() {
+      this.$router.push({ name: "membermypage" });
     },
     goToAptList() {
       this.$router.push({ name: "house" });
