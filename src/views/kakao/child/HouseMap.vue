@@ -1,6 +1,15 @@
 <template>
   <b-container>
-    <div id="map">map</div>
+    <b-row>
+      <b-col cols="6" align="left">
+        <div>
+          <ul id="placeslist"></ul>
+        </div>
+      </b-col>
+      <b-col cols="6">
+        <div id="map">map</div>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -71,6 +80,7 @@ export default {
       document.head.appendChild(script);
     },
     displayMarkers(places) {
+      var listEl = document.getElementById("placelist");
       let fragment = document.createDocumentFragment();
       let bounds = new kakao.maps.LatLngBounds();
 
@@ -79,8 +89,6 @@ export default {
 
       // 검색을 해야한다.
       places.forEach((place, index, arr) => {
-        console.log(index);
-        console.log(place);
         var address =
           this.sidoName +
           " " +
@@ -92,20 +100,16 @@ export default {
 
         var itemEl = this.getListItem(index, place);
 
-        console.log(this.map);
+        console.log(itemEl);
 
         var position = new kakao.maps.LatLng(0, 0);
 
         this.geocoder.addressSearch(address, function(result, status) {
-          console.log(address);
           let mm = map[0].__vue__.map;
-          console.log(map);
           if (status === kakao.maps.services.Status.OK) {
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
             var placePosition = new kakao.maps.LatLng(result[0].y, result[0].x);
             position = placePosition;
-            // console.log(result);
-            console.log(result[0].y, result[0].x);
             // 결과값으로 받은 위치를 마커로 표시합니다
             var marker = new kakao.maps.Marker({
               map: mm,
@@ -115,7 +119,9 @@ export default {
             // 인포윈도우로 장소에 대한 설명을 표시합니다
             var infowindow = new kakao.maps.InfoWindow({
               content:
-                '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>',
+                '<div style="width:150px;text-align:center;padding:6px 0;">' +
+                place.아파트 +
+                "</div>",
             });
             infowindow.open(mm, marker);
             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
@@ -135,7 +141,7 @@ export default {
           let txt = map[0].__vue__;
 
           kakao.maps.event.addListener(marker, "click", function() {
-            displayInfowindow(marker, title, place);
+            txt.displayInfowindow(marker, title, place);
             console.log(title + " " + code);
           });
 
@@ -144,16 +150,20 @@ export default {
           });
 
           itemEl.onmouseover = function() {
-            this.displayInfowindow(marker, title);
+            txt.displayInfowindow(marker, title, place);
           };
 
           itemEl.onmouseout = function() {
-            this.removeInfowindow();
+            txt.removeInfowindow();
           };
         })(marker, place.아파트, place.지번, place);
 
         fragment.appendChild(itemEl);
       });
+
+      console.log(fragment);
+      console.log(listEl);
+      document.getElementById("placeslist").appendChild(fragment);
 
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       this.map.setBounds(bounds);
@@ -215,7 +225,7 @@ export default {
       return el;
     },
     displayInfowindow(marker, title, place) {
-      //   console.log(title);
+      console.log("이것은 디스플레이다.");
       var content =
         `
 		<div class="overlaybox">
@@ -266,6 +276,7 @@ export default {
       //	console.log("인덱스 증가 : "+overlayIdx);
     },
     removeInfowindow() {
+      console.log("Remove");
       if (this.overlayIdx > 0) {
         this.customOverlays[--this.overlayIdx].setMap(null);
       }
