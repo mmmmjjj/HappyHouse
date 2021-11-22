@@ -102,7 +102,7 @@
                         </li>
                         <li class="dropdown-divider"></li>
                         <li>
-                          <a href="#pablo" class="dropdown-item"
+                          <a class="dropdown-item" @click="moveToApi"
                             >Separated link</a
                           >
                         </li>
@@ -394,6 +394,9 @@ export default {
     },
     goToKakaoMap() {
       this.$router.push({ name: "kakaoapi" });
+    },
+    moveToApi() {
+      this.$router.push({ name: "apiset" });
     },
     moveToMypage() {
       this.$router.push({ name: "membermypage" });

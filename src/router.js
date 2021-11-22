@@ -35,6 +35,8 @@ import AptApi from "@/views/api/AptApi.vue";
 
 import KakaoApi from "@/views/kakao/KakaoApi.vue";
 
+import ApiSet from "@/views/apiset/ApiSet.vue";
+
 import store from "@/store/index.js";
 
 Vue.use(Router);
@@ -298,6 +300,15 @@ export default new Router({
       path: "/aptapi",
       name: "aptapi",
       components: { default: AptApi, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/apiset",
+      name: "apiset",
+      components: { default: ApiSet, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
