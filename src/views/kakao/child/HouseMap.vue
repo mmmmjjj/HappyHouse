@@ -1,13 +1,13 @@
 <template>
   <b-container>
     <b-row>
-      <b-col cols="6" align="left">
+      <b-col cols="4" align="left">
         <div>
           <ul id="placeslist"></ul>
         </div>
       </b-col>
-      <b-col cols="6">
-        <div id="map">map</div>
+      <b-col cols="8">
+        <div id="kakaomap">map</div>
       </b-col>
     </b-row>
   </b-container>
@@ -59,12 +59,13 @@ export default {
   },
   methods: {
     initMap() {
-      let mapContainer = document.getElementById("map"), // 지도를 표시할 div
+      let mapContainer = document.getElementById("kakaomap"), // 지도를 표시할 div
         mapOption = {
           center: new kakao.maps.LatLng(37.564343, 126.947613), // 지도의 중심좌표
           level: 3, // 지도의 확대 레벨
         };
-      mapContainer.style.height = "600px";
+      mapContainer.style.height = "500px";
+      mapContainer.style.width = "400px";
 
       this.map = new kakao.maps.Map(mapContainer, mapOption);
 
@@ -105,7 +106,8 @@ export default {
         var position = new kakao.maps.LatLng(0, 0);
 
         this.geocoder.addressSearch(address, function(result, status) {
-          let mm = map[0].__vue__.map;
+          let mm = map.__vue__.map;
+          console.log(map.__vue__.map);
           if (status === kakao.maps.services.Status.OK) {
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
             var placePosition = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -137,8 +139,8 @@ export default {
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
         // mouseout 했을 때는 인포윈도우를 닫습니다
         (function(marker, title, code, place) {
-          let mm = map[0].__vue__.map;
-          let txt = map[0].__vue__;
+          let mm = map.__vue__.map;
+          let txt = map.__vue__;
 
           kakao.maps.event.addListener(marker, "click", function() {
             txt.displayInfowindow(marker, title, place);
