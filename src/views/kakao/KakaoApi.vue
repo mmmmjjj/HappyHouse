@@ -81,7 +81,14 @@
               class="md-layout-item md-size-66 md-xsmall-size-100 ml-auto mr-auto text-center"
             >
               <!--이 밑에 카카오 맵 넣자 -->
-              <house-map id="map" class="map"></house-map>
+              <house-map
+                id="map"
+                class="map"
+                :places="newArray"
+                :sido-name="sidoName"
+                :gugun-name="gugunName"
+                :dong-name="dongName"
+              ></house-map>
             </div>
           </div>
         </div>
@@ -148,14 +155,6 @@ export default {
       type: String,
       default: require("@/assets/img/profile.jpg"),
     },
-  },
-  data() {
-    return {
-      firstname: null,
-      email: null,
-      password: null,
-      leafShow: false,
-    };
   },
   methods: {
     leafActive() {

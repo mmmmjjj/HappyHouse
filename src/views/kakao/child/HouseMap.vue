@@ -18,10 +18,35 @@ export default {
       geocoder: null, // 주소-좌표 변환 객체
     };
   },
+  props: {
+    places: {
+      type: Array,
+      required: true,
+    },
+    sidoName: {
+      type: String,
+      required: true,
+    },
+    gugunName: {
+      type: String,
+      required: true,
+    },
+    dongName: {
+      type: String,
+      required: true,
+    },
+  },
+  watch: {
+    places: {
+      handler: function() {
+        // console.log(this.dongName + "바뀜");
+        this.displayMarkers(this.places);
+      },
+      deep: true,
+    },
+  },
   mounted() {
     window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
-
-    // this.displayMarkers();
   },
   methods: {
     initMap() {
@@ -51,11 +76,42 @@ export default {
 
       // 지도에 표시되고 있는 마커를 제거합니다
       this.removeMarker();
-      for (var i = 0; i < places.length; i++) {
-        let placePosition = new kakao.maps.LatLng(places[i].lat, places[i].lng);
-        let marker = this.addMarker(placePosition, i);
-        let itemEl = this.getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
+      // 검색을 해야한다.
+      this.places.forEach((place, index, arr) => {
+        var address =
+          this.sidoName +
+          " " +
+          this.gugunName +
+          " " +
+          place.법정동 +
+          " " +
+          place.지번;
+
+        var itemEl = this.getListItem(index, place);
+
+        this.geocoder.addressSearch(address, function(result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            var placePosition = new kakao.maps.LatLng(result[0].y, result[0].x);
+            console.log(result[0].y, result[0].x);
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+              map: map,
+              position: coords,
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+              content:
+                '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>',
+            });
+            infowindow.open(this.map, marker);
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            this.map.setCenter(coords);
+          }
+        });
+        var marker = this.addMarker(placePosition, index);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
@@ -79,11 +135,10 @@ export default {
           itemEl.onmouseout = function() {
             this.removeInfowindow();
           };
-        })(marker, places[i].aptName, places[i].aptCode, places[i]);
+        })(marker, place.아파트, place.지번, place);
 
         fragment.appendChild(itemEl);
-      }
-      // 마커를 생성하고 지도에 표시합니다
+      });
 
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       this.map.setBounds(bounds);
@@ -125,10 +180,10 @@ export default {
       let el = document.createElement("li");
       let itemStr = `
 		<span class="markerbg marker_${index + 1}></span>
-		<div class="info"><h5>${place.aptName}</h5> <button>관심등록</button>
-		<span>${place.sidoName} ${place.gugunName} ${place.dongName} ${
-        place.jibun
-      }</span>
+		<div class="info"><h5>${place.아파트}</h5> <button>관심등록</button>
+		<span>${this.sidoName} ${this.gugunName} ${this.dongName} {{
+        place.지번 }}
+      </span>
         `;
       el.innerHTML = itemStr;
       el.className = "item";
