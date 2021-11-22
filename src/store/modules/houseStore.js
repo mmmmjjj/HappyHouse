@@ -25,7 +25,7 @@ const houseStore = {
     },
     SET_DONG_LIST: (state, dongs) => {
       dongs.forEach((dong) => {
-        state.dongs.push({ value: dong.dongCode, text: dong.dongName });
+        state.dongs.push({ value: dong.dongName, text: dong.dongName });
       });
     },
     CLEAR_SIDO_LIST: (state) => {

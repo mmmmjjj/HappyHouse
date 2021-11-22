@@ -51,7 +51,7 @@
                 @keypress.enter="sendKeyword"
               ></b-form-input> -->
               <b-form-select
-                v-model="dongCode"
+                v-model.trim="dongName"
                 :options="dongs"
                 @change="searchApt"
               ></b-form-select>
@@ -100,7 +100,9 @@ export default {
     return {
       sidoCode: null,
       gugunCode: null,
-      dongCode: null,
+      dongName: null,
+      newArray: [],
+      curHouses: [],
     };
   },
   components: {
@@ -174,23 +176,57 @@ export default {
     //   this.getSido();
     // },
     gugunList() {
-      // console.log(this.sidoCode);
+      console.log("sidocode=" + this.sidoCode);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      // console.log(this.sidoCode);
+      console.log("sidocode=" + this.gugunCode);
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
+      //1120010700
+    },
+    searchApt() {
+      console.log("dongname=" + this.dongName);
+      if (this.dongCode) this.getHouseList(this.gugunCode);
+    },
+    sendKeyword() {
+      //저장되어있는 houses가져오기
+      console.log(this.houses);
+      //this.curHouses = this.houses;
+      this.curHouses = JSON.parse(JSON.stringify(this.houses));
+      //this.newArray = this.curHouses;
+      this.newArray = JSON.parse(JSON.stringify(this.curHouses));
+      console.log(this.curHouses);
+
+      //법정동이 일치하는 녀석들만 뽑기 -> newArray에 넣기
+      //this.dongName과 trim한 법정동이 같은 녀석들만
+      // this.newArray.forEach((house) => {
+      //   //state.guguns.push({ value: gugun.gugunCode, text: gugun.gugunName });
+      //   console.log(house.법정동);
+      //   if (" " + this.dongName == house.법정동) {
+      //     //this.newArray = JSON.parse(JSON.stringify(house));
+      //     this.newArray.push({ value: house.아파트, text: "아파트" });
+      //   }
+      // });
+      let index = this.newArray.length - 1;
+      while (index >= 0) {
+        if (" " + this.dongName != this.newArray[index].법정동) {
+          this.newArray.splice(index, 1);
+        }
+        index -= 1;
+      }
+
+      console.log(this.newArray);
     },
     addKakaoMapScript() {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=본인이 발급받은 appkey 등록";
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=840c260793a1fa7d9e90055a0647611f";
       document.head.appendChild(script);
     },
     initMap() {
@@ -205,7 +241,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(houseStore, ["sidos", "guguns", "dongs"]),
+    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
     headerStyle() {
       return {
         backgroundImage: `url(${this.image})`,
