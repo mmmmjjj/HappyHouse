@@ -81,7 +81,7 @@
               class="md-layout-item md-size-66 md-xsmall-size-100 ml-auto mr-auto text-center"
             >
               <!--이 밑에 카카오 맵 넣자 -->
-              <div id="map" class="map"></div>
+              <house-map id="map" class="map"></house-map>
             </div>
           </div>
         </div>
@@ -94,6 +94,7 @@
 //import HouseList from "@/views/apt/HouseList.vue";
 //import HouseDetail from "@/views/apt/HouseDetail.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
+import HouseMap from "@/views/kakao/child/HouseMap.vue";
 const houseStore = "houseStore";
 export default {
   data() {
@@ -101,6 +102,8 @@ export default {
       sidoCode: null,
       gugunCode: null,
       dongName: null,
+      sidoName: null,
+      gugunName: null,
       newArray: [],
       curHouses: [],
     };
@@ -108,6 +111,7 @@ export default {
   components: {
     //HouseList,
     //HouseDetail,
+    HouseMap,
   },
   name: "kakaoapi",
   bodyClass: "index-page",
@@ -172,21 +176,29 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
-    // sidoList() {
-    //   this.getSido();
-    // },
     gugunList() {
       console.log("sidocode=" + this.sidoCode);
+      this.sidos.forEach((sido) => {
+        if (this.sidoCode == sido.value) {
+          this.sidoName = sido.text;
+        }
+      });
+      console.log(this.sidoName);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
       console.log("sidocode=" + this.gugunCode);
+      this.guguns.forEach((gugun) => {
+        if (this.gugunCode == gugun.value) {
+          this.gugunName = gugun.text;
+        }
+      });
+      console.log(this.gugunName);
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
-      //1120010700
     },
     searchApt() {
       console.log("dongname=" + this.dongName);
@@ -195,9 +207,7 @@ export default {
     sendKeyword() {
       //저장되어있는 houses가져오기
       console.log(this.houses);
-      //this.curHouses = this.houses;
       this.curHouses = JSON.parse(JSON.stringify(this.houses));
-      //this.newArray = this.curHouses;
       this.newArray = JSON.parse(JSON.stringify(this.curHouses));
       console.log(this.curHouses);
 
@@ -221,24 +231,6 @@ export default {
 
       console.log(this.newArray);
     },
-    addKakaoMapScript() {
-      const script = document.createElement("script");
-      /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=840c260793a1fa7d9e90055a0647611f";
-      document.head.appendChild(script);
-    },
-    initMap() {
-      var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
-      var options = {
-        //지도를 생성할 때 필요한 기본 옵션
-        center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-        level: 3, //지도의 레벨(확대, 축소 정도)
-      };
-
-      var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-    },
   },
   computed: {
     ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
@@ -254,9 +246,6 @@ export default {
     },
   },
   mounted() {
-    window.kakao && window.kakao.maps
-      ? this.initMap()
-      : this.addKakaoMapScript();
     this.leafActive();
     window.addEventListener("resize", this.leafActive);
   },
