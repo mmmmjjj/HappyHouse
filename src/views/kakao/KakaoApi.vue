@@ -177,7 +177,7 @@ export default {
       "CLEAR_DONG_LIST",
     ]),
     gugunList() {
-      console.log("sidocode=" + this.sidoCode);
+      console.log("시 선택 했따 ~ sidocode=" + this.sidoCode);
       this.sidos.forEach((sido) => {
         if (this.sidoCode == sido.value) {
           this.sidoName = sido.text;
@@ -189,7 +189,7 @@ export default {
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      console.log("sidocode=" + this.gugunCode);
+      console.log("군 선택 했다~~ guguncode=" + this.gugunCode);
       this.guguns.forEach((gugun) => {
         if (this.gugunCode == gugun.value) {
           this.gugunName = gugun.text;
@@ -202,7 +202,8 @@ export default {
     },
     searchApt() {
       console.log("dongname=" + this.dongName);
-      if (this.dongCode) this.getHouseList(this.gugunCode);
+      console.log("guguncode " + this.gugunCode);
+      if (this.dongName) this.getHouseList(this.gugunCode);
     },
     sendKeyword() {
       //저장되어있는 houses가져오기
@@ -210,17 +211,6 @@ export default {
       this.curHouses = JSON.parse(JSON.stringify(this.houses));
       this.newArray = JSON.parse(JSON.stringify(this.curHouses));
       console.log(this.curHouses);
-
-      //법정동이 일치하는 녀석들만 뽑기 -> newArray에 넣기
-      //this.dongName과 trim한 법정동이 같은 녀석들만
-      // this.newArray.forEach((house) => {
-      //   //state.guguns.push({ value: gugun.gugunCode, text: gugun.gugunName });
-      //   console.log(house.법정동);
-      //   if (" " + this.dongName == house.법정동) {
-      //     //this.newArray = JSON.parse(JSON.stringify(house));
-      //     this.newArray.push({ value: house.아파트, text: "아파트" });
-      //   }
-      // });
       let index = this.newArray.length - 1;
       while (index >= 0) {
         if (" " + this.dongName != this.newArray[index].법정동) {

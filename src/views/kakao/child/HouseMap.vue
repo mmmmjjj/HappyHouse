@@ -20,6 +20,8 @@ export default {
   },
   mounted() {
     window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
+
+    // this.displayMarkers();
   },
   methods: {
     initMap() {
@@ -40,7 +42,7 @@ export default {
       const script = document.createElement("script");
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ba1dc50f910fba4b5a6474cab7c94362&libraries=services";
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d8401d94ff64689778b1711fbfb96f64&libraries=services";
       document.head.appendChild(script);
     },
     displayMarkers(places) {
