@@ -78,7 +78,9 @@ export default {
       this.removeMarker();
 
       // 검색을 해야한다.
-      this.places.forEach((place, index, arr) => {
+      places.forEach((place, index, arr) => {
+        console.log(index);
+        console.log(place);
         var address =
           this.sidoName +
           " " +
@@ -92,19 +94,24 @@ export default {
 
         console.log(this.map);
 
+        var position = new kakao.maps.LatLng(0, 0);
+
         this.geocoder.addressSearch(address, function(result, status) {
+          console.log(address);
           let mm = map[0].__vue__.map;
-          console.log(map[0].__vue__.map);
+          console.log(map);
           if (status === kakao.maps.services.Status.OK) {
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
             var placePosition = new kakao.maps.LatLng(result[0].y, result[0].x);
+            position = placePosition;
             // console.log(result);
             console.log(result[0].y, result[0].x);
             // 결과값으로 받은 위치를 마커로 표시합니다
             var marker = new kakao.maps.Marker({
+              map: mm,
               position: coords,
             });
-            marker.setMap(mm);
+            // marker.setMap(mm);
             // 인포윈도우로 장소에 대한 설명을 표시합니다
             var infowindow = new kakao.maps.InfoWindow({
               content:
@@ -115,21 +122,25 @@ export default {
             mm.setCenter(coords);
           }
         });
-        var marker = this.addMarker(placePosition, index);
+        var marker = this.addMarker(position, index);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(placePosition);
+        bounds.extend(position);
+        position = new kakao.maps.LatLng(0, 0);
         // 마커와 검색결과 항목에 mouseover 했을때
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
         // mouseout 했을 때는 인포윈도우를 닫습니다
         (function(marker, title, code, place) {
+          let mm = map[0].__vue__.map;
+          let txt = map[0].__vue__;
+
           kakao.maps.event.addListener(marker, "click", function() {
-            this.displayInfowindow(marker, title, place);
+            displayInfowindow(marker, title, place);
             console.log(title + " " + code);
           });
 
-          kakao.maps.event.addListener(this.map, "click", function() {
-            this.removeInfowindow();
+          kakao.maps.event.addListener(mm, "click", function() {
+            txt.removeInfowindow();
           });
 
           itemEl.onmouseover = function() {
@@ -182,13 +193,22 @@ export default {
     getListItem(index, place) {
       //검색결과 항목을 Element로 반환
       let el = document.createElement("li");
-      let itemStr = `
-		<span class="markerbg marker_${index + 1}></span>
-		<div class="info"><h5>${place.아파트}</h5> <button>관심등록</button>
-		<span>${this.sidoName} ${this.gugunName} ${this.dongName} {{
-        place.지번 }}
-      </span>
-        `;
+      let itemStr =
+        ` 
+      <span class="markerbg marker_` +
+        (index + 1) +
+        `></span>
+      <div class="info"><h5>` +
+        place.아파트 +
+        `</h5> <button>관심등록</button>
+      <span> ` +
+        this.sidoName +
+        this.gugunName +
+        this.dongName +
+        place.지번 +
+        ` </span>
+          `;
+      // let itemStr = `<span > hi </span>`;
       el.innerHTML = itemStr;
       el.className = "item";
 
@@ -196,22 +216,33 @@ export default {
     },
     displayInfowindow(marker, title, place) {
       //   console.log(title);
-      var content = `
+      var content =
+        `
 		<div class="overlaybox">
-			<div class="boxtitle">${title}</div>
+			<div class="boxtitle">` +
+        place.아파트 +
+        `</div>
 			<div class="first"><img src="@/assets/apt.png" style="width:247px; height:136px;" alt=""></div>
 			<ul>
 				<li class="up">
 					<span class="title">건축년도</span>
-					<span class="count">${place.buildYear}</span>
+					<span class="count"> ` +
+        place.건축년도 +
+        `</span>
 				</li>
 				<li>
 					<span class="title">주소</span>
-					<span class="count">${place.sidoName} ${place.gugunName} ${place.dongName} ${place.jibun}</span>
+					<span class="count"> ` +
+        this.sidoName +
+        this.gugunName +
+        this.dongName +
+        place.지번 +
+        `</span>
 				</li>
 				<li>
 					<span class="title">최신거래금액</span>
-					<span class="count">${place.recentPrice}</span>
+					<span class="count"> ` +
+        place.거래금액`</span>
 				</li>
 				<li>
 					<span class="last" id="recenthistor" data-toggle="modal" data-target="#myModal">아파트정보 update</span>
