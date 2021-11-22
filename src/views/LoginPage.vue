@@ -108,6 +108,7 @@ export default {
       if (this.isLogin) {
         await this.getUserInfo(token);
         this.$router.push({ name: "index" });
+        location.reload();
       }
     },
   },

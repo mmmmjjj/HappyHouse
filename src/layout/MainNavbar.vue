@@ -81,7 +81,7 @@
                         class="md-button md-button-link md-white md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
-                        <md-icon>settings</md-icon>
+                        <md-icon>home_work</md-icon>
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-header">Dropdown header</li>
@@ -176,7 +176,8 @@
                 </a>
               </li>
 
-              <md-list-item
+              <!-- twitter, facebook -->
+              <!-- <md-list-item
                 href="https://twitter.com/CreativeTim"
                 target="_blank"
               >
@@ -195,14 +196,8 @@
                 <md-tooltip md-direction="bottom"
                   >Like us on Facebook</md-tooltip
                 >
-              </md-list-item>
-              <!-- <md-list-item
-                href="https://www.instagram.com/CreativeTimOfficial"
-                target="_blank"
-              > -->
-              <!-- <md-button class="md-rose md-round"
-                              >Register</md-button
-                            > -->
+              </md-list-item> -->
+
               <!-- 관리자 -->
               <li class="md-list-item" v-if="user">
                 <a
@@ -216,7 +211,7 @@
                         class="md-button md-button-link md-white md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
-                        <md-icon>settings</md-icon>
+                        <md-icon>face</md-icon>
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li>
@@ -249,7 +244,7 @@
                         class="md-button md-button-link md-white md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
-                        <md-icon>settings</md-icon>
+                        <md-icon>face</md-icon>
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li>
@@ -283,7 +278,7 @@
                         class="md-button md-button-link md-white md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
-                        <md-icon>settings</md-icon>
+                        <md-icon>face</md-icon>
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <li>
@@ -470,6 +465,7 @@ export default {
       this.SET_USER_INFO(null);
       sessionStorage.removeItem("access-token");
       if (this.$route.path != "/") this.$router.push({ name: "index" });
+      location.reload();
     },
   },
   mounted() {
