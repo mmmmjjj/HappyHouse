@@ -44,11 +44,15 @@
         >
       </b-col>
     </b-row>
+    <b-row>
+      <house-map></house-map>
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import HouseMap from "@/views/apt/child/HouseMap.vue";
 
 const houseStore = "houseStore";
 

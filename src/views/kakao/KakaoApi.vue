@@ -174,16 +174,17 @@ export default {
     //   this.getSido();
     // },
     gugunList() {
-      // console.log(this.sidoCode);
+      console.log(this.sidoCode);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      // console.log(this.sidoCode);
+      console.log(this.gugunCode + "gugun");
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
+      console.log(this.dongCode);
     },
     addKakaoMapScript() {
       const script = document.createElement("script");
