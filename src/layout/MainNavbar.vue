@@ -91,13 +91,13 @@
                           >
                         </li>
                         <li>
-                          <a href="#pablo" class="dropdown-item"
-                            >Another action</a
+                          <a class="dropdown-item" @click="goToAptApi"
+                            >아파트 API</a
                           >
                         </li>
                         <li>
-                          <a href="#pablo" class="dropdown-item"
-                            >Something else here</a
+                          <a class="dropdown-item" @click="goToKakaoMap"
+                            >카카오맵</a
                           >
                         </li>
                         <li class="dropdown-divider"></li>
@@ -393,6 +393,12 @@ export default {
     ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     moveToLogin() {
       this.$router.push({ name: "loginpage" });
+    },
+    goToAptApi() {
+      this.$router.push({ name: "aptapi" });
+    },
+    goToKakaoMap() {
+      this.$router.push({ name: "kakaoapi" });
     },
     moveToMypage() {
       this.$router.push({ name: "membermypage" });

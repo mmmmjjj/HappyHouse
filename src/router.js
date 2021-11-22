@@ -31,6 +31,12 @@ import MemberMyPage from "@/views/user/MemberMyPage.vue";
 import Admin from "@/views/Admin.vue";
 import AdminList from "@/views/admin/MemberList.vue";
 
+import AptApi from "@/views/api/AptApi.vue";
+
+import KakaoApi from "@/views/kakao/KakaoApi.vue";
+
+import store from "@/store/index.js";
+
 Vue.use(Router);
 
 const onlyAuthUser = async (to, from, next) => {
@@ -80,8 +86,18 @@ export default new Router({
       },
     },
     {
+      path: "/kakaoapi",
+      name: "kakaoapi",
+      components: { default: KakaoApi, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
       path: "/qna",
       name: "qna",
+      beforeEnter: onlyAuthUser,
       components: { default: Qna, header: MainNavbar, footer: MainFooter },
       redirect: "/qna/qnalist",
       props: {
@@ -150,6 +166,7 @@ export default new Router({
     {
       path: "/admin",
       name: "admin",
+      beforeEnter: onlyAdmin,
       components: {
         default: Admin,
         header: MainNavbar,
@@ -181,6 +198,7 @@ export default new Router({
       path: "/membermypage",
       name: "membermypage",
       components: { default: MemberMyPage, header: MainNavbar, footer: MainFooter },
+      beforeEnter: onlyAuthUser,
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -207,6 +225,7 @@ export default new Router({
     {
       path: "/noticeboardlist",
       name: "noticeboardlist",
+      beforeEnter: onlyAuthUser,
       components: {
         default: NoticeBoardList,
         header: MainNavbar,
@@ -220,6 +239,7 @@ export default new Router({
     {
       path: "/noticeboardwrite",
       name: "noticeboardwrite",
+      beforeEnter: onlyAuthUser,
       components: {
         default: NoticeBoardWrite,
         header: MainNavbar,
@@ -233,6 +253,7 @@ export default new Router({
     {
       path: "/noticeboardview/:articleno",
       name: "noticeboardview",
+      beforeEnter: onlyAuthUser,
       components: {
         default: NoticeBoardView,
         header: MainNavbar,
@@ -246,6 +267,7 @@ export default new Router({
     {
       path: "/noticeboardupdate/:articleno",
       name: "noticeboardupdate",
+      beforeEnter: onlyAuthUser,
       components: {
         default: NoticeBoardUpdate,
         header: MainNavbar,
@@ -261,6 +283,15 @@ export default new Router({
       path: "/landing",
       name: "landing",
       components: { default: Landing, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/aptapi",
+      name: "aptapi",
+      components: { default: AptApi, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
