@@ -409,7 +409,6 @@ export default {
       param,
       (response) => {
         this.articles = response.data;
-        console.log(this.articles);
       },
       (error) => {
         console.log(error);

@@ -230,7 +230,7 @@ export default {
       let pwdchk = this.$refs.pwdchk.$options.propsData.value;
       let pwd = this.$refs.userpwd.$options.propsData.value;
       if (pwd != null) this.pwdtxt = null;
-      if (pwdchk == null) this.isCheckedPwd = null;
+      if (pwdchk == "") this.isCheckedPwd = null;
       else if (pwd == pwdchk) {
         this.isCheckedPwd = true;
         this.pwdchktxt = "사용 가능합니다.";
