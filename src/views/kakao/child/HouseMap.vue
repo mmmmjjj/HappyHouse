@@ -90,25 +90,29 @@ export default {
 
         var itemEl = this.getListItem(index, place);
 
+        console.log(this.map);
+
         this.geocoder.addressSearch(address, function(result, status) {
+          let mm = map[0].__vue__.map;
+          console.log(map[0].__vue__.map);
           if (status === kakao.maps.services.Status.OK) {
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
             var placePosition = new kakao.maps.LatLng(result[0].y, result[0].x);
+            // console.log(result);
             console.log(result[0].y, result[0].x);
             // 결과값으로 받은 위치를 마커로 표시합니다
             var marker = new kakao.maps.Marker({
-              map: map,
               position: coords,
             });
-
+            marker.setMap(mm);
             // 인포윈도우로 장소에 대한 설명을 표시합니다
             var infowindow = new kakao.maps.InfoWindow({
               content:
                 '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>',
             });
-            infowindow.open(this.map, marker);
+            infowindow.open(mm, marker);
             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-            this.map.setCenter(coords);
+            mm.setCenter(coords);
           }
         });
         var marker = this.addMarker(placePosition, index);
