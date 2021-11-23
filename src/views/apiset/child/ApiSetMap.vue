@@ -87,7 +87,7 @@ export default {
 
       // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
       this.placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 });
-      var contentNode = document.createElement("div"); // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+      // var contentNode = document.createElement("div"); // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
       this.markers2 = []; // 마커를 담을 배열입니다
       this.currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
       // 지도에 idle 이벤트를 등록합니다
@@ -95,21 +95,21 @@ export default {
       //console.log(this.searchPlaces);
       kakao.maps.event.addListener(this.map, "idle", this.searchPlaces);
       // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
-      contentNode.className = "placeinfo_wrap";
+      this.contentNode.className = "placeinfo_wrap";
       // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
       // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
       this.addEventHandle(
-        contentNode,
+        this.contentNode,
         "mousedown",
         kakao.maps.event.preventMap
       );
       this.addEventHandle(
-        contentNode,
+        this.contentNode,
         "touchstart",
         kakao.maps.event.preventMap
       );
       // 커스텀 오버레이 컨텐츠를 설정합니다
-      this.placeOverlay.setContent(contentNode);
+      this.placeOverlay.setContent(this.contentNode);
 
       // 각 카테고리에 클릭 이벤트를 등록합니다
       this.addCategoryClickEvent();
@@ -422,9 +422,9 @@ export default {
 
         // 마커와 검색결과 항목을 클릭 했을 때
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-        (function(marker, place) {
-          kakao.maps.event.addListener(marker, "click", function() {
-            displayPlaceInfo(place);
+        ((marker, place) => {
+          kakao.maps.event.addListener(marker, "click", () => {
+            this.displayPlaceInfo(place);
           });
         })(marker, places[i]);
       }
@@ -464,6 +464,8 @@ export default {
     },
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
     displayPlaceInfo(place) {
+      console.log("display");
+      console.log(place.place_name);
       var content =
         '<div class="placeinfo">' +
         '   <a class="title" href="' +
@@ -510,7 +512,7 @@ export default {
     addCategoryClickEvent() {
       var category = document.getElementById("category"),
         children = category.children;
-      console.log(children[0]);
+      // console.log(children[0]);
       for (var i = 0; i < children.length; i++) {
         children[i].onclick = this.onClickCategory(children[i]);
       }
