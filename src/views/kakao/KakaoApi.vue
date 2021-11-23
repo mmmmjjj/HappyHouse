@@ -206,10 +206,8 @@ export default {
     },
     sendKeyword() {
       //저장되어있는 houses가져오기
-      console.log(this.houses);
       this.curHouses = JSON.parse(JSON.stringify(this.houses));
       this.newArray = JSON.parse(JSON.stringify(this.curHouses));
-      console.log(this.curHouses);
       let index = this.newArray.length - 1;
       while (index >= 0) {
         if (" " + this.dongName != this.newArray[index].법정동) {

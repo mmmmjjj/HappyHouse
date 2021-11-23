@@ -74,6 +74,7 @@ export default {
       this.ps = new kakao.maps.services.Places();
       this.infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
       this.contentNode = document.createElement("div");
+      // this.customOverlays = new kakao.maps.customOverlay({zIndex:1});
       this.geocoder = new kakao.maps.services.Geocoder();
     },
     addScript() {
@@ -83,13 +84,17 @@ export default {
         "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d8401d94ff64689778b1711fbfb96f64&libraries=services";
       document.head.appendChild(script);
     },
-    displayMarkers(places) {
+    async displayMarkers(places) {
       var listEl = document.getElementById("placelist");
       let fragment = document.createDocumentFragment();
       let bounds = new kakao.maps.LatLngBounds();
 
       // 지도에 표시되고 있는 마커를 제거합니다
-      this.removeMarker();
+      // this.removeMarker();
+      for (var i = 0; i < this.markers.length; i++) {
+        this.markers[i].setMap(null);
+      }
+      this.markers = [];
 
       // 검색을 해야한다.
       places.forEach((place, index, arr) => {
@@ -104,80 +109,90 @@ export default {
 
         var itemEl = this.getListItem(index, place);
 
-        this.geocoder.addressSearch(address, function(result, status) {
-          var mm = map.__vue__.map;
-          var txt = map.__vue__._data;
-          // console.log("map.__vue__");
-          // console.log(map.__vue__);
+        const addressSearch = (address) => {
+          return new Promise((resolve, reject) => {
+            this.geocoder.addressSearch(address, (result, status) => {
+              if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                this.result[1] = result[0].x;
+                this.result[0] = result[0].y;
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                console.log(this.result);
+                var marker = new kakao.maps.Marker({
+                  map: this.map,
+                  position: coords,
+                });
+                marker.setMap(this.map);
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                  content:
+                    '<div style="width:150px;text-align:center;padding:6px 0;">' +
+                    place.아파트 +
+                    "</div>",
+                });
+                infowindow.open(this.map, marker);
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                this.map.setCenter(coords);
+                resolve("success");
+              }
+            });
+          });
+        };
 
-          if (status === kakao.maps.services.Status.OK) {
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            // console.log(txt);
-            txt.result[1] = result[0].x;
-            // txt.resultx = result[0].x;
-            txt.result[0] = result[0].y;
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new kakao.maps.Marker({
-              map: mm,
-              position: coords,
-            });
-            // marker.setMap(mm);
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            var infowindow = new kakao.maps.InfoWindow({
-              content:
-                '<div style="width:150px;text-align:center;padding:6px 0;">' +
-                place.아파트 +
-                "</div>",
-            });
-            infowindow.open(mm, marker);
-            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-            mm.setCenter(coords);
+        (async () => {
+          try {
+            const result = await addressSearch(address);
+            if (result) {
+              console.log("뙜다!");
+
+              var position = new kakao.maps.LatLng(
+                this.result[0],
+                this.result[1]
+              );
+
+              console.log(position);
+              //마커 생성하고 지도에 표시.
+              var marker = this.addMarker(position, index);
+              // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+              // LatLngBounds 객체에 좌표를 추가합니다
+              bounds.extend(position);
+              this.map.setCenter(position);
+
+              ((marker, title, code, place) => {
+                kakao.maps.event.addListener(marker, "click", () => {
+                  this.displayInfowindow(marker, title, place);
+                });
+
+                kakao.maps.event.addListener(this.map, "click", () => {
+                  this.removeInfowindow();
+                });
+
+                itemEl.onmouseover = () => {
+                  this.displayInfowindow(marker, title, place);
+                };
+
+                itemEl.onmouseout = () => {
+                  this.removeInfowindow();
+                };
+              })(marker, place.아파트, place.지번, place);
+
+              fragment.appendChild(itemEl);
+
+              document.getElementById("placeslist").appendChild(fragment);
+
+              console.log(document.getElementById("placeslist"));
+
+              this.map.setBounds(bounds);
+            }
+          } catch (e) {
+            console.log(e);
           }
-        });
-        console.log("ㅇㅇㅇㅇㅇㅇ");
-        console.log(map.__vue__._data.result[0]);
-        var position = new kakao.maps.LatLng(
-          map.__vue__._data.result[0],
-          map.__vue__._data.result[1]
-        );
-        //마커 생성하고 지도에 표시.
-        var marker = this.addMarker(position, index);
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(position);
-        this.map.setCenter(position);
-        // 마커와 검색결과 항목에 mouseover 했을때
-        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-        // mouseout 했을 때는 인포윈도우를 닫습니다
-        (function(marker, title, code, place) {
-          let mm = map.__vue__.map;
-          let txt = map.__vue__;
-
-          kakao.maps.event.addListener(marker, "click", function() {
-            txt.displayInfowindow(marker, title, place);
-          });
-
-          kakao.maps.event.addListener(mm, "click", function() {
-            txt.removeInfowindow();
-          });
-
-          itemEl.onmouseover = function() {
-            txt.displayInfowindow(marker, title, place);
-          };
-
-          itemEl.onmouseout = function() {
-            txt.removeInfowindow();
-          };
-        })(marker, place.아파트, place.지번, place);
-
-        fragment.appendChild(itemEl);
+        })();
       });
-      document.getElementById("placeslist").appendChild(fragment);
 
       // map.js에서는 이부분에 마커를 생성하고 지도에 표시합니다. 라는 주석이 있는데 코드는 없음..
 
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-      this.map.setBounds(bounds);
     },
     //마커 생성하고 지도 위에 마커를 표시
     addMarker(position, idx) {
@@ -202,6 +217,7 @@ export default {
       marker.setMap(this.map); // 지도 위에 마커를 표출합니다
       this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
+      console.log(this.markers);
       return marker;
     },
     removeMarker() {
@@ -290,7 +306,7 @@ export default {
     removeInfowindow() {
       console.log("Remove");
       if (this.overlayIdx > 0) {
-        this.customOverlays[--this.overlayIdx].setMap(this.map);
+        this.customOverlays[--this.overlayIdx].setMap(null);
       }
       console.log("인덱스 감소 : " + this.overlayIdx);
     },
