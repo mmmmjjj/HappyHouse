@@ -130,7 +130,7 @@
 //import HouseList from "@/views/apt/HouseList.vue";
 //import HouseDetail from "@/views/apt/HouseDetail.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
-import HouseMap from "@/views/kakao/child/HouseMap.vue";
+import HouseMap from "@/views/apiset/child/ApiSetMap.vue";
 const houseStore = "houseStore";
 export default {
   data() {
