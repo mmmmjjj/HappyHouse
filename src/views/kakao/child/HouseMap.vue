@@ -91,8 +91,11 @@ export default {
 
       // 지도에 표시되고 있는 마커를 제거합니다
       // this.removeMarker();
+
       for (var i = 0; i < this.markers.length; i++) {
         this.markers[i].setMap(null);
+        console.log("dd");
+        this.removeInfowindow();
       }
       this.markers = [];
 
@@ -117,20 +120,19 @@ export default {
                 this.result[1] = result[0].x;
                 this.result[0] = result[0].y;
                 // 결과값으로 받은 위치를 마커로 표시합니다
-                console.log(this.result);
-                var marker = new kakao.maps.Marker({
-                  map: this.map,
-                  position: coords,
-                });
-                marker.setMap(this.map);
+                // var marker = new kakao.maps.Marker({
+                //   map: this.map,
+                //   position: coords,
+                // });
+                // marker.setMap(this.map);
                 // 인포윈도우로 장소에 대한 설명을 표시합니다
-                var infowindow = new kakao.maps.InfoWindow({
-                  content:
-                    '<div style="width:150px;text-align:center;padding:6px 0;">' +
-                    place.아파트 +
-                    "</div>",
-                });
-                infowindow.open(this.map, marker);
+                // var infowindow = new kakao.maps.InfoWindow({
+                //   content:
+                //     '<div style="width:150px;text-align:center;padding:6px 0;">' +
+                //     place.아파트 +
+                //     "</div>",
+                // });
+                // infowindow.open(this.map, marker);
                 // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                 this.map.setCenter(coords);
                 resolve("success");
