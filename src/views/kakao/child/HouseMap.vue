@@ -22,9 +22,12 @@ export default {
       ps: null, //장소 검색 객체
       markers: [], // 마커를 담을 배열
       infoWindow: null, //검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우
+      contentNode: null, // 커스텀 오버레이의 컨텐츠 엘리먼트
       customOverlays: [], // 커스텀 오버레이
       overlayIdx: 0, // 오버레이 인덱스
       geocoder: null, // 주소-좌표 변환 객체
+      result: [],
+      resultx: null,
     };
   },
   props: {
@@ -48,7 +51,6 @@ export default {
   watch: {
     places: {
       handler: function() {
-        // console.log(this.dongName + "바뀜");
         this.displayMarkers(this.places);
       },
       deep: true,
@@ -71,6 +73,7 @@ export default {
 
       this.ps = new kakao.maps.services.Places();
       this.infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+      this.contentNode = document.createElement("div");
       this.geocoder = new kakao.maps.services.Geocoder();
     },
     addScript() {
@@ -101,17 +104,18 @@ export default {
 
         var itemEl = this.getListItem(index, place);
 
-        console.log(itemEl);
-
-        var position = new kakao.maps.LatLng(0, 0);
-
         this.geocoder.addressSearch(address, function(result, status) {
-          let mm = map.__vue__.map;
-          console.log(map.__vue__.map);
+          var mm = map.__vue__.map;
+          var txt = map.__vue__._data;
+          // console.log("map.__vue__");
+          // console.log(map.__vue__);
+
           if (status === kakao.maps.services.Status.OK) {
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            var placePosition = new kakao.maps.LatLng(result[0].y, result[0].x);
-            position = placePosition;
+            // console.log(txt);
+            txt.result[1] = result[0].x;
+            // txt.resultx = result[0].x;
+            txt.result[0] = result[0].y;
             // 결과값으로 받은 위치를 마커로 표시합니다
             var marker = new kakao.maps.Marker({
               map: mm,
@@ -130,11 +134,18 @@ export default {
             mm.setCenter(coords);
           }
         });
+        console.log("ㅇㅇㅇㅇㅇㅇ");
+        console.log(map.__vue__._data.result[0]);
+        var position = new kakao.maps.LatLng(
+          map.__vue__._data.result[0],
+          map.__vue__._data.result[1]
+        );
+        //마커 생성하고 지도에 표시.
         var marker = this.addMarker(position, index);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(position);
-        position = new kakao.maps.LatLng(0, 0);
+        this.map.setCenter(position);
         // 마커와 검색결과 항목에 mouseover 했을때
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
         // mouseout 했을 때는 인포윈도우를 닫습니다
@@ -144,7 +155,6 @@ export default {
 
           kakao.maps.event.addListener(marker, "click", function() {
             txt.displayInfowindow(marker, title, place);
-            console.log(title + " " + code);
           });
 
           kakao.maps.event.addListener(mm, "click", function() {
@@ -162,16 +172,15 @@ export default {
 
         fragment.appendChild(itemEl);
       });
-
-      console.log(fragment);
-      console.log(listEl);
       document.getElementById("placeslist").appendChild(fragment);
+
+      // map.js에서는 이부분에 마커를 생성하고 지도에 표시합니다. 라는 주석이 있는데 코드는 없음..
 
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
       this.map.setBounds(bounds);
     },
+    //마커 생성하고 지도 위에 마커를 표시
     addMarker(position, idx) {
-      //마커 생성하고 지도 위에 마커를 표시
       var imageSrc =
           "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(36, 37), // 마커 이미지의 크기
@@ -206,7 +215,7 @@ export default {
       //검색결과 항목을 Element로 반환
       let el = document.createElement("li");
       let itemStr =
-        ` 
+        `
       <span class="markerbg marker_` +
         (index + 1) +
         `></span>
@@ -227,7 +236,7 @@ export default {
       return el;
     },
     displayInfowindow(marker, title, place) {
-      console.log("이것은 디스플레이다.");
+      console.log("displayInfoWindow called");
       var content =
         `
 		<div class="overlaybox">
@@ -254,7 +263,8 @@ export default {
 				<li>
 					<span class="title">최신거래금액</span>
 					<span class="count"> ` +
-        place.거래금액`</span>
+        place.거래금액 +
+        `</span>
 				</li>
 				<li>
 					<span class="last" id="recenthistor" data-toggle="modal" data-target="#myModal">아파트정보 update</span>
@@ -275,14 +285,19 @@ export default {
 
       this.customOverlays[this.overlayIdx] = customOverlay;
       this.customOverlays[this.overlayIdx++].setMap(this.map);
-      //	console.log("인덱스 증가 : "+overlayIdx);
+      console.log("인덱스 증가 : " + this.overlayIdx);
     },
     removeInfowindow() {
       console.log("Remove");
       if (this.overlayIdx > 0) {
-        this.customOverlays[--this.overlayIdx].setMap(null);
+        this.customOverlays[--this.overlayIdx].setMap(this.map);
       }
-      //	console.log("인덱스 감소 : "+overlayIdx);
+      console.log("인덱스 감소 : " + this.overlayIdx);
+    },
+    removeAllChildNods(el) {
+      while (el.hasChildNodes()) {
+        el.removeChild(el.lastChild);
+      }
     },
   },
 };
