@@ -3,7 +3,7 @@
     <b-row>
       <b-col cols="4" align="left">
         <div>
-          <ul id="placeslist"></ul>
+          <table id="placeslist"></table>
         </div>
       </b-col>
       <b-col cols="8">
@@ -86,10 +86,14 @@ export default {
       document.head.appendChild(script);
     },
     async displayMarkers(places) {
-      var listEl = document.getElementById("placelist");
+      let listEl = document.getElementById("placeslist");
+      console.log("asdas" + listEl);
+      this.removeAllChildNods(listEl);
+      // while (listEl.hasChildNodes()) {
+      //   listEl.removeChild(listEl.lastChild);
+      // }
       let fragment = document.createDocumentFragment();
       let bounds = new kakao.maps.LatLngBounds();
-
       // 지도에 표시되고 있는 마커를 제거합니다
       // this.removeMarker();
 
@@ -238,21 +242,28 @@ export default {
     },
     getListItem(index, place) {
       //검색결과 항목을 Element로 반환
-      let el = document.createElement("li");
+      let el = document.createElement("tr");
       let itemStr =
         `
-      <span class="markerbg marker_` +
+      <tr class="markerbg marker_` +
         (index + 1) +
         `></span>
-      <div class="info"><h5>` +
+      <tr class="info"><h5>` +
+        (index + 1) +
+        " " +
         place.아파트 +
-        `</h5> <button>관심등록</button>
-      <span> ` +
+        `</h5>
+      </tr> ` +
         this.sidoName +
+        " " +
         this.gugunName +
+        " " +
         this.dongName +
+        " " +
         place.지번 +
-        ` </span>
+        `<div class="infos"><h5>` +
+        " " +
+        `</h5> </tr>
           `;
       // let itemStr = `<span > hi </span>`;
       el.innerHTML = itemStr;
@@ -268,7 +279,6 @@ export default {
 			<div class="boxtitle">` +
         place.아파트 +
         `</div>
-			<div class="first"><img src="@/assets/apt.png" style="width:247px; height:136px;" alt=""></div>
 			<ul>
 				<li class="up">
 					<span class="title">건축년도</span>
@@ -328,4 +338,70 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.overlaybox {
+  position: relative;
+  width: 360px;
+  height: 350px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png")
+    no-repeat;
+  padding: 15px 10px;
+}
+.overlaybox div,
+ul {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+.overlaybox li {
+  list-style: none;
+}
+.overlaybox .boxtitle {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  background: no-repeat right 120px center;
+  margin-bottom: 8px;
+}
+.overlaybox .first {
+  position: relative;
+  width: 247px;
+  height: 136px;
+
+  margin-bottom: 8px;
+}
+.first .text {
+  color: #fff;
+  font-weight: bold;
+}
+.first .triangle {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  top: 0;
+  left: 0;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/triangle.png")
+    no-repeat;
+  padding: 6px;
+  font-size: 18px;
+}
+.first .movietitle {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 7px 15px;
+  font-size: 14px;
+}
+.overlaybox ul {
+  width: 247px;
+}
+.overlaybox li {
+  position: relative;
+  margin-bottom: 2px;
+  background: #2b2d36;
+  padding: 5px 10px;
+  color: #aaabaf;
+  line-height: 1;
+}
+</style>
