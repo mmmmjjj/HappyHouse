@@ -27,7 +27,7 @@ export default {
       overlayIdx: 0, // 오버레이 인덱스
       geocoder: null, // 주소-좌표 변환 객체
       result: [],
-      resultx: null,
+      positions: [],
     };
   },
   props: {
@@ -51,6 +51,7 @@ export default {
   watch: {
     places: {
       handler: function() {
+        this.positions = [];
         this.displayMarkers(this.places);
       },
       deep: true,
@@ -67,7 +68,7 @@ export default {
           level: 3, // 지도의 확대 레벨
         };
       mapContainer.style.height = "500px";
-      mapContainer.style.width = "400px";
+      mapContainer.style.width = "95%";
 
       this.map = new kakao.maps.Map(mapContainer, mapOption);
 
@@ -152,6 +153,14 @@ export default {
                 this.result[1]
               );
 
+              let p = {
+                x: result[0].x,
+                y: result[0].y,
+                아파트: place.아파트,
+              };
+
+              this.positions.push(p);
+
               console.log(position);
               //마커 생성하고 지도에 표시.
               var marker = this.addMarker(position, index);
@@ -181,8 +190,6 @@ export default {
               fragment.appendChild(itemEl);
 
               document.getElementById("placeslist").appendChild(fragment);
-
-              console.log(document.getElementById("placeslist"));
 
               this.map.setBounds(bounds);
             }

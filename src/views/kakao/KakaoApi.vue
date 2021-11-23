@@ -63,12 +63,14 @@
             </b-col>
           </b-row>
           <b-row>
-            <!-- <b-col cols="6" align="left">
-              <house-list />
-            </b-col>
-            <b-col cols="6">
-              <house-detail />
-            </b-col> -->
+            <house-map
+              id="map"
+              class="map"
+              :places="newArray"
+              :sido-name="sidoName"
+              :gugun-name="gugunName"
+              :dong-name="dongName"
+            ></house-map>
           </b-row>
         </b-container>
         <!-- -->
@@ -81,14 +83,14 @@
               class="md-layout-item md-size-66 md-xsmall-size-100 ml-auto mr-auto text-center"
             >
               <!--이 밑에 카카오 맵 넣자 -->
-              <house-map
+              <!-- <house-map
                 id="map"
                 class="map"
                 :places="newArray"
                 :sido-name="sidoName"
                 :gugun-name="gugunName"
                 :dong-name="dongName"
-              ></house-map>
+              ></house-map> -->
             </div>
           </div>
         </div>
