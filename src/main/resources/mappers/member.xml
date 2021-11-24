@@ -49,4 +49,22 @@
 		from ssafy_member
 		order by joindate desc;
 	</select>
+	
+	<select id="searchMemberById" parameterType="String" resultType="memberDto">
+		select userid, userpwd, username, email, date_format(joindate, '%y.%m.%d') joindate, delflag, admin, region
+		from ssafy_member
+		where userid like CONCAT('%',#{userid},'%')
+	</select> 
+	
+	<select id="searchMemberByName" parameterType="String" resultType="memberDto">
+		select userid, userpwd, username, email, date_format(joindate, '%y.%m.%d') joindate, delflag, admin, region
+		from ssafy_member
+		where username like CONCAT('%',#{username},'%')
+	</select> 
+	
+	<select id="sortMember" resultType="memberDto">
+        select userid, userpwd, username, email, date_format(joindate, '%y.%m.%d') joindate, delflag
+        from ssafy_member
+        order by userid asc;
+    </select>
 </mapper>
