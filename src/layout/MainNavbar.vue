@@ -8,7 +8,7 @@
   >
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
-        <h3 class="md-title" @click="moveToHome">Vue Material Kit</h3>
+        <h1 class="md-title" @click="moveToHome">Happy house</h1>
       </div>
       <div class="md-toolbar-section-end">
         <md-button
