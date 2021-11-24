@@ -428,7 +428,7 @@ ul {
   margin-bottom: 2px;
   background: #2b2d36;
   padding: 5px 10px;
-  color: #aaabaf;
+  color: #fff;
   line-height: 1;
 }
 .placeinfo {
