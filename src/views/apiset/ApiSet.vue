@@ -302,7 +302,7 @@ export default {
 .map_wrap {
   position: relative;
   width: 100%;
-  height: 350px;
+  height: 600px;
 }
 #category {
   position: absolute;
@@ -366,5 +366,141 @@ export default {
 }
 #category li.on .category_bg {
   background-position-x: -46px;
+}
+.overlaybox {
+  position: relative;
+  width: 360px;
+  height: 350px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png")
+    no-repeat;
+  padding: 15px 10px;
+}
+.overlaybox div,
+ul {
+  margin: 0;
+  padding: 0;
+}
+.overlaybox li {
+  list-style: none;
+}
+.overlaybox .boxtitle {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  background: no-repeat right 120px center;
+  margin-bottom: 8px;
+}
+.overlaybox .first {
+  position: relative;
+  width: 247px;
+  height: 136px;
+
+  margin-bottom: 8px;
+}
+.first .text {
+  color: #fff;
+  font-weight: bold;
+}
+.first .triangle {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  top: 0;
+  left: 0;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/triangle.png")
+    no-repeat;
+  padding: 6px;
+  font-size: 18px;
+}
+.first .movietitle {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 7px 15px;
+  font-size: 14px;
+}
+.overlaybox ul {
+  width: 247px;
+}
+.overlaybox li {
+  position: relative;
+  margin-bottom: 2px;
+  background: #2b2d36;
+  padding: 5px 10px;
+  color: #aaabaf;
+  line-height: 1;
+}
+.placeinfo {
+  position: relative;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  background: #fff;
+}
+.placeinfo_wrap {
+  position: absolute;
+  bottom: 28px;
+  left: -150px;
+  width: 300px;
+}
+.placeinfo:nth-of-type(n) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+.placeinfo_wrap .after {
+  content: "";
+  position: relative;
+  margin-left: -12px;
+  left: 50%;
+  width: 22px;
+  height: 12px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+}
+.placeinfo a,
+.placeinfo a:hover,
+.placeinfo a:active {
+  color: #fff;
+  text-decoration: none;
+}
+.placeinfo a,
+.placeinfo span {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.placeinfo span {
+  margin: 5px 5px 0 5px;
+  cursor: default;
+  font-size: 13px;
+}
+.placeinfo .title {
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 6px 6px 0 0;
+  margin: -1px -1px 0 -1px;
+  padding: 10px;
+  color: #fff;
+  background: #d95050;
+  background: #d95050
+    url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+    no-repeat right 14px center;
+}
+.placeinfo .tel {
+  color: #0f7833;
+}
+.placeinfo .jibun {
+  color: #999;
+  font-size: 11px;
+  margin-top: 0;
+}
+.placeinfo_wrap {
+  position: absolute;
+  bottom: 28px;
+  left: -150px;
+  width: 300px;
 }
 </style>
