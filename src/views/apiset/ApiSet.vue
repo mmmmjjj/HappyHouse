@@ -274,7 +274,7 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .section-download {
   .md-button + .md-button {
     margin-left: 5px;
