@@ -85,9 +85,9 @@
                 <span class="category_bg pharmacy"></span>
                 약국
               </li>
-              <li id="OL7" data-order="3">
+              <li id="PK6" data-order="3">
                 <span class="category_bg oil"></span>
-                주유소
+                주차장
               </li>
               <li id="CE7" data-order="4">
                 <span class="category_bg cafe"></span>
