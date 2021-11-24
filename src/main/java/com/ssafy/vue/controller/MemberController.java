@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.vue.model.MemberDto;
@@ -132,5 +133,13 @@ public class MemberController {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
+	@ApiOperation(value = "아이디체크", notes = "아이디 중복 체크를 한다.", response = Map.class)
+	@GetMapping("/idcheck/{userid}")
+//	@ResponseBody
+	public @ResponseBody String idCheck(@PathVariable("userid") String userid) throws Exception {
+		int idCount = memberService.idCheck(userid);
+		return Integer.toString(idCount);
 	}
 }

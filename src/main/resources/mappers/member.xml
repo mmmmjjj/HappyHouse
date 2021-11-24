@@ -38,9 +38,9 @@
 		where userid = #{userid}
 	</update>
 	
-	<select id="idCheck" parameterType="memberDto" resultType="int">
+	<select id="idCheck" parameterType="String" resultType="int">
 		select count(userid)
-		from member
+		from ssafy_member
 		where userid = #{userid}
 	</select>
 	
