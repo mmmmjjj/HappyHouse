@@ -19,6 +19,14 @@
         <b-td>{{ p.joindate }}</b-td>
         <b-td>{{ p.region }}</b-td>
         <b-td>{{ p.delflag ? "O" : "X" }}</b-td>
+        <b-td
+          ><b-button type="button" id="searchBtn">
+            수정
+          </b-button>
+          <b-button variant="outline-primary" @click="delUser(p.userid)">
+            삭제
+          </b-button></b-td
+        >
         <b-td></b-td>
       </b-tr>
     </b-table-simple>
@@ -39,6 +47,7 @@
 </template>
 
 <script>
+import http from "@/util/http-common";
 export default {
   name: "paginated-list",
   data() {
@@ -63,6 +72,26 @@ export default {
     },
     prevPage() {
       this.pageNum -= 1;
+    },
+    delUser(id) {
+      if (confirm("정말로 탈퇴하시겠습니까?")) {
+        http
+          .put(`/user/withdraw`, {
+            userid: id,
+          })
+          .then(({ data }) => {
+            let msg = "탈퇴 처리시 문제가 발생했습니다.";
+
+            if (data == "success") {
+              msg = "탈퇴가 완료되었습니다.";
+            }
+            alert(msg);
+            this.moveList();
+          });
+      }
+    },
+    moveList() {
+      this.$router.go(this.$router.currentRoute);
     },
   },
   computed: {
