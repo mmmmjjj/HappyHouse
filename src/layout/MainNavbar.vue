@@ -8,7 +8,13 @@
   >
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
-        <h1 class="md-title" @click="moveToHome">Happy house</h1>
+        <img
+          src="@/assets/logo2.png"
+          @click="moveToHome"
+          width="150px"
+          height="150px"
+        />
+        <!-- <h1 class="md-title" @click="moveToHome">Happy house</h1> -->
       </div>
       <div class="md-toolbar-section-end">
         <md-button
