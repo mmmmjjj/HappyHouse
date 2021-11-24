@@ -79,7 +79,7 @@ export default {
 
       this.map = new kakao.maps.Map(mapContainer, mapOption);
 
-      this.ps = new kakao.maps.services.Places();
+      this.ps = new kakao.maps.services.Places(this.map);
       this.infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
       this.contentNode = document.createElement("div");
       // this.customOverlays = new kakao.maps.customOverlay({zIndex:1});
@@ -91,7 +91,6 @@ export default {
       this.markers2 = []; // 마커를 담을 배열입니다
       this.currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
       // 지도에 idle 이벤트를 등록합니다
-      console.log(this.map);
       //console.log(this.searchPlaces);
       kakao.maps.event.addListener(this.map, "idle", this.searchPlaces);
       // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
@@ -399,8 +398,10 @@ export default {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
         this.displayPlaces(data);
+        console.log(this.currCategory + "의 마커 표출");
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
+        console.log("검색결과 없");
       } else if (status === kakao.maps.services.Status.ERROR) {
         // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
       }
@@ -409,6 +410,8 @@ export default {
     displayPlaces(places) {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
+
+      console.log(places);
       var order = document
         .getElementById(this.currCategory)
         .getAttribute("data-order");
@@ -514,24 +517,35 @@ export default {
         children = category.children;
       // console.log(children[0]);
       for (var i = 0; i < children.length; i++) {
-        children[i].onclick = this.onClickCategory(children[i]);
+        // children[i].onclick = this.onClickCategory(children[i]);
+        ((children) => {
+          children.addEventListener("click", () => {
+            this.onClickCategory(children);
+          });
+        })(children[i]);
       }
     },
 
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     onClickCategory(el) {
-      var id = el.id,
-        className = el.className;
+      console.log("onclick");
+      var id = el.id;
+      var className = el.className;
 
       this.placeOverlay.setMap(null);
+      // console.log(id);
+      console.log("classname : " + className);
 
       if (className === "on") {
         this.currCategory = "";
+        console.log("on -> off");
         this.changeCategoryClass();
-        this.removeMarker();
+        this.removeMarker2();
       } else {
         this.currCategory = id;
-        this.changeCategoryClass(this);
+        console.log("off->on");
+        console.log(this.currCategory);
+        this.changeCategoryClass(el);
         this.searchPlaces();
       }
     },
