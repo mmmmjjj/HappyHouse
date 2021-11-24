@@ -20,7 +20,7 @@
         <b-td>{{ p.region }}</b-td>
         <b-td>{{ p.delflag ? "O" : "X" }}</b-td>
         <b-td
-          ><b-button type="button" id="searchBtn">
+          ><b-button type="button" id="searchBtn" @click="update(p)">
             수정
           </b-button>
           <b-button variant="outline-primary" @click="delUser(p.userid)">
@@ -92,6 +92,12 @@ export default {
     },
     moveList() {
       this.$router.go(this.$router.currentRoute);
+    },
+    update(person) {
+      this.$router.push({
+        name: "adminmodify",
+        params: { user: person },
+      });
     },
   },
   computed: {

@@ -30,6 +30,7 @@ import MemberMyPage from "@/views/user/MemberMyPage.vue";
 
 import Admin from "@/views/Admin.vue";
 import AdminList from "@/views/admin/MemberList.vue";
+import adminmodify from "@/views/admin/adminmodify.vue";
 
 import AptApi from "@/views/api/AptApi.vue";
 
@@ -181,6 +182,11 @@ const router = new VueRouter({
           path: "list",
           name: "AdminList",
           component: AdminList,
+        },
+        {
+          path: "adminmodify",
+          name: "adminmodify",
+          component: adminmodify,
         },
       ],
       props: {
