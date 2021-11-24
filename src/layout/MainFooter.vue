@@ -9,12 +9,12 @@
         <ul>
           <li>
             <a href="https://www.creative-tim.com">
-              Creative Tim
+              이명주
             </a>
           </li>
           <li>
             <a href="https:///presentation.creative-tim.com">
-              About Us
+              이호진
             </a>
           </li>
           <li>
@@ -41,13 +41,13 @@
 export default {
   props: {
     backgroundColor: String,
-    type: String
+    type: String,
   },
   data() {
     return {
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
     };
-  }
+  },
 };
 </script>
 <style></style>
