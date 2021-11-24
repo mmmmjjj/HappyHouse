@@ -52,9 +52,9 @@ const memberStore = {
         () => {}
       );
     },
-    getUserInfo({ commit }, token) {
+    async getUserInfo({ commit }, token) {
       let decode_token = jwt_decode(token);
-      findById(
+      await findById(
         decode_token.userid,
         (response) => {
           if (response.data.message === "success") {
