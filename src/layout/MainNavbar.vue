@@ -384,7 +384,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(memberStore, ["getUserInfo"]),
+    ...mapActions(memberStore, ["getUserInfo", "logout"]),
     ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     moveToLogin() {
       this.$router.push({ name: "loginpage" });
@@ -464,9 +464,7 @@ export default {
       }
     },
     onClickLogout() {
-      this.SET_IS_LOGIN(false);
-      this.SET_USER_INFO(null);
-      sessionStorage.removeItem("access-token");
+      this.logout();
       if (this.$route.path != "/") this.$router.push({ name: "index" });
       location.reload();
     },

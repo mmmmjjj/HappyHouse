@@ -10,10 +10,10 @@ const memberStore = {
     userInfo: null,
   },
   getters: {
-    checkUserInfo: function (state) {
+    checkUserInfo: function(state) {
       return state.userInfo;
     },
-    checkLogin: function (state) {
+    checkLogin: function(state) {
       return state.isLogin;
     },
   },
@@ -28,6 +28,10 @@ const memberStore = {
       state.isLogin = true;
       state.userInfo = userInfo;
     },
+    SET_LOGOUT: (state, isLogin) => {
+      state.isLogin = isLogin;
+      state.userInfo = null;
+    },
   },
   actions: {
     async userConfirm({ commit }, user) {
@@ -38,6 +42,7 @@ const memberStore = {
             let token = response.data["access-token"];
             commit("SET_IS_LOGIN", true);
             commit("SET_IS_LOGIN_ERROR", false);
+            console.log("login success");
             sessionStorage.setItem("access-token", token);
           } else {
             commit("SET_IS_LOGIN", false);
@@ -62,6 +67,10 @@ const memberStore = {
           console.log(error);
         }
       );
+    },
+    logout({ commit }) {
+      commit("SET_LOGOUT", false);
+      sessionStorage.removeItem("access-token");
     },
     // checkLogin({ commit }, token) {
     //   let decode_token = jwt_decode(token);
