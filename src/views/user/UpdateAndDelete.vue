@@ -1,140 +1,81 @@
 <template>
   <div class="wrapper">
-    <parallax class="page-header header-filter" :style="headerStyle">
-      <div class="md-layout">
-        <div class="md-layout-item">
-          <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
-            <div class="brand">
-              <h1>My Page</h1>
-              <h3>내 정보 확인페이지입니다.</h3>
-            </div>
+    <div class="section page-header header-filter" :style="headerStyle">
+      <div class="container">
+        <div class="md-layout">
+          <div
+            class="md-layout-item mt-5 md-size-33 md-medium-size-40 md-small-size-50 md-xsmall-size-70 mx-auto text-center"
+          >
+            <login-card header-color="info">
+              <h4 slot="title" class="card-title">Edit</h4>
+              <p slot="description" class="description">내 정보 수정</p>
+              <md-field :class="idCheck" slot="inputs">
+                <md-icon>face</md-icon>
+                <label>{{ idtxt }}</label>
+                <md-input
+                  ref="userid"
+                  v-model="user.userid"
+                  disabled
+                ></md-input>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>face</md-icon>
+                <label>{{ nametxt }}</label>
+                <md-input
+                  ref="username"
+                  v-model="user.username"
+                  @keyup="Press"
+                ></md-input>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>lock_outline</md-icon>
+                <label>{{ pwdtxt }}</label>
+                <md-input
+                  ref="userpwd"
+                  v-model="user.userpwd"
+                  type="password"
+                  @keyup="keyPress"
+                ></md-input>
+              </md-field>
+              <md-field :class="pwdCheck" slot="inputs">
+                <md-icon>lock_outline</md-icon>
+                <label>{{ pwdchktxt }}</label>
+                <md-input
+                  ref="pwdchk"
+                  v-model="user.pwdchk"
+                  type="password"
+                  @keyup="keyPress"
+                ></md-input>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>mail</md-icon>
+                <label>{{ emailtxt }}</label>
+                <md-input
+                  ref="email"
+                  v-model="user.email"
+                  @keyup="Press"
+                ></md-input>
+              </md-field>
+
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>home</md-icon>
+                <label>{{ regiontxt }}</label>
+                <md-input
+                  ref="region"
+                  v-model="user.region"
+                  @keyup="Press"
+                ></md-input>
+              </md-field>
+              <md-button
+                slot="footer"
+                class="md-simple md-info md-lg"
+                @click="update"
+              >
+                정보 수정하기
+              </md-button>
+            </login-card>
           </div>
         </div>
-      </div>
-    </parallax>
-    <div class="main main-raised">
-      <div class="section section-basic">
-        <b-container class="mt-4" v-if="userInfo">
-          <b-row>
-            <b-col></b-col>
-            <b-col cols="8">
-              <b-jumbotron>
-                <!-- <template #header>My Page</template> -->
-
-                <template #lead>사용자 정보 </template>
-
-                <hr class="my-4" />
-
-                <b-container class="mb-1">
-                  <b-row>
-                    <b-col></b-col>
-                    <b-col cols="8">
-                      <b-card
-                        class="text-center mt-3"
-                        style="max-width: 40rem"
-                        align="left"
-                      >
-                        <b-form @submit="update" class="text-left">
-                          <b-form-group label="아이디:" label-for="userid">
-                            <b-form-input
-                              id="userid"
-                              v-model="user.userid"
-                              required
-                              placeholder="이름 입력...."
-                              readonly
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            id="username-group"
-                            label="이름:"
-                            label-for="username"
-                            description="이름을 입력하세요."
-                          >
-                            <b-form-input
-                              id="username"
-                              v-model="user.username"
-                              required
-                              placeholder="이름 입력...."
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group label="비밀번호:" label-for="userpwd">
-                            <b-form-input
-                              type="password"
-                              id="userpwd"
-                              v-model="user.userpwd"
-                              required
-                              placeholder="비밀번호 입력...."
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            id="pwdchk-group"
-                            label="비밀번호 확인:"
-                            label-for="pwdchk"
-                            description="비밀번호를 다시 입력해주세요."
-                          >
-                            <b-form-input
-                              type="password"
-                              id="pwdchk"
-                              ref="pwdchk"
-                              v-model="user.pwdchk"
-                              required
-                              placeholder="비밀번호 재입력...."
-                            >
-                            </b-form-input>
-                            <b-button
-                              type="button"
-                              variant="primary"
-                              @click="PasswordCheck"
-                              >비밀번호 확인</b-button
-                            >
-                          </b-form-group>
-                          <b-form-group
-                            id="email-group"
-                            label="이메일:"
-                            label-for="email"
-                            description="이메일을 입력하세요."
-                          >
-                            <b-form-input
-                              id="email"
-                              v-model="user.email"
-                              required
-                              placeholder="이메일 입력...."
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            id="region-group"
-                            label="거주지역:"
-                            label-for="region"
-                            description="거주지를 입력하세요"
-                          >
-                            <b-form-input
-                              id="region"
-                              v-model="user.region"
-                              required
-                              placeholder="거주지역 입력...."
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-button type="submit" variant="primary" class="m-1"
-                            >회원정보수정</b-button
-                          ><b-button variant="danger" @click="withdraw"
-                            >회원탈퇴</b-button
-                          >
-                        </b-form>
-                      </b-card>
-                    </b-col>
-                    <b-col></b-col>
-                  </b-row>
-                </b-container>
-                <hr class="my-4" />
-              </b-jumbotron>
-            </b-col>
-            <b-col></b-col>
-          </b-row>
-        </b-container>
       </div>
     </div>
   </div>
@@ -142,12 +83,13 @@
 
 <script>
 import http from "@/util/http-common";
+import { LoginCard } from "@/components";
 
 import { mapActions, mapMutations, mapState } from "vuex";
 
 const memberStore = "memberStore";
 export default {
-  components: {},
+  components: { LoginCard },
   name: "updateanddelete",
   bodyClass: "index-page",
   props: {
@@ -198,7 +140,12 @@ export default {
         email: "",
         region: "",
       },
-      isCheckedPwd: false,
+      isCheckedPwd: null,
+      nametxt: "이름을 입력하세요.",
+      emailtxt: "이메일을 입력하세요.",
+      pwdtxt: "비밀번호를 입력하세요.",
+      pwdchktxt: "다시 한번 입력해주세요.",
+      regiontxt: "거주지를 입력하세요.",
     };
   },
   methods: {
@@ -228,6 +175,32 @@ export default {
           });
       }
     },
+    keyPress() {
+      let pwdchk = this.$refs.pwdchk.$options.propsData.value;
+      let pwd = this.$refs.userpwd.$options.propsData.value;
+      if (pwd != null) this.pwdtxt = null;
+      if (pwdchk == "") this.isCheckedPwd = null;
+      else if (pwd == pwdchk) {
+        this.isCheckedPwd = true;
+        this.pwdchktxt = "사용 가능합니다.";
+      }
+      if (pwd != pwdchk && pwdchk != null) {
+        this.isCheckedPwd = false;
+        this.pwdchktxt = "비밀번호가 올바르지 않습니다.";
+      }
+    },
+    Press() {
+      let name = this.$refs.username.$options.propsData.value;
+      let email = this.$refs.email.$options.propsData.value;
+      let region = this.$refs.region.$options.propsData.value;
+
+      if (name != "") this.nametxt = null;
+      else this.nametxt = "이름을 입력하세요.";
+      if (email != "") this.emailtxt = null;
+      else this.emailtxt = "이메일을 입력하세요.";
+      if (region != "") this.regiontxt = null;
+      else this.regiontxt = "거주지를 입력하세요.";
+    },
     async update(event) {
       event.preventDefault();
 
@@ -237,27 +210,27 @@ export default {
       !this.user.username &&
         ((msg = "이름 입력해주세요"),
         (err = false),
-        this.$refs.username.focus());
+        this.$refs.username.$el.focus());
       err &&
         !this.user.userpwd &&
         ((msg = "비밀번호 입력해주세요"),
         (err = false),
-        this.$refs.content.focus());
+        this.$refs.userpwd.$el.focus());
       err &&
         !this.user.email &&
         ((msg = "이메일 입력해주세요"),
         (err = false),
-        this.$refs.email.focus());
+        this.$refs.email.$el.focus());
       err &&
         !this.user.region &&
         ((msg = "거주지역 입력해주세요"),
         (err = false),
-        this.$refs.region.focus());
+        this.$refs.region.$el.focus());
       err &&
         this.isCheckedPwd == false &&
         ((msg = "회원정보 수정 및 탈퇴를 위해 비밀번호를 확인해주세요"),
         (err = false),
-        this.$refs.pwdchk.focus());
+        this.$refs.pwdchk.$el.ocus());
       if (!err) alert(msg);
       else
         await http
@@ -308,6 +281,13 @@ export default {
     signupImage() {
       return {
         backgroundImage: `url(${this.signup})`,
+      };
+    },
+    pwdCheck: function() {
+      return {
+        "md-form-group": this.isCheckedPwd == null,
+        "md-error": this.isCheckedPwd == false,
+        "md-valid": this.isCheckedPwd == true,
       };
     },
   },

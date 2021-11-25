@@ -1,100 +1,45 @@
 <template>
   <div class="wrapper">
-    <parallax class="page-header header-filter" :style="headerStyle">
-      <div class="md-layout">
-        <div class="md-layout-item">
-          <div class="image-wrapper">
-            <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>본인정보확인</h3>
-            </div>
+    <div class="section page-header header-filter" :style="headerStyle">
+      <div class="container">
+        <div class="md-layout">
+          <div
+            class="md-layout-item mt-5 md-size-33 md-medium-size-40 md-small-size-50 md-xsmall-size-70 mx-auto text-center"
+          >
+            <login-card header-color="info">
+              <h4 slot="title" class="card-title">MyPage</h4>
+              <p slot="description" class="description">내정보 보기</p>
+              <md-field :class="idCheck" slot="inputs">
+                <md-icon>face</md-icon>
+                <label>{{ idtxt }}</label>
+                <md-input v-model="user.userid" disabled></md-input>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>face</md-icon>
+                <label>{{ nametxt }}</label>
+                <md-input v-model="user.username" disabled></md-input>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>mail</md-icon>
+                <label>{{ emailtxt }}</label>
+                <md-input v-model="user.email" disabled></md-input>
+              </md-field>
+
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>home</md-icon>
+                <label>{{ regiontxt }}</label>
+                <md-input v-model="user.region" disabled></md-input>
+              </md-field>
+              <md-button
+                slot="footer"
+                class="md-simple md-info md-lg"
+                @click="gotoupdateanddelete"
+              >
+                회원정보수정
+              </md-button>
+            </login-card>
           </div>
         </div>
-      </div>
-    </parallax>
-    <div class="main main-raised">
-      <div class="section section-basic">
-        <b-container v-if="userInfo">
-          <b-row>
-            <b-col>
-              <b-alert show><h3>내정보</h3></b-alert>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
-              <b-container>
-                <b-row>
-                  <b-col>
-                    <b-card
-                      class="text-center mt-3"
-                      style="max-width: 40rem"
-                      align="left"
-                    >
-                      <b-form @submit="update" class="text-left">
-                        <b-form-group label="아이디:" label-for="userid">
-                          <b-form-input
-                            id="userid"
-                            v-model="user.userid"
-                            required
-                            placeholder="이름 입력...."
-                            readonly
-                          ></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                          id="username-group"
-                          label="이름:"
-                          label-for="username"
-                        >
-                          <b-form-input
-                            id="username"
-                            v-model="user.username"
-                            required
-                            placeholder="이름 입력...."
-                            readonly
-                          ></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group
-                          id="email-group"
-                          label="이메일:"
-                          label-for="email"
-                        >
-                          <b-form-input
-                            id="email"
-                            v-model="user.email"
-                            required
-                            readonly
-                          ></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                          id="region-group"
-                          label="거주지역:"
-                          label-for="region"
-                        >
-                          <b-form-input
-                            id="region"
-                            v-model="user.region"
-                            required
-                            readonly
-                          ></b-form-input>
-                        </b-form-group>
-                        <b-button
-                          variant="primary"
-                          class="m-1"
-                          @click="gotoupdateanddelete"
-                          >회원정보수정및탈퇴</b-button
-                        >
-                        <!-- <b-button variant="danger" @click="withdraw"
-                            >회원탈퇴</b-button
-                          > -->
-                      </b-form>
-                    </b-card>
-                  </b-col>
-                </b-row>
-              </b-container>
-            </b-col>
-          </b-row>
-        </b-container>
       </div>
     </div>
   </div>
@@ -111,21 +56,14 @@
 // import JavascriptComponents from "./components/JavascriptComponentsSection";
 //import { LoginCard } from "@/components";
 import http from "@/util/http-common";
+import { LoginCard } from "@/components";
 
 import { mapActions, mapMutations, mapState } from "vuex";
 
 const memberStore = "memberStore";
 export default {
   components: {
-    // BasicElements,
-    // Navigation,
-    // SmallNavigation,
-    // Tabs,
-    // NavPills,
-    // Notifications,
-    // TypographyImages,
-    // JavascriptComponents,
-    //LoginCard,
+    LoginCard,
   },
   name: "membermypage",
   bodyClass: "index-page",
@@ -133,22 +71,6 @@ export default {
     image: {
       type: String,
       default: require("@/assets/img/vue-mk-header.jpg"),
-    },
-    leaf4: {
-      type: String,
-      default: require("@/assets/img/leaf4.png"),
-    },
-    leaf3: {
-      type: String,
-      default: require("@/assets/img/leaf3.png"),
-    },
-    leaf2: {
-      type: String,
-      default: require("@/assets/img/leaf2.png"),
-    },
-    leaf1: {
-      type: String,
-      default: require("@/assets/img/leaf1.png"),
     },
     signup: {
       type: String,
@@ -177,7 +99,6 @@ export default {
         email: "",
         region: "",
       },
-      isCheckedPwd: false,
     };
   },
   methods: {
@@ -190,75 +111,6 @@ export default {
     },
     ...mapActions(memberStore, ["getUserInfo"]),
     ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
-    withdraw() {
-      if (confirm("정말로 탈퇴하시겠습니까?")) {
-        http
-          .put(`/user/withdraw`, {
-            userid: this.userInfo.userid,
-          })
-          .then(({ data }) => {
-            let msg = "탈퇴 처리시 문제가 발생했습니다.";
-
-            if (data == "success") {
-              msg = "탈퇴가 완료되었습니다.";
-            }
-            alert(msg);
-            this.moveList();
-          });
-      }
-    },
-    async update(event) {
-      event.preventDefault();
-
-      let err = true;
-      let msg = "";
-
-      !this.user.username &&
-        ((msg = "이름 입력해주세요"),
-        (err = false),
-        this.$refs.username.focus());
-      err &&
-        !this.user.userpwd &&
-        ((msg = "비밀번호 입력해주세요"),
-        (err = false),
-        this.$refs.content.focus());
-      err &&
-        !this.user.email &&
-        ((msg = "이메일 입력해주세요"),
-        (err = false),
-        this.$refs.email.focus());
-      err &&
-        !this.user.region &&
-        ((msg = "거주지역 입력해주세요"),
-        (err = false),
-        this.$refs.region.focus());
-      err &&
-        this.isCheckedPwd == false &&
-        ((msg = "비밀번호를 확인해주세요"),
-        (err = false),
-        this.$refs.pwdchk.focus());
-      if (!err) alert(msg);
-      else
-        await http
-          .put(`/user/update`, {
-            userid: this.user.userid,
-            username: this.user.username,
-            userpwd: this.user.userpwd,
-            email: this.user.email,
-            region: this.user.region,
-          })
-          .then(({ data }) => {
-            let msg = "수정 처리시 문제가 발생했습니다.";
-            console.log(data);
-            if (data == "success") {
-              msg = "수정이 완료되었습니다.";
-            }
-            alert(msg);
-            let token = sessionStorage.getItem("access-token");
-            this.getUserInfo(token);
-            this.$router.push({ name: "Home" });
-          });
-    },
     moveList() {
       this.SET_IS_LOGIN(false);
       this.SET_USER_INFO(null);
@@ -271,15 +123,6 @@ export default {
       this.$router.push({
         name: "updateanddelete",
       });
-    },
-    PasswordCheck() {
-      if (this.user.userpwd == this.user.pwdchk) {
-        alert("비밀번호 확인완료");
-        this.isCheckedPwd = true;
-      } else {
-        alert("비밀번호를 확인해주세요");
-        this.$refs.pwdchk.focus();
-      }
     },
   },
   computed: {
