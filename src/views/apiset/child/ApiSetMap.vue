@@ -12,7 +12,7 @@
     </div>
     <b-row>
       <b-col cols="4" align="left">
-        <div>
+        <div hidden>
           <table id="placeslist"></table>
         </div>
       </b-col>

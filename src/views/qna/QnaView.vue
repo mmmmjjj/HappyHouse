@@ -1,20 +1,19 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show><h3>질문보기</h3></b-alert>
-      </b-col>
-    </b-row>
     <b-row class="mb-1">
       <b-col class="text-left">
-        <b-button variant="outline-primary" @click="listArticle">목록</b-button>
+        <md-button
+          variant="outline-primary"
+          class="md-info md-round"
+          @click="listArticle"
+          >목록</md-button
+        >
       </b-col>
       <b-col class="text-right" v-if="isWriter">
         <b-button
-          variant="outline-info"
-          size="sm"
-          @click="moveModifyArticle"
-          class="mr-2"
+          variant="outline-primary"
+          class="md-info md-round"
+          @click="listArticle"
           >글수정</b-button
         >
         <b-button variant="outline-danger" size="sm" @click="deleteArticle"

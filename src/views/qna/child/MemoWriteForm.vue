@@ -23,8 +23,11 @@
           ></b-form-textarea>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="m-1"
-          >답변작성</b-button
+        <md-button
+          type="submit"
+          variant="outline-primary"
+          class="md-info md-round"
+          >답변작성</md-button
         >
       </b-form>
     </b-col>
