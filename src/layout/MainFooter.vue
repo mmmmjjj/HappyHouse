@@ -8,31 +8,19 @@
       <nav>
         <ul>
           <li>
-            <a href="">
-              이명주
+            <a href="https://github.com/mmmmjjj">
+              Leemyungju
             </a>
           </li>
           <li>
-            <a href="">
-              이호진
-            </a>
-          </li>
-          <li>
-            <a href="">
-              Blog
-            </a>
-          </li>
-          <li>
-            <a href="">
-              Licenses
+            <a href="https://github.com/roycmlhj?tab=repositories">
+              Leehojin
             </a>
           </li>
         </ul>
       </nav>
       <div class="copyright">
-        &copy; {{ year }}, made with <md-icon>favorite</md-icon> by
-        <a href="https://www.creative-tim.com/" target="_blank">Creative Tim</a>
-        for a better web.
+        &copy; {{ year }}, made with SSAFY by Last PJT.
       </div>
     </div>
   </footer>

@@ -58,21 +58,32 @@
           </div>
         </div>
       </div>
+      <div class="text-center">
+        <img src="@/assets/slogun.png" width="800px" height="600px" />
+      </div>
       <div class="section">
         <div class="container text-center">
           <div class="md-layout">
-            <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 ml-auto mr-auto text-center"
-            >
-              <h2>Why we made this?</h2>
-              <h4>
-                귀찮은걸 매우 싫어하는 개발자들이 모였습니다. <br />
-                이 세상 모든 귀찮은걸 싫어하는 개발자들을 위한 <br />good-infra
-                서비스를 제공합니다.<br />
-                최대한 많은 infra가 모여있는 집에서 <br />개발을 할 수있도록
-                서비스를 개발하였습니다.
-              </h4>
-            </div>
+            <b-container>
+              <b-row>
+                <b-col cols="7">
+                  <img src="@/assets/sae.jpg" width="600px" height="600px" />
+                </b-col>
+                <b-col>
+                  <h2 id="seul">슬세권이란?</h2>
+                  <div class="text-left">
+                    <h4>
+                      <br />
+                      슬리퍼를 신고 편안하게 다닐 수 있는 <br />
+                      <h6></h6>
+                      거리에 생활이 편리해지는 상권이 <br />
+                      <h6></h6>
+                      위치해있는 지역을 의미합니다.
+                    </h4>
+                  </div>
+                </b-col>
+              </b-row>
+            </b-container>
           </div>
         </div>
       </div>
@@ -175,5 +186,8 @@ export default {
 }
 #carousel {
   color: rgb(0, 0, 0);
+}
+#seul {
+  font-weight: bold;
 }
 </style>
