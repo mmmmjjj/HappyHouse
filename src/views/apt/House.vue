@@ -4,13 +4,8 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>아파트정보확인</h3>
+              <img src="@/assets/aptinfo.png" width="300px" height="300px" />
             </div>
           </div>
         </div>
@@ -18,32 +13,51 @@
     </parallax>
     <div class="main main-raised">
       <div class="section section-basic">
-        <div class="container">
-          <div class="title">
-            <h2>Basic Elements</h2>
-          </div>
-          <basic-elements></basic-elements>
+        <div class="md-layout">
+          <!-- -->
+          <b-container class="bv-example-row mt-3">
+            <b-row>
+              <b-col>
+                <div class="md-layout-item md-size-50 md-small-size-100 ">
+                  <tabs
+                    :tab-name="['설명', '사용법']"
+                    :tab-icon="['dashboard', 'list']"
+                    plain
+                    nav-pills-icons
+                    color-button="info"
+                  >
+                    <!-- here you can add your content for tab-content -->
+                    <template slot="tab-pane-1">
+                      국토교통부 아파트매매 실거래 상세 자료 api를 활용한
+                      <br />아파트 정보 확인 서비스입니다. <br /><br />
+                    </template>
+                    <template slot="tab-pane-2">
+                      1. 원하시는 시, 군구를 선택합니다.<br />
+                      2. 좌측 하단에 실시간으로 보여지는 아파트들을
+                      확인하세요.<br />
+                      3. 원하시는 아파트를 클릭하여 우측에서 상세 정보를
+                      확인하세요.<br />
+                    </template>
+                  </tabs>
+                </div>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <house-search-bar></house-search-bar>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col cols="6" align="left">
+                <house-list />
+              </b-col>
+              <b-col cols="6">
+                <house-detail />
+              </b-col>
+            </b-row>
+          </b-container>
+          <!-- -->
         </div>
-        <!-- -->
-        <b-container class="bv-example-row mt-3 text-center">
-          <h3 class="underline-orange">
-            <b-icon icon="house-fill"></b-icon> House Service
-          </h3>
-          <b-row>
-            <b-col>
-              <house-search-bar></house-search-bar>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col cols="6" align="left">
-              <house-list />
-            </b-col>
-            <b-col cols="6">
-              <house-detail />
-            </b-col>
-          </b-row>
-        </b-container>
-        <!-- -->
       </div>
     </div>
   </div>
@@ -53,11 +67,13 @@
 import HouseSearchBar from "@/views/apt/HouseSearchBar.vue";
 import HouseList from "@/views/apt/HouseList.vue";
 import HouseDetail from "@/views/apt/HouseDetail.vue";
+import { Tabs } from "@/components";
 export default {
   components: {
     HouseSearchBar,
     HouseList,
     HouseDetail,
+    Tabs,
   },
   name: "house",
   bodyClass: "index-page",

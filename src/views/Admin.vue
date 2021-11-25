@@ -4,13 +4,8 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>공지사항을 확인하세요</h3>
+              <img src="@/assets/mode.png" width="300px" height="300px" />
             </div>
           </div>
         </div>
@@ -27,27 +22,8 @@
 </template>
 
 <script>
-// import BasicElements from "./components/BasicElementsSection";
-// import Navigation from "./components/NavigationSection";
-// import SmallNavigation from "./components/SmallNavigationSection";
-// import Tabs from "./components/TabsSection";
-// import NavPills from "./components/NavPillsSection";
-// import Notifications from "./components/NotificationsSection";
-// import TypographyImages from "./components/TypographyImagesSection";
-// import JavascriptComponents from "./components/JavascriptComponentsSection";
-// import { LoginCard } from "@/components";
 export default {
-  components: {
-    // BasicElements,
-    // Navigation,
-    // SmallNavigation,
-    // Tabs,
-    // NavPills,
-    // Notifications,
-    // TypographyImages,
-    // JavascriptComponents,
-    // LoginCard,
-  },
+  components: {},
   name: "admin",
   bodyClass: "index-page",
   props: {
@@ -104,7 +80,6 @@ export default {
       let token = sessionStorage.getItem("access-token");
       if (this.getUserInfo(token)) {
         console.log("sucess");
-        console.log(this.user.admin);
       }
     },
   },

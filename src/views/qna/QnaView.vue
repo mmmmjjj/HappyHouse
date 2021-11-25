@@ -1,20 +1,19 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show><h3>질문보기</h3></b-alert>
-      </b-col>
-    </b-row>
     <b-row class="mb-1">
       <b-col class="text-left">
-        <b-button variant="outline-primary" @click="listArticle">목록</b-button>
+        <md-button
+          variant="outline-primary"
+          class="md-info md-round"
+          @click="listArticle"
+          >목록</md-button
+        >
       </b-col>
       <b-col class="text-right" v-if="isWriter">
         <b-button
-          variant="outline-info"
-          size="sm"
+          variant="outline-primary"
+          class="md-info md-round"
           @click="moveModifyArticle"
-          class="mr-2"
           >글수정</b-button
         >
         <b-button variant="outline-danger" size="sm" @click="deleteArticle"
@@ -55,14 +54,6 @@
       </tbody>
     </b-table-simple>
     <b-col>
-      <!-- <b-table-simple hover responsive>
-        <b-thead head-variant="dark">
-          <b-tr>
-            <b-th>답변작성란</b-th>
-          </b-tr>
-        </b-thead>
-        <tbody> --><!-- </tbody>
-      </b-table-simple> -->
       <memo-write-form :articleno="articleno" :userid="userInfo.userid" />
     </b-col>
   </b-container>
@@ -98,16 +89,10 @@ export default {
         return this.article.content.split("\n").join("<br>");
       return "";
     },
-    // changeDateFormat() {
-    //   return moment(new Date(this.article.regtime)).format(
-    //     "YYYY.MM.DD hh:mm:ss"
-    //   );
-    // },
   },
   created() {
     this.articleno = this.$route.params.articleno;
     this.getArticle();
-    console.log(this.$route.params.articleno + "first");
   },
   methods: {
     async getArticle() {

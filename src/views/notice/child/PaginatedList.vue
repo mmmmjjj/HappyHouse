@@ -1,7 +1,14 @@
 <template>
   <div>
-    <b-table-simple hover responsive>
-      <b-thead head-variant="dark">
+    <b-table-simple hover responsive style=" text-align: center;">
+      <colgroup>
+        <col style="width:10%;" />
+        <col style="width:40%;" />
+        <col style="width:10%;" />
+        <col style="width:20%;" />
+        <col style="width:20%;" />
+      </colgroup>
+      <b-thead>
         <b-tr>
           <b-th>글번호</b-th>
           <b-th>제목</b-th>
@@ -12,7 +19,7 @@
       </b-thead>
       <b-tr v-for="p in paginatedData" :key="p.no">
         <b-td>{{ p.articleno }}</b-td>
-        <b-th class="text-left">
+        <b-th>
           <router-link
             :to="{
               name: 'noticeboardview',
@@ -27,17 +34,28 @@
       </b-tr>
     </b-table-simple>
     <div class="btn-cover">
-      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-        이전
-      </button>
+      <md-button
+        variant="outline-primary"
+        class="md-default md-round md-sm"
+        :disabled="pageNum === 0"
+        @click="prevPage"
+        >이전</md-button
+      >
       <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-      <button
+      <!-- <button
         :disabled="pageNum >= pageCount - 1"
         @click="nextPage"
         class="page-btn"
       >
         다음
-      </button>
+      </button> -->
+      <md-button
+        variant="outline-primary"
+        class="md-default md-round md-sm"
+        :disabled="pageNum >= pageCount - 1"
+        @click="nextPage"
+        >다음</md-button
+      >
     </div>
   </div>
 </template>

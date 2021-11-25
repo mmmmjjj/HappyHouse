@@ -6,7 +6,7 @@
           <div
             class="md-layout-item mt-5 md-size-33 md-medium-size-40 md-small-size-50 md-xsmall-size-70 mx-auto text-center"
           >
-            <login-card header-color="green">
+            <login-card header-color="info">
               <h4 slot="title" class="card-title">SignUp</h4>
               <p slot="description" class="description">Welcome!</p>
               <md-field :class="idCheck" slot="inputs">
@@ -68,7 +68,7 @@
               </md-field>
               <md-button
                 slot="footer"
-                class="md-simple md-success md-lg"
+                class="md-simple md-info md-lg"
                 @click="confirm"
               >
                 Get Started

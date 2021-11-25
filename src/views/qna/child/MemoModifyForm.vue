@@ -29,8 +29,11 @@
             ></b-form-textarea>
           </b-form-group>
 
-          <b-button type="submit" variant="primary" class="m-1"
-            >답변작성</b-button
+          <md-button
+            type="submit"
+            variant="outline-primary"
+            class="md-info md-round"
+            >답변작성</md-button
           >
         </b-form>
       </b-col>
@@ -55,18 +58,12 @@ export default {
   },
 
   created() {
-    //this.memo.memono = this.memono;
-    console.log(this.$route.params.memono + "dddd");
     http.get(`/memo/single/${this.$route.params.memono}`).then(({ data }) => {
-      console.log(data);
       this.memo.memono = this.$route.params.memono;
       this.memo.articleno = data.articleno;
       this.memo.userid = data.userid;
-      //this.memo.subject = data.article.subject;
       this.memo.comment = data.comment;
-      //this.article = data;
     });
-    console.log(this.memo.memono + "update1");
   },
   methods: {
     onSubmit(event) {
@@ -82,19 +79,15 @@ export default {
           comment: this.memo.comment,
         })
         .then(({ data }) => {
-          console.log(this.articleno);
-          let msg = "등록 처리시 문제가 발생했습니다.";
+          let msg = "답변 수정 시 문제가 발생했습니다.";
           if (data == "success") {
-            msg = "등록이 완료되었습니다.";
+            msg = "수정이 완료되었습니다.";
           }
           alert(msg);
           this.moveList();
         });
     },
     moveList() {
-      // this.$router.push({
-      //   name: "QnaList",
-      // });
       this.$router.push({
         name: "qnaview",
         params: { articleno: this.memo.articleno },

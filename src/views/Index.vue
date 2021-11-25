@@ -3,15 +3,9 @@
     <parallax class="page-header header-filter" :style="headerStyle">
       <div class="md-layout">
         <div class="md-layout-item">
-          <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
-            <div class="brand">
-              <h1>Happy House</h1>
-              <!-- <h3>메인화면입니다</h3> -->
-            </div>
+          <div class="brand">
+            <!-- <h1>Happy House</h1> -->
+            <img src="@/assets/logo2.png" width="300px" height="300px" />
           </div>
         </div>
       </div>
@@ -34,27 +28,27 @@
               >
                 <slide>
                   <div class="carousel-caption">
-                    <h4>
+                    <h4 id="carousel" style="color:white;">
                       <md-icon>location_on</md-icon>
-                      Somewhere Beyond, United States
+                      여기 귀찮은 것이 싫은 개발자가 있습니다
                     </h4>
                   </div>
                   <img :src="carousel1" alt="carousel1" />
                 </slide>
                 <slide>
                   <div class="carousel-caption">
-                    <h4>
+                    <h4 id="carousel" style="color:white;">
                       <md-icon>location_on</md-icon>
-                      Yellowstone National Park, United States
+                      슬세권-프리미엄을 만족시킬 수 있는 서비스를 제공합니다
                     </h4>
                   </div>
                   <img :src="carousel2" alt="carousel2" />
                 </slide>
                 <slide>
                   <div class="carousel-caption">
-                    <h4>
+                    <h4 id="carousel" style="color:white;">
                       <md-icon>location_on</md-icon>
-                      Yellowstone National Park, United States
+                      최대한 많은 인프라가 모여있는 집에서 개발을 해보세요
                     </h4>
                   </div>
                   <img :src="carousel3" alt="carousel3" />
@@ -64,21 +58,32 @@
           </div>
         </div>
       </div>
+      <div class="text-center">
+        <img src="@/assets/slogun.png" width="800px" height="600px" />
+      </div>
       <div class="section">
         <div class="container text-center">
           <div class="md-layout">
-            <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 ml-auto mr-auto text-center"
-            >
-              <h2>Why we made this?</h2>
-              <h4>
-                귀찮은걸 매우 싫어하는 개발자들이 모였습니다. <br />
-                이 세상 모든 귀찮은걸 싫어하는 개발자들을 위한 <br />good-infra
-                서비스를 제공합니다.<br />
-                최대한 많은 infra가 모여있는 집에서 <br />개발을 할 수있도록
-                서비스를 개발하였습니다.
-              </h4>
-            </div>
+            <b-container>
+              <b-row>
+                <b-col cols="7">
+                  <img src="@/assets/sae.jpg" width="600px" height="600px" />
+                </b-col>
+                <b-col>
+                  <h2 id="seul">슬세권이란?</h2>
+                  <div class="text-left">
+                    <h4>
+                      <br />
+                      슬리퍼를 신고 편안하게 다닐 수 있는 <br />
+                      <h6></h6>
+                      거리에 생활이 편리해지는 상권이 <br />
+                      <h6></h6>
+                      위치해있는 지역을 의미합니다.
+                    </h4>
+                  </div>
+                </b-col>
+              </b-row>
+            </b-container>
           </div>
         </div>
       </div>
@@ -178,5 +183,11 @@ export default {
   .btn-container {
     display: flex;
   }
+}
+#carousel {
+  color: rgb(0, 0, 0);
+}
+#seul {
+  font-weight: bold;
 }
 </style>

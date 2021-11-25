@@ -10,10 +10,10 @@ const memberStore = {
     userInfo: null,
   },
   getters: {
-    checkUserInfo: function (state) {
+    checkUserInfo: function(state) {
       return state.userInfo;
     },
-    checkLogin: function (state) {
+    checkLogin: function(state) {
       return state.isLogin;
     },
   },
@@ -27,6 +27,10 @@ const memberStore = {
     SET_USER_INFO: (state, userInfo) => {
       state.isLogin = true;
       state.userInfo = userInfo;
+    },
+    SET_LOGOUT: (state, isLogin) => {
+      state.isLogin = isLogin;
+      state.userInfo = null;
     },
   },
   actions: {
@@ -47,9 +51,9 @@ const memberStore = {
         () => {}
       );
     },
-    getUserInfo({ commit }, token) {
+    async getUserInfo({ commit }, token) {
       let decode_token = jwt_decode(token);
-      findById(
+      await findById(
         decode_token.userid,
         (response) => {
           if (response.data.message === "success") {
@@ -63,22 +67,10 @@ const memberStore = {
         }
       );
     },
-    // checkLogin({ commit }, token) {
-    //   let decode_token = jwt_decode(token);
-    //   findById(
-    //     decode_token.userid,
-    //     (response) => {
-    //       if (response.data.message === "success") {
-    //       } else {
-    //         alert("로그인 후 이용 가능합니다.");
-
-    //       }
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // }
+    logout({ commit }) {
+      commit("SET_LOGOUT", false);
+      sessionStorage.removeItem("access-token");
+    },
   },
 };
 

@@ -5,9 +5,14 @@
         <div id="kakaomap">map</div>
       </b-col>
     </b-row>
+    <div class="form-row float-right">
+      <b-button variant="outline-primary" @click="removeCircles()"
+        >모두 지우기</b-button
+      >
+    </div>
     <b-row>
       <b-col cols="4" align="left">
-        <div>
+        <div hidden>
           <table id="placeslist"></table>
         </div>
       </b-col>
@@ -33,6 +38,13 @@ export default {
       placeOverlay: null,
       markers2: [],
       currCategory: null,
+      drawingFlag: null, // 원이 그려지고 있는 상태를 가지고 있을 변수입니다
+      centerPosition: null, // 원의 중심좌표 입니다
+      drawingCircle: null, // 그려지고 있는 원을 표시할 원 객체입니다
+      drawingLine: null, // 그려지고 있는 원의 반지름을 표시할 선 객체입니다
+      drawingOverlay: null, // 그려지고 있는 원의 반경을 표시할 커스텀오버레이 입니다
+      drawingDot: null, // 그려지고 있는 원의 중심점을 표시할 커스텀오버레이 입니다
+      circles: [], // 클릭으로 그려진 원과 반경 정보를 표시하는 선과 커스텀오버레이를 가지고 있을 배열입니다
     };
   },
   props: {
@@ -74,15 +86,14 @@ export default {
           level: 3, // 지도의 확대 레벨
         };
       ///as
-      mapContainer.style.height = "500px";
-      mapContainer.style.width = "95%";
+      mapContainer.style.height = "550px";
+      mapContainer.style.width = "120%";
 
       this.map = new kakao.maps.Map(mapContainer, mapOption);
 
-      this.ps = new kakao.maps.services.Places();
+      this.ps = new kakao.maps.services.Places(this.map);
       this.infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
       this.contentNode = document.createElement("div");
-      // this.customOverlays = new kakao.maps.customOverlay({zIndex:1});
       this.geocoder = new kakao.maps.services.Geocoder();
 
       // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
@@ -91,8 +102,6 @@ export default {
       this.markers2 = []; // 마커를 담을 배열입니다
       this.currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
       // 지도에 idle 이벤트를 등록합니다
-      console.log(this.map);
-      //console.log(this.searchPlaces);
       kakao.maps.event.addListener(this.map, "idle", this.searchPlaces);
       // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
       this.contentNode.className = "placeinfo_wrap";
@@ -113,7 +122,232 @@ export default {
 
       // 각 카테고리에 클릭 이벤트를 등록합니다
       this.addCategoryClickEvent();
+
+      //원의반경계산하기
+      // 지도에 마우스 오른쪽 클릭이벤트를 등록합니다
+      // 원을 그리고있는 상태에서 마우스 오른쪽 클릭 이벤트가 발생하면
+      // 마우스 오른쪽 클릭한 위치를 기준으로 원과 원의 반경정보를 표시하는 선과 커스텀 오버레이를 표시하고 그리기를 종료합니다
+      kakao.maps.event.addListener(this.map, "rightclick", (mouseEvent) => {
+        if (this.drawingFlag) {
+          // 마우스로 오른쪽 클릭한 위치입니다
+          var rClickPosition = mouseEvent.latLng;
+
+          // 원의 반경을 표시할 선 객체를 생성합니다
+          var polyline = new kakao.maps.Polyline({
+            path: [this.centerPosition, rClickPosition], // 선을 구성하는 좌표 배열입니다. 원의 중심좌표와 클릭한 위치로 설정합니다
+            strokeWeight: 3, // 선의 두께 입니다
+            strokeColor: "#00a0e9", // 선의 색깔입니다
+            strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+            strokeStyle: "solid", // 선의 스타일입니다
+          });
+
+          // 원 객체를 생성합니다
+          var circle = new kakao.maps.Circle({
+            center: this.centerPosition, // 원의 중심좌표입니다
+            radius: polyline.getLength(), // 원의 반지름입니다 m 단위 이며 선 객체를 이용해서 얻어옵니다
+            strokeWeight: 1, // 선의 두께입니다
+            strokeColor: "#00a0e9", // 선의 색깔입니다
+            strokeOpacity: 0.1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+            strokeStyle: "solid", // 선의 스타일입니다
+            fillColor: "#00a0e9", // 채우기 색깔입니다
+            fillOpacity: 0.2, // 채우기 불투명도입니다
+          });
+
+          var radius = Math.round(circle.getRadius()), // 원의 반경 정보를 얻어옵니다
+            content = this.getTimeHTML(radius); // 커스텀 오버레이에 표시할 반경 정보입니다
+
+          // 반경정보를 표시할 커스텀 오버레이를 생성합니다
+          var radiusOverlay = new kakao.maps.CustomOverlay({
+            content: content, // 표시할 내용입니다
+            position: rClickPosition, // 표시할 위치입니다. 클릭한 위치로 설정합니다
+            xAnchor: 0,
+            yAnchor: 0,
+            zIndex: 1,
+          });
+
+          // 원을 지도에 표시합니다
+          circle.setMap(this.map);
+
+          // 선을 지도에 표시합니다
+          polyline.setMap(this.map);
+
+          // 반경 정보 커스텀 오버레이를 지도에 표시합니다
+          radiusOverlay.setMap(this.map);
+
+          // 배열에 담을 객체입니다. 원, 선, 커스텀오버레이 객체를 가지고 있습니다
+          var radiusObj = {
+            polyline: polyline,
+            circle: circle,
+            overlay: radiusOverlay,
+          };
+
+          // 배열에 추가합니다
+          // 이 배열을 이용해서 "모두 지우기" 버튼을 클릭했을 때 지도에 그려진 원, 선, 커스텀오버레이들을 지웁니다
+          this.circles.push(radiusObj);
+
+          // 그리기 상태를 그리고 있지 않는 상태로 바꿉니다
+          this.drawingFlag = false;
+
+          // 중심 좌표를 초기화 합니다
+          this.centerPosition = null;
+
+          // 그려지고 있는 원, 선, 커스텀오버레이를 지도에서 제거합니다
+          this.drawingCircle.setMap(null);
+          this.drawingLine.setMap(null);
+          this.drawingOverlay.setMap(null);
+        } else if (!this.drawingFlag) {
+          // 상태를 그리고있는 상태로 변경합니다
+          this.drawingFlag = true;
+
+          // 원이 그려질 중심좌표를 클릭한 위치로 설정합니다
+          this.centerPosition = mouseEvent.latLng;
+
+          // 그려지고 있는 원의 반경을 표시할 선 객체를 생성합니다
+          if (!this.drawingLine) {
+            this.drawingLine = new kakao.maps.Polyline({
+              strokeWeight: 3, // 선의 두께입니다
+              strokeColor: "#00a0e9", // 선의 색깔입니다
+              strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+              strokeStyle: "solid", // 선의 스타일입니다
+            });
+          }
+
+          // 그려지고 있는 원을 표시할 원 객체를 생성합니다
+          if (!this.drawingCircle) {
+            this.drawingCircle = new kakao.maps.Circle({
+              strokeWeight: 1, // 선의 두께입니다
+              strokeColor: "#00a0e9", // 선의 색깔입니다
+              strokeOpacity: 0.1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
+              strokeStyle: "solid", // 선의 스타일입니다
+              fillColor: "#00a0e9", // 채우기 색깔입니다
+              fillOpacity: 0.2, // 채우기 불투명도입니다
+            });
+          }
+
+          // 그려지고 있는 원의 반경 정보를 표시할 커스텀오버레이를 생성합니다
+          if (!this.drawingOverlay) {
+            this.drawingOverlay = new kakao.maps.CustomOverlay({
+              xAnchor: 0,
+              yAnchor: 0,
+              zIndex: 1,
+            });
+          }
+        }
+      });
+      // 지도에 마우스무브 이벤트를 등록합니다
+      // 원을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 원의 위치와 반경정보를 동적으로 보여주도록 합니다
+      kakao.maps.event.addListener(this.map, "mousemove", (mouseEvent) => {
+        // 마우스무브 이벤트가 발생했을 때 원을 그리고있는 상태이면
+        if (this.drawingFlag) {
+          // 마우스 커서의 현재 위치를 얻어옵니다
+          var mousePosition = mouseEvent.latLng;
+
+          // 그려지고 있는 선을 표시할 좌표 배열입니다. 클릭한 중심좌표와 마우스커서의 위치로 설정합니다
+          var linePath = [this.centerPosition, mousePosition];
+
+          // 그려지고 있는 선을 표시할 선 객체에 좌표 배열을 설정합니다
+          this.drawingLine.setPath(linePath);
+
+          // 원의 반지름을 선 객체를 이용해서 얻어옵니다
+          var length = this.drawingLine.getLength();
+
+          if (length > 0) {
+            // 그려지고 있는 원의 중심좌표와 반지름입니다
+            var circleOptions = {
+              center: this.centerPosition,
+              radius: length,
+            };
+
+            // 그려지고 있는 원의 옵션을 설정합니다
+            this.drawingCircle.setOptions(circleOptions);
+
+            // 반경 정보를 표시할 커스텀오버레이의 내용입니다
+            var radius = Math.round(this.drawingCircle.getRadius()),
+              content =
+                '<div class="info">반경 <span class="number">' +
+                radius +
+                "</span>m</div>";
+
+            // 반경 정보를 표시할 커스텀 오버레이의 좌표를 마우스커서 위치로 설정합니다
+            this.drawingOverlay.setPosition(mousePosition);
+
+            // 반경 정보를 표시할 커스텀 오버레이의 표시할 내용을 설정합니다
+            this.drawingOverlay.setContent(content);
+
+            // 그려지고 있는 원을 지도에 표시합니다
+            this.drawingCircle.setMap(this.map);
+
+            // 그려지고 있는 선을 지도에 표시합니다
+            this.drawingLine.setMap(this.map);
+
+            // 그려지고 있는 원의 반경정보 커스텀 오버레이를 지도에 표시합니다
+            this.drawingOverlay.setMap(this.map);
+          } else {
+            this.drawingCircle.setMap(null);
+            this.drawingLine.setMap(null);
+            this.drawingOverlay.setMap(null);
+          }
+        }
+      });
     },
+    removeCircles() {
+      for (var i = 0; i < this.circles.length; i++) {
+        this.circles[i].circle.setMap(null);
+        this.circles[i].polyline.setMap(null);
+        this.circles[i].overlay.setMap(null);
+      }
+      this.circles = [];
+    },
+    // 마우스 우클릭 하여 원 그리기가 종료됐을 때 호출하여
+    // 그려진 원의 반경 정보와 반경에 대한 도보, 자전거 시간을 계산하여
+    // HTML Content를 만들어 리턴하는 함수입니다
+    getTimeHTML(distance) {
+      // 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
+      var walkkTime = (distance / 67) | 0;
+      var walkHour = "",
+        walkMin = "";
+
+      // 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
+      if (walkkTime > 60) {
+        walkHour =
+          '<span class="number">' + Math.floor(walkkTime / 60) + "</span>시간 ";
+      }
+      walkMin = '<span class="number">' + (walkkTime % 60) + "</span>분";
+
+      // 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
+      var bycicleTime = (distance / 227) | 0;
+      var bycicleHour = "",
+        bycicleMin = "";
+
+      // 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
+      if (bycicleTime > 60) {
+        bycicleHour =
+          '<span class="number">' +
+          Math.floor(bycicleTime / 60) +
+          "</span>시간 ";
+      }
+      bycicleMin = '<span class="number">' + (bycicleTime % 60) + "</span>분";
+
+      // 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
+      var content = '<ul class="info">';
+      content += "    <li>";
+      content +=
+        '        <span class="label">총거리</span><span class="number">' +
+        distance +
+        "</span>m";
+      content += "    </li>";
+      content += "    <li>";
+      content += '        <span class="label">도보</span>' + walkHour + walkMin;
+      content += "    </li>";
+      content += "    <li>";
+      content +=
+        '        <span class="label">자전거</span>' + bycicleHour + bycicleMin;
+      content += "    </li>";
+      content += "</ul>";
+
+      return content;
+    },
+    //원의 반경 구하기 끝
     addScript() {
       const script = document.createElement("script");
       script.onload = () => kakao.maps.load(this.initMap);
@@ -123,19 +357,13 @@ export default {
     },
     async displayMarkers(places) {
       let listEl = document.getElementById("placeslist");
-      console.log("asdas" + listEl);
       this.removeAllChildNods(listEl);
-      // while (listEl.hasChildNodes()) {
-      //   listEl.removeChild(listEl.lastChild);
-      // }
       let fragment = document.createDocumentFragment();
       let bounds = new kakao.maps.LatLngBounds();
       // 지도에 표시되고 있는 마커를 제거합니다
-      // this.removeMarker();
 
       for (var i = 0; i < this.markers.length; i++) {
         this.markers[i].setMap(null);
-        console.log("dd");
         this.removeInfowindow();
       }
       this.markers = [];
@@ -160,21 +388,7 @@ export default {
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
                 this.result[1] = result[0].x;
                 this.result[0] = result[0].y;
-                // 결과값으로 받은 위치를 마커로 표시합니다
-                // var marker = new kakao.maps.Marker({
-                //   map: this.map,
-                //   position: coords,
-                // });
-                // marker.setMap(this.map);
-                // 인포윈도우로 장소에 대한 설명을 표시합니다
-                // var infowindow = new kakao.maps.InfoWindow({
-                //   content:
-                //     '<div style="width:150px;text-align:center;padding:6px 0;">' +
-                //     place.아파트 +
-                //     "</div>",
-                // });
-                // infowindow.open(this.map, marker);
-                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+
                 this.map.setCenter(coords);
                 resolve("success");
               }
@@ -186,8 +400,6 @@ export default {
           try {
             const result = await addressSearch(address);
             if (result) {
-              console.log("뙜다!");
-
               var position = new kakao.maps.LatLng(
                 this.result[0],
                 this.result[1]
@@ -201,7 +413,6 @@ export default {
 
               this.positions.push(p);
 
-              console.log(position);
               //마커 생성하고 지도에 표시.
               var marker = this.addMarker(position, index);
               // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -239,8 +450,6 @@ export default {
         })();
       });
 
-      // map.js에서는 이부분에 마커를 생성하고 지도에 표시합니다. 라는 주석이 있는데 코드는 없음..
-
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     },
     //마커 생성하고 지도 위에 마커를 표시
@@ -266,7 +475,6 @@ export default {
       marker.setMap(this.map); // 지도 위에 마커를 표출합니다
       this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
-      console.log(this.markers);
       return marker;
     },
     removeMarker() {
@@ -301,14 +509,12 @@ export default {
         " " +
         `</h5> </tr>
           `;
-      // let itemStr = `<span > hi </span>`;
       el.innerHTML = itemStr;
       el.className = "item";
 
       return el;
     },
     displayInfowindow(marker, title, place) {
-      console.log("displayInfoWindow called");
       var content =
         `
 		<div class="overlaybox">
@@ -317,28 +523,35 @@ export default {
         `</div>
 			<ul>
 				<li class="up">
-					<span class="title">건축년도</span>
+					<span class="title"> 건축년도 </span>
 					<span class="count"> ` +
         place.건축년도 +
         `</span>
 				</li>
 				<li>
-					<span class="title">주소</span>
+					<span class="title"> 주소 </span>
 					<span class="count"> ` +
         this.sidoName +
+        " " +
         this.gugunName +
+        " " +
         this.dongName +
+        " " +
         place.지번 +
         `</span>
 				</li>
 				<li>
-					<span class="title">최신거래금액</span>
+					<span class="title"> 최신거래금액 </span>
 					<span class="count"> ` +
         place.거래금액 +
         `</span>
 				</li>
 				<li>
-					<span class="last" id="recenthistor" data-toggle="modal" data-target="#myModal">아파트정보 update</span>
+        <span class="title"> 전용면적 </span>
+					<span class="count"> ` +
+        Math.round(place.전용면적 / 3.3) +
+        " 평 " +
+        `</span>
 				</li>
 			</ul>
 		</div>
@@ -351,19 +564,16 @@ export default {
         position: position,
         content: content,
         xAnchor: 0.3,
-        yAnchor: 0.91,
+        yAnchor: 0.41,
       });
 
       this.customOverlays[this.overlayIdx] = customOverlay;
       this.customOverlays[this.overlayIdx++].setMap(this.map);
-      console.log("인덱스 증가 : " + this.overlayIdx);
     },
     removeInfowindow() {
-      console.log("Remove");
       if (this.overlayIdx > 0) {
         this.customOverlays[--this.overlayIdx].setMap(null);
       }
-      console.log("인덱스 감소 : " + this.overlayIdx);
     },
     removeAllChildNods(el) {
       while (el.hasChildNodes()) {
@@ -409,6 +619,7 @@ export default {
     displayPlaces(places) {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
+
       var order = document
         .getElementById(this.currCategory)
         .getAttribute("data-order");
@@ -451,8 +662,6 @@ export default {
 
       marker.setMap(this.map); // 지도 위에 마커를 표출합니다
       this.markers2.push(marker); // 배열에 생성된 마커를 추가합니다
-      //console.log(marker);
-      //console.log(markers2);
       return marker;
     },
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
@@ -464,8 +673,6 @@ export default {
     },
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
     displayPlaceInfo(place) {
-      console.log("display");
-      console.log(place.place_name);
       var content =
         '<div class="placeinfo">' +
         '   <a class="title" href="' +
@@ -512,26 +719,29 @@ export default {
     addCategoryClickEvent() {
       var category = document.getElementById("category"),
         children = category.children;
-      // console.log(children[0]);
       for (var i = 0; i < children.length; i++) {
-        children[i].onclick = this.onClickCategory(children[i]);
+        ((children) => {
+          children.addEventListener("click", () => {
+            this.onClickCategory(children);
+          });
+        })(children[i]);
       }
     },
 
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     onClickCategory(el) {
-      var id = el.id,
-        className = el.className;
+      var id = el.id;
+      var className = el.className;
 
       this.placeOverlay.setMap(null);
 
       if (className === "on") {
         this.currCategory = "";
         this.changeCategoryClass();
-        this.removeMarker();
+        this.removeMarker2();
       } else {
         this.currCategory = id;
-        this.changeCategoryClass(this);
+        this.changeCategoryClass(el);
         this.searchPlaces();
       }
     },
@@ -553,136 +763,30 @@ export default {
 };
 </script>
 
-<style scoped>
-.overlaybox {
+<style>
+.info {
   position: relative;
-  width: 360px;
-  height: 350px;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png")
-    no-repeat;
-  padding: 15px 10px;
-}
-.overlaybox div,
-ul {
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
-.overlaybox li {
-  list-style: none;
-}
-.overlaybox .boxtitle {
-  color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  background: no-repeat right 120px center;
-  margin-bottom: 8px;
-}
-.overlaybox .first {
-  position: relative;
-  width: 247px;
-  height: 136px;
-
-  margin-bottom: 8px;
-}
-.first .text {
-  color: #fff;
-  font-weight: bold;
-}
-.first .triangle {
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  top: 0;
-  left: 0;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/triangle.png")
-    no-repeat;
-  padding: 6px;
-  font-size: 18px;
-}
-.first .movietitle {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 7px 15px;
-  font-size: 14px;
-}
-.overlaybox ul {
-  width: 247px;
-}
-.overlaybox li {
-  position: relative;
-  margin-bottom: 2px;
-  background: #2b2d36;
-  padding: 5px 10px;
-  color: #aaabaf;
-  line-height: 1;
-}
-.placeinfo_wrap {
-  position: absolute;
-  bottom: 28px;
-  left: -150px;
-  width: 300px;
-}
-.placeinfo {
-  position: relative;
-  width: 100%;
+  top: 5px;
+  left: 5px;
   border-radius: 6px;
   border: 1px solid #ccc;
   border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
+  font-size: 12px;
+  padding: 5px;
   background: #fff;
+  list-style: none;
+  margin: 0;
 }
-.placeinfo:nth-of-type(n) {
+.info:nth-of-type(n) {
   border: 0;
   box-shadow: 0px 1px 2px #888;
 }
-.placeinfo_wrap .after {
-  content: "";
-  position: relative;
-  margin-left: -12px;
-  left: 50%;
-  width: 22px;
-  height: 12px;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+.info .label {
+  display: inline-block;
+  width: 50px;
 }
-.placeinfo a,
-.placeinfo a:hover,
-.placeinfo a:active {
-  color: #fff;
-  text-decoration: none;
-}
-.placeinfo a,
-.placeinfo span {
-  display: block;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-.placeinfo span {
-  margin: 5px 5px 0 5px;
-  cursor: default;
-  font-size: 13px;
-}
-.placeinfo .title {
+.number {
   font-weight: bold;
-  font-size: 14px;
-  border-radius: 6px 6px 0 0;
-  margin: -1px -1px 0 -1px;
-  padding: 10px;
-  color: #fff;
-  background: #d95050;
-  background: #d95050
-    url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
-    no-repeat right 14px center;
-}
-.placeinfo .tel {
-  color: #0f7833;
-}
-.placeinfo .jibun {
-  color: #999;
-  font-size: 11px;
-  margin-top: 0;
+  color: #00a0e9;
 }
 </style>

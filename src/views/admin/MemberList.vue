@@ -1,31 +1,23 @@
 <template>
   <!-- -->
   <div class="col-lg-12 mx-auto">
-    <h2 class="p-3 mb-3 shadow bg-light">
-      <mark class="pink">회원목록</mark>
-    </h2>
-    <div class="mb-3 text-right">
-      <button
-        type="button"
-        class="modiBtn btn btn-outline-info"
-        data-toggle="modal"
-        data-target="#userRegModal"
-      >
-        등록
-      </button>
-    </div>
     <div class="p-3 mb-3 text-left">
       <form id="searchform" action="">
         검색 :
-        <select id="select">
+        <select id="select" v-model="value">
           <option value="0">선택</option>
           <option value="1">이름</option>
           <option value="2">아이디</option>
         </select>
 
-        <input type="text" id="keyword" />
+        <input type="text" id="keyword" v-model="keyword" />
 
-        <button type="button" id="searchBtn" class="btn btn-outline-primary">
+        <button
+          type="button"
+          id="searchBtn"
+          class="btn btn-outline-primary"
+          @click="searchUser"
+        >
           검색
         </button>
       </form>
@@ -41,29 +33,11 @@
 </template>
 
 <script>
-// import BasicElements from "./components/BasicElementsSection";
-// import Navigation from "./components/NavigationSection";
-// import SmallNavigation from "./components/SmallNavigationSection";
-// import Tabs from "./components/TabsSection";
-// import NavPills from "./components/NavPillsSection";
-// import Notifications from "./components/NotificationsSection";
-// import TypographyImages from "./components/TypographyImagesSection";
-// import JavascriptComponents from "./components/JavascriptComponentsSection";
-// import { LoginCard } from "@/components";
 import { listMember } from "@/api/member.js";
 import PaginatedList from "@/views/admin/child/PaginatedList";
-
+import http from "@/util/http-common";
 export default {
   components: {
-    // BasicElements,
-    // Navigation,
-    // SmallNavigation,
-    // Tabs,
-    // NavPills,
-    // Notifications,
-    // TypographyImages,
-    // JavascriptComponents,
-    // LoginCard,
     PaginatedList,
   },
   name: "adminlist",
@@ -104,11 +78,13 @@ export default {
   },
   data() {
     return {
+      value: "0",
       firstname: null,
       email: null,
       password: null,
       leafShow: false,
       members: [],
+      keyword: null,
     };
   },
   methods: {
@@ -118,6 +94,12 @@ export default {
       } else {
         this.leafShow = true;
       }
+    },
+    searchUser() {
+      let params = { select: this.value, keyword: this.keyword };
+      http.get(`/admin/search`, { params }).then(({ data }) => {
+        this.members = data;
+      });
     },
   },
   created() {
@@ -138,7 +120,6 @@ export default {
     );
   },
   computed: {
-    // ...mapState(memberStore, ["isLogin", "userInfo"]),
     headerStyle() {
       return {
         backgroundImage: `url(${this.image})`,

@@ -74,11 +74,7 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
     ]),
-    // sidoList() {
-    //   this.getSido();
-    // },
     gugunList() {
-      // console.log(this.sidoCode);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);

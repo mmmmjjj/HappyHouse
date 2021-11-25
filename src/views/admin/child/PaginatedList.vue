@@ -1,7 +1,16 @@
 <template>
   <div>
-    <b-table-simple hover responsive>
-      <b-thead head-variant="dark">
+    <b-table-simple hover responsive style=" text-align: center;">
+      <colgroup>
+        <col style="width:10%;" />
+        <col style="width:15%;" />
+        <col style="width:20%;" />
+        <col style="width:10%;" />
+        <col style="width:10%;" />
+        <col style="width:15%;" />
+        <col style="width:20%;" />
+      </colgroup>
+      <b-thead>
         <b-tr>
           <b-th>아이디</b-th>
           <b-th>이름</b-th>
@@ -20,28 +29,40 @@
         <b-td>{{ p.region }}</b-td>
         <b-td>{{ p.delflag ? "O" : "X" }}</b-td>
         <b-td
-          ><b-button type="button" id="searchBtn">
+          ><md-button
+            class="md-info md-round md-sm"
+            id="searchBtn"
+            @click="update(p)"
+          >
             수정
-          </b-button>
-          <b-button variant="outline-primary" @click="delUser(p.userid)">
+          </md-button>
+          <md-button
+            class="md-simple md-round md-sm"
+            variant="outline-primary"
+            @click="delUser(p.userid)"
+          >
             삭제
-          </b-button></b-td
+          </md-button></b-td
         >
         <b-td></b-td>
       </b-tr>
     </b-table-simple>
     <div class="btn-cover">
-      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-        이전
-      </button>
+      <md-button
+        variant="outline-primary"
+        class="md-default md-round md-sm"
+        :disabled="pageNum === 0"
+        @click="prevPage"
+        >이전</md-button
+      >
       <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-      <button
+      <md-button
+        variant="outline-primary"
+        class="md-default md-round md-sm"
         :disabled="pageNum >= pageCount - 1"
         @click="nextPage"
-        class="page-btn"
+        >다음</md-button
       >
-        다음
-      </button>
     </div>
   </div>
 </template>
@@ -92,6 +113,12 @@ export default {
     },
     moveList() {
       this.$router.go(this.$router.currentRoute);
+    },
+    update(person) {
+      this.$router.push({
+        name: "adminmodify",
+        params: { user: person },
+      });
     },
   },
   computed: {

@@ -30,8 +30,7 @@ import MemberMyPage from "@/views/user/MemberMyPage.vue";
 
 import Admin from "@/views/Admin.vue";
 import AdminList from "@/views/admin/MemberList.vue";
-
-import AptApi from "@/views/api/AptApi.vue";
+import adminmodify from "@/views/admin/adminmodify.vue";
 
 import KakaoApi from "@/views/kakao/KakaoApi.vue";
 
@@ -42,7 +41,6 @@ import store from "@/store/index.js";
 Vue.use(VueRouter);
 
 const onlyAuthUser = async (to, from, next) => {
-  // console.log(store);
   const checkUserInfo = store.getters["memberStore/checkUserInfo"];
   const getUserInfo = store._actions["memberStore/getUserInfo"];
   let token = sessionStorage.getItem("access-token");
@@ -51,16 +49,13 @@ const onlyAuthUser = async (to, from, next) => {
   }
   if (checkUserInfo === null) {
     alert("로그인이 필요한 페이지입니다..");
-    // next({ name: "SignIn" });
     router.push({ name: "loginpage" });
   } else {
-    // console.log("로그인 했다.");
     next();
   }
 };
 
 const onlyAdmin = async (to, from, next) => {
-  // console.log(store);
   const checkUserInfo = store.getters["memberStore/checkUserInfo"];
   const getUserInfo = store._actions["memberStore/getUserInfo"];
   let token = sessionStorage.getItem("access-token");
@@ -69,8 +64,6 @@ const onlyAdmin = async (to, from, next) => {
   }
   if (checkUserInfo === null || checkUserInfo.admin == 0) {
     alert("관리자만 접근 가능한 페이지입니다..");
-    // next({ name: "SignIn" });
-    console.log("go");
     router.push({ name: "Home" });
   } else {
     next();
@@ -182,16 +175,12 @@ const router = new VueRouter({
           name: "AdminList",
           component: AdminList,
         },
+        {
+          path: "adminmodify",
+          name: "adminmodify",
+          component: adminmodify,
+        },
       ],
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
-      },
-    },
-    {
-      path: "/qnalist",
-      name: "qnalist",
-      components: { default: QnaList, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
@@ -296,15 +285,6 @@ const router = new VueRouter({
       path: "/landing",
       name: "landing",
       components: { default: Landing, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
-      },
-    },
-    {
-      path: "/aptapi",
-      name: "aptapi",
-      components: { default: AptApi, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },

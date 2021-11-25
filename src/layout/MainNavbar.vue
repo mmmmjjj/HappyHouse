@@ -8,7 +8,13 @@
   >
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
-        <h1 class="md-title" @click="moveToHome">Happy house</h1>
+        <img
+          src="@/assets/logo2.png"
+          @click="moveToHome"
+          width="150px"
+          height="150px"
+        />
+        <!-- <h1 class="md-title" @click="moveToHome">Happy house</h1> -->
       </div>
       <div class="md-toolbar-section-end">
         <md-button
@@ -77,39 +83,29 @@
                   <div class="md-list-item-content">
                     <drop-down direction="down">
                       <md-button
+                        id="a"
                         slot="title"
-                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        class="md-button md-button-link md-info md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
                         <md-icon>home_work</md-icon>
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-header">Dropdown header</li>
+                        <li class="dropdown-header">apartment info</li>
                         <li>
                           <a class="dropdown-item" @click="goToAptList"
                             >아파트정보</a
                           >
                         </li>
                         <li>
-                          <a class="dropdown-item" @click="goToAptApi"
-                            >아파트 API</a
-                          >
-                        </li>
-                        <li>
                           <a class="dropdown-item" @click="goToKakaoMap"
-                            >카카오맵</a
+                            >아파트맵</a
                           >
                         </li>
                         <li class="dropdown-divider"></li>
                         <li>
                           <a class="dropdown-item" @click="moveToApi"
-                            >Separated link</a
-                          >
-                        </li>
-                        <li class="dropdown-divider"></li>
-                        <li>
-                          <a href="#pablo" class="dropdown-item"
-                            >One more separated link</a
+                            >슬세권찾기</a
                           >
                         </li>
                       </ul>
@@ -208,7 +204,7 @@
                     <drop-down direction="down">
                       <md-button
                         slot="title"
-                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        class="md-button md-button-link md-info md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
                         <md-icon>face</md-icon>
@@ -241,7 +237,7 @@
                     <drop-down direction="down">
                       <md-button
                         slot="title"
-                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        class="md-button md-button-link md-info md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
                         <md-icon>face</md-icon>
@@ -384,13 +380,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(memberStore, ["getUserInfo"]),
+    ...mapActions(memberStore, ["getUserInfo", "logout"]),
     ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     moveToLogin() {
       this.$router.push({ name: "loginpage" });
-    },
-    goToAptApi() {
-      this.$router.push({ name: "aptapi" });
     },
     goToKakaoMap() {
       this.$router.push({ name: "kakaoapi" });
@@ -464,9 +457,7 @@ export default {
       }
     },
     onClickLogout() {
-      this.SET_IS_LOGIN(false);
-      this.SET_USER_INFO(null);
-      sessionStorage.removeItem("access-token");
+      this.logout();
       if (this.$route.path != "/") this.$router.push({ name: "index" });
       location.reload();
     },
@@ -483,3 +474,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+a:hover {
+  background-color: gold;
+}
+</style>

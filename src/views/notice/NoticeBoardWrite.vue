@@ -4,13 +4,8 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>공지사항글쓰기</h3>
+              <img src="@/assets/notice.png" width="300px" height="300px" />
             </div>
           </div>
         </div>
@@ -19,17 +14,9 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <div class="title">
-            <h2>Basic Elements</h2>
-          </div>
           <basic-elements></basic-elements>
         </div>
         <b-container class="bv-example-row mt-3">
-          <b-row>
-            <b-col>
-              <b-alert show><h3>글작성</h3></b-alert>
-            </b-col>
-          </b-row>
           <notice-board-write-form type="register" />
         </b-container>
       </div>

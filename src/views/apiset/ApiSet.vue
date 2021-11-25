@@ -4,13 +4,8 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>KAKAO API</h3>
+              <img src="@/assets/seul.png" width="300px" height="300px" />
             </div>
           </div>
         </div>
@@ -18,17 +13,44 @@
     </parallax>
     <div class="main main-raised">
       <div class="section section-basic">
-        <div class="container">
-          <div class="title">
-            <h2>Basic Elements</h2>
-          </div>
-          <basic-elements></basic-elements>
-        </div>
         <!-- -->
-        <b-container class="bv-example-row mt-3 text-center">
-          <h3 class="underline-orange">
-            <b-icon icon="house-fill"></b-icon> House Service
-          </h3>
+        <b-container class="bv-example-row mt-3">
+          <b-row>
+            <b-col>
+              <div class="md-layout-item md-size-50 md-small-size-100 ">
+                <tabs
+                  :tab-name="['설명', '사용법', '유의사항']"
+                  :tab-icon="['dashboard', 'list', 'schedule']"
+                  plain
+                  nav-pills-icons
+                  color-button="info"
+                >
+                  <!-- here you can add your content for tab-content -->
+                  <template slot="tab-pane-1">
+                    국토교통부 아파트매매 실거래 상세 자료 api와<br />
+                    카카오맵 api를 결합하여<br />
+                    사용자가 알고싶은 동네의 슬세권을 확인할 수 있는
+                    서비스입니다.<br />
+                    <br />
+                  </template>
+                  <template slot="tab-pane-2">
+                    1. 원하시는 시, 군구, 동을 선택한 후, 검색 버튼을
+                    누릅니다.<br />
+                    2. 좌측 상단의 리스트에서 원하는 카테고리를 선택합니다.<br />
+                    3. 우클릭을 활용하여 반경구하기를 시작하고,<br />
+                    다시 우클릭으로 반경구하기를 종료합니다.(좌측 하단의
+                    지우기로 원 지우기)<br />
+                  </template>
+                  <template slot="tab-pane-3">
+                    1. 원하시는 시, 군구, 동에 아파트 정보가 없을 시<br />지도에
+                    마커가 찍히지 않습니다.<br />
+                    <br />
+                    <br />
+                  </template>
+                </tabs>
+              </div>
+            </b-col>
+          </b-row>
           <b-row class="mt-4 mb-4 text-center">
             <b-col class="sm-3">
               <b-form-select
@@ -85,9 +107,9 @@
                 <span class="category_bg pharmacy"></span>
                 약국
               </li>
-              <li id="OL7" data-order="3">
+              <li id="PK6" data-order="3">
                 <span class="category_bg oil"></span>
-                주유소
+                주차장
               </li>
               <li id="CE7" data-order="4">
                 <span class="category_bg cafe"></span>
@@ -131,6 +153,7 @@
 //import HouseDetail from "@/views/apt/HouseDetail.vue";
 import { mapState, mapActions, mapMutations } from "vuex";
 import HouseMap from "@/views/apiset/child/ApiSetMap.vue";
+import { Tabs } from "@/components";
 const houseStore = "houseStore";
 export default {
   data() {
@@ -148,6 +171,7 @@ export default {
     //HouseList,
     //HouseDetail,
     HouseMap,
+    Tabs,
   },
   name: "apiset",
   bodyClass: "index-page",
@@ -205,32 +229,26 @@ export default {
       "CLEAR_DONG_LIST",
     ]),
     gugunList() {
-      console.log("시 선택 했따 ~ sidocode=" + this.sidoCode);
       this.sidos.forEach((sido) => {
         if (this.sidoCode == sido.value) {
           this.sidoName = sido.text;
         }
       });
-      console.log(this.sidoName);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      console.log("군 선택 했다~~ guguncode=" + this.gugunCode);
       this.guguns.forEach((gugun) => {
         if (this.gugunCode == gugun.value) {
           this.gugunName = gugun.text;
         }
       });
-      console.log(this.gugunName);
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
     searchApt() {
-      console.log("dongname=" + this.dongName);
-      console.log("guguncode " + this.gugunCode);
       if (this.dongName) this.getHouseList(this.gugunCode);
     },
     sendKeyword() {
@@ -244,8 +262,6 @@ export default {
         }
         index -= 1;
       }
-
-      console.log(this.newArray);
     },
   },
   computed: {
@@ -274,7 +290,7 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .section-download {
   .md-button + .md-button {
     margin-left: 5px;
@@ -302,7 +318,7 @@ export default {
 .map_wrap {
   position: relative;
   width: 100%;
-  height: 350px;
+  height: 600px;
 }
 #category {
   position: absolute;
@@ -366,5 +382,141 @@ export default {
 }
 #category li.on .category_bg {
   background-position-x: -46px;
+}
+.overlaybox {
+  position: relative;
+  width: 360px;
+  height: 350px;
+  background: url("https://user-images.githubusercontent.com/67090601/143394235-bb0b1743-5f9d-44ab-ab4e-18e2fff9e9ac.png")
+    no-repeat;
+  padding: 15px 10px;
+}
+.overlaybox div,
+ul {
+  margin: 0;
+  padding: 0;
+}
+.overlaybox li {
+  list-style: none;
+}
+.overlaybox .boxtitle {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  background: no-repeat right 120px center;
+  margin-bottom: 8px;
+}
+.overlaybox .first {
+  position: relative;
+  width: 247px;
+  height: 136px;
+
+  margin-bottom: 8px;
+}
+.first .text {
+  color: #fff;
+  font-weight: bold;
+}
+.first .triangle {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  top: 0;
+  left: 0;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/triangle.png")
+    no-repeat;
+  padding: 6px;
+  font-size: 18px;
+}
+.first .movietitle {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 7px 15px;
+  font-size: 14px;
+}
+.overlaybox ul {
+  width: 247px;
+}
+.overlaybox li {
+  position: relative;
+  margin-bottom: 2px;
+  background: #2b2d36;
+  padding: 5px 10px;
+  color: #fff;
+  line-height: 1;
+}
+.placeinfo {
+  position: relative;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  background: #fff;
+}
+.placeinfo_wrap {
+  position: absolute;
+  bottom: 28px;
+  left: -150px;
+  width: 300px;
+}
+.placeinfo:nth-of-type(n) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+.placeinfo_wrap .after {
+  content: "";
+  position: relative;
+  margin-left: -12px;
+  left: 50%;
+  width: 22px;
+  height: 12px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+}
+.placeinfo a,
+.placeinfo a:hover,
+.placeinfo a:active {
+  color: #fff;
+  text-decoration: none;
+}
+.placeinfo a,
+.placeinfo span {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.placeinfo span {
+  margin: 5px 5px 0 5px;
+  cursor: default;
+  font-size: 13px;
+}
+.placeinfo .title {
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 6px 6px 0 0;
+  margin: -1px -1px 0 -1px;
+  padding: 10px;
+  color: #fff;
+  background: #d95050;
+  background: #d95050
+    url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
+    no-repeat right 14px center;
+}
+.placeinfo .tel {
+  color: #0f7833;
+}
+.placeinfo .jibun {
+  color: #999;
+  font-size: 11px;
+  margin-top: 0;
+}
+.placeinfo_wrap {
+  position: absolute;
+  bottom: 28px;
+  left: -150px;
+  width: 300px;
 }
 </style>

@@ -4,13 +4,8 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>아파트API</h3>
+              <img src="@/assets/aptmap.png" width="300px" height="300px" />
             </div>
           </div>
         </div>
@@ -18,62 +13,89 @@
     </parallax>
     <div class="main main-raised">
       <div class="section section-basic">
-        <div class="container">
-          <div class="title">
-            <h2>Basic Elements</h2>
-          </div>
-          <basic-elements></basic-elements>
-        </div>
-        <!-- -->
-        <b-container class="bv-example-row mt-3 text-center">
-          <h3 class="underline-orange">
-            <b-icon icon="house-fill"></b-icon> House Service
-          </h3>
-          <b-row class="mt-4 mb-4 text-center">
-            <b-col class="sm-3">
-              <b-form-select
-                v-model="sidoCode"
-                :options="sidos"
-                @change="gugunList"
-              ></b-form-select>
-            </b-col>
-            <b-col class="sm-3">
-              <b-form-select
-                v-model="gugunCode"
-                :options="guguns"
-                @change="dongList"
-              ></b-form-select>
-            </b-col>
-            <b-col class="sm-3">
-              <!-- <b-form-input
+        <div class="md-layout">
+          <!-- -->
+          <b-container class="bv-example-row mt-3">
+            <b-row>
+              <b-col>
+                <div class="md-layout-item md-size-50 md-small-size-100 ">
+                  <tabs
+                    :tab-name="['설명', '사용법', '유의사항']"
+                    :tab-icon="['dashboard', 'list', 'schedule']"
+                    plain
+                    nav-pills-icons
+                    color-button="info"
+                  >
+                    <!-- here you can add your content for tab-content -->
+                    <template slot="tab-pane-1">
+                      국토교통부 아파트매매 실거래 상세 자료 api와<br />
+                      카카오맵 api를 결합하여<br />
+                      사용자가 알고싶은 동네에 거래된 아파트 정보와<br />
+                      위치를 제공하는 서비스입니다.
+                    </template>
+                    <template slot="tab-pane-2">
+                      1. 원하시는 시, 군구, 동을 선택한 후, 검색 버튼을
+                      누릅니다.<br />
+                      2. 좌측 및 지도에 나타나는 정보를 확인하세요.<br />
+                      3. 좌측 리스트에서 원하시는 아파트에 커서를 올리거나,<br />
+                      지도의 커서를 클릭하여 아파트의 정보를 확인하세요.<br />
+                    </template>
+                    <template slot="tab-pane-3">
+                      1. 원하시는 시, 군구, 동에 아파트 정보가 없을 시<br />지도에
+                      마커가 찍히지 않습니다.<br />
+                      <br />
+                      <br />
+                    </template>
+                  </tabs>
+                </div>
+              </b-col>
+            </b-row>
+            <b-row class="mt-4 mb-4 text-center">
+              <b-col class="sm-3">
+                <b-form-select
+                  v-model="sidoCode"
+                  :options="sidos"
+                  @change="gugunList"
+                ></b-form-select>
+              </b-col>
+              <b-col class="sm-3">
+                <b-form-select
+                  v-model="gugunCode"
+                  :options="guguns"
+                  @change="dongList"
+                ></b-form-select>
+              </b-col>
+              <b-col class="sm-3">
+                <!-- <b-form-input
                 v-model.trim="dongCode"
                 placeholder="동코드 입력...(예 : 11110)"
                 @keypress.enter="sendKeyword"
               ></b-form-input> -->
-              <b-form-select
-                v-model.trim="dongName"
-                :options="dongs"
-                @change="searchApt"
-              ></b-form-select>
-            </b-col>
-            <b-col class="sm-3" align="left">
-              <b-button variant="outline-primary" @click="sendKeyword"
-                >검색</b-button
-              >
-            </b-col>
-          </b-row>
-          <b-row>
-            <house-map
-              id="map"
-              class="map"
-              :places="newArray"
-              :sido-name="sidoName"
-              :gugun-name="gugunName"
-              :dong-name="dongName"
-            ></house-map>
-          </b-row>
-        </b-container>
-        <!-- -->
+                <b-form-select
+                  v-model.trim="dongName"
+                  :options="dongs"
+                  @change="searchApt"
+                ></b-form-select>
+              </b-col>
+              <b-col class="sm-3" align="left">
+                <b-button variant="outline-primary" @click="sendKeyword"
+                  >검색</b-button
+                >
+              </b-col>
+            </b-row>
+            <b-row>
+              <house-map
+                id="map"
+                class="map"
+                :places="newArray"
+                :sido-name="sidoName"
+                :gugun-name="gugunName"
+                :dong-name="dongName"
+              ></house-map>
+            </b-row>
+          </b-container>
+          <!-- -->
+        </div>
       </div>
 
       <div class="section">
@@ -105,6 +127,7 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import HouseMap from "@/views/kakao/child/HouseMap.vue";
 const houseStore = "houseStore";
+import { Tabs } from "@/components";
 export default {
   data() {
     return {
@@ -121,6 +144,7 @@ export default {
     //HouseList,
     //HouseDetail,
     HouseMap,
+    Tabs,
   },
   name: "kakaoapi",
   bodyClass: "index-page",
@@ -128,22 +152,6 @@ export default {
     image: {
       type: String,
       default: require("@/assets/img/vue-mk-header.jpg"),
-    },
-    leaf4: {
-      type: String,
-      default: require("@/assets/img/leaf4.png"),
-    },
-    leaf3: {
-      type: String,
-      default: require("@/assets/img/leaf3.png"),
-    },
-    leaf2: {
-      type: String,
-      default: require("@/assets/img/leaf2.png"),
-    },
-    leaf1: {
-      type: String,
-      default: require("@/assets/img/leaf1.png"),
     },
     signup: {
       type: String,
@@ -159,13 +167,6 @@ export default {
     },
   },
   methods: {
-    leafActive() {
-      if (window.innerWidth < 768) {
-        this.leafShow = false;
-      } else {
-        this.leafShow = true;
-      }
-    },
     ...mapActions(houseStore, [
       "getSido",
       "getGugun",
@@ -178,32 +179,26 @@ export default {
       "CLEAR_DONG_LIST",
     ]),
     gugunList() {
-      console.log("시 선택 했따 ~ sidocode=" + this.sidoCode);
       this.sidos.forEach((sido) => {
         if (this.sidoCode == sido.value) {
           this.sidoName = sido.text;
         }
       });
-      console.log(this.sidoName);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      console.log("군 선택 했다~~ guguncode=" + this.gugunCode);
       this.guguns.forEach((gugun) => {
         if (this.gugunCode == gugun.value) {
           this.gugunName = gugun.text;
         }
       });
-      console.log(this.gugunName);
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
     searchApt() {
-      console.log("dongname=" + this.dongName);
-      console.log("guguncode " + this.gugunCode);
       if (this.dongName) this.getHouseList(this.gugunCode);
     },
     sendKeyword() {
@@ -217,8 +212,6 @@ export default {
         }
         index -= 1;
       }
-
-      console.log(this.newArray);
     },
   },
   computed: {

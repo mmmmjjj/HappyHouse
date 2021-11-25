@@ -4,13 +4,9 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>공지사항을 확인하세요</h3>
+              <img src="@/assets/notice.png" width="300px" height="300px" />
+              <!-- <h4>공지사항을 확인하세요</h4> -->
             </div>
           </div>
         </div>
@@ -19,14 +15,15 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <!-- -->
-        <b-container class="bv-example-row mt-3">
+        <b-container>
           <b-row class="mb-1">
             <b-col class="text-right">
-              <b-button
+              <md-button
                 variant="outline-primary"
+                class="md-info md-round"
                 @click="moveWrite()"
                 v-if="userInfo.admin == 1"
-                >글쓰기</b-button
+                >글쓰기</md-button
               >
               <!-- <b-button variant="outline-primary" @click="check">체크</b-button> -->
             </b-col>
@@ -35,9 +32,7 @@
             <b-col v-if="articles.length">
               <paginated-list :list-array="articles" />
             </b-col>
-            <b-col v-else class="text-center"
-              >작성된 공지사항이 없습니다.</b-col
-            >
+            <b-col v-else class="text-left">작성된 공지사항이 없습니다.</b-col>
           </b-row>
         </b-container>
         <!-- -->
@@ -129,7 +124,6 @@ export default {
       let token = sessionStorage.getItem("access-token");
       if (this.getUserInfo(token)) {
         console.log("sucess");
-        console.log(this.user.admin);
       }
     },
     moveWrite() {

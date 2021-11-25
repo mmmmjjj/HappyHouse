@@ -23,8 +23,11 @@
           ></b-form-textarea>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="m-1"
-          >답변작성</b-button
+        <md-button
+          type="submit"
+          variant="outline-primary"
+          class="md-info md-round"
+          >답변작성</md-button
         >
       </b-form>
     </b-col>
@@ -52,7 +55,6 @@ export default {
   created() {
     this.memo.articleno = this.articleno;
     this.memo.userid = this.userid;
-    console.log(this.memo.articleno + "update");
   },
   methods: {
     onSubmit(event) {
@@ -67,7 +69,6 @@ export default {
           comment: this.memo.comment,
         })
         .then(({ data }) => {
-          console.log(this.articleno);
           let msg = "등록 처리시 문제가 발생했습니다.";
           if (data != "success") {
             alert(msg);

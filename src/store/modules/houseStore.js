@@ -38,7 +38,6 @@ const houseStore = {
       state.dongs = [{ value: null, text: "선택하세요" }];
     },
     SET_HOUSE_LIST: (state, houses) => {
-      //console.log(houses);
       state.houses = houses;
     },
     SET_DETAIL_HOUSE: (state, house) => {
@@ -50,7 +49,6 @@ const houseStore = {
     getSido: ({ commit }) => {
       sidoList(
         ({ data }) => {
-          // console.log(data);
           commit("SET_SIDO_LIST", data);
         },
         (error) => {
@@ -65,7 +63,6 @@ const houseStore = {
       gugunList(
         params,
         ({ data }) => {
-          // console.log(commit, response);
           commit("SET_GUGUN_LIST", data);
         },
         (error) => {
@@ -80,7 +77,6 @@ const houseStore = {
       dongList(
         params,
         ({ data }) => {
-          // console.log(commit, response);
           commit("SET_DONG_LIST", data);
         },
         (error) => {
