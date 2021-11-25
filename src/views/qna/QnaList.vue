@@ -1,10 +1,5 @@
 <template>
   <b-container>
-    <b-row>
-      <b-col>
-        <b-alert show><h3>질문 게시판</h3></b-alert>
-      </b-col>
-    </b-row>
     <b-row class="mb-1">
       <b-col class="text-right">
         <md-button

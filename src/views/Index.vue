@@ -28,7 +28,7 @@
               >
                 <slide>
                   <div class="carousel-caption">
-                    <h4 id="carousel">
+                    <h4 id="carousel" style="color:white;">
                       <md-icon>location_on</md-icon>
                       여기 귀찮은 것이 싫은 개발자가 있습니다
                     </h4>
@@ -37,7 +37,7 @@
                 </slide>
                 <slide>
                   <div class="carousel-caption">
-                    <h4 id="carousel">
+                    <h4 id="carousel" style="color:white;">
                       <md-icon>location_on</md-icon>
                       슬세권-프리미엄을 만족시킬 수 있는 서비스를 제공합니다
                     </h4>
@@ -46,7 +46,7 @@
                 </slide>
                 <slide>
                   <div class="carousel-caption">
-                    <h4 id="carousel">
+                    <h4 id="carousel" style="color:white;">
                       <md-icon>location_on</md-icon>
                       최대한 많은 인프라가 모여있는 집에서 개발을 해보세요
                     </h4>

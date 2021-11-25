@@ -141,11 +141,11 @@ export default {
         region: "",
       },
       isCheckedPwd: null,
-      nametxt: "이름을 입력하세요.",
-      emailtxt: "이메일을 입력하세요.",
+      nametxt: null,
+      emailtxt: null,
       pwdtxt: "비밀번호를 입력하세요.",
       pwdchktxt: "다시 한번 입력해주세요.",
-      regiontxt: "거주지를 입력하세요.",
+      regiontxt: null,
     };
   },
   methods: {
@@ -208,22 +208,22 @@ export default {
       let msg = "";
 
       !this.user.username &&
-        ((msg = "이름 입력해주세요"),
+        ((msg = "이름을 입력해주세요"),
         (err = false),
         this.$refs.username.$el.focus());
       err &&
         !this.user.userpwd &&
-        ((msg = "비밀번호 입력해주세요"),
+        ((msg = "비밀번호를 입력해주세요"),
         (err = false),
         this.$refs.userpwd.$el.focus());
       err &&
         !this.user.email &&
-        ((msg = "이메일 입력해주세요"),
+        ((msg = "이메일을 입력해주세요"),
         (err = false),
         this.$refs.email.$el.focus());
       err &&
         !this.user.region &&
-        ((msg = "거주지역 입력해주세요"),
+        ((msg = "거주지역을 입력해주세요"),
         (err = false),
         this.$refs.region.$el.focus());
       err &&
