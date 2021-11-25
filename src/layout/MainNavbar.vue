@@ -97,11 +97,6 @@
                           >
                         </li>
                         <li>
-                          <a class="dropdown-item" @click="goToAptApi"
-                            >아파트 API</a
-                          >
-                        </li>
-                        <li>
                           <a class="dropdown-item" @click="goToKakaoMap"
                             >카카오맵</a
                           >
@@ -109,7 +104,7 @@
                         <li class="dropdown-divider"></li>
                         <li>
                           <a class="dropdown-item" @click="moveToApi"
-                            >Separated link</a
+                            >슬세권찾기</a
                           >
                         </li>
                       </ul>
@@ -388,9 +383,6 @@ export default {
     ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     moveToLogin() {
       this.$router.push({ name: "loginpage" });
-    },
-    goToAptApi() {
-      this.$router.push({ name: "aptapi" });
     },
     goToKakaoMap() {
       this.$router.push({ name: "kakaoapi" });

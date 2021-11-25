@@ -32,8 +32,6 @@ import Admin from "@/views/Admin.vue";
 import AdminList from "@/views/admin/MemberList.vue";
 import adminmodify from "@/views/admin/adminmodify.vue";
 
-import AptApi from "@/views/api/AptApi.vue";
-
 import KakaoApi from "@/views/kakao/KakaoApi.vue";
 
 import ApiSet from "@/views/apiset/ApiSet.vue";
@@ -293,15 +291,6 @@ const router = new VueRouter({
       path: "/landing",
       name: "landing",
       components: { default: Landing, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
-      },
-    },
-    {
-      path: "/aptapi",
-      name: "aptapi",
-      components: { default: AptApi, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },

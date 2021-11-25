@@ -1,6 +1,15 @@
 <template>
   <div>
-    <b-table-simple hover responsive>
+    <b-table-simple hover responsive style=" text-align: center;">
+      <colgroup>
+        <col style="width:10%;" />
+        <col style="width:15%;" />
+        <col style="width:20%;" />
+        <col style="width:10%;" />
+        <col style="width:10%;" />
+        <col style="width:15%;" />
+        <col style="width:20%;" />
+      </colgroup>
       <b-thead>
         <b-tr>
           <b-th>아이디</b-th>
@@ -20,12 +29,20 @@
         <b-td>{{ p.region }}</b-td>
         <b-td>{{ p.delflag ? "O" : "X" }}</b-td>
         <b-td
-          ><b-button type="button" id="searchBtn" @click="update(p)">
+          ><md-button
+            class="md-info md-round md-sm"
+            id="searchBtn"
+            @click="update(p)"
+          >
             수정
-          </b-button>
-          <b-button variant="outline-primary" @click="delUser(p.userid)">
+          </md-button>
+          <md-button
+            class="md-simple md-round md-sm"
+            variant="outline-primary"
+            @click="delUser(p.userid)"
+          >
             삭제
-          </b-button></b-td
+          </md-button></b-td
         >
         <b-td></b-td>
       </b-tr>

@@ -161,7 +161,6 @@ export default {
       this.article.articleno = 0;
       this.article.subject = "";
       this.article.content = "";
-      this.$router.push({ name: "BoardList" });
     },
     registArticle() {
       writeArticle(
