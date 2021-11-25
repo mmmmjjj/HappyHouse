@@ -8,22 +8,22 @@
       <nav>
         <ul>
           <li>
-            <a href="https://www.creative-tim.com">
+            <a href="">
               이명주
             </a>
           </li>
           <li>
-            <a href="https:///presentation.creative-tim.com">
+            <a href="">
               이호진
             </a>
           </li>
           <li>
-            <a href="https:///blog.creative-tim.com">
+            <a href="">
               Blog
             </a>
           </li>
           <li>
-            <a href="https://www.creative-tim.com/license">
+            <a href="">
               Licenses
             </a>
           </li>
