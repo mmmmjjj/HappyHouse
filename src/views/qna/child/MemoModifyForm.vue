@@ -29,8 +29,11 @@
             ></b-form-textarea>
           </b-form-group>
 
-          <b-button type="submit" variant="primary" class="m-1"
-            >답변작성</b-button
+          <md-button
+            type="submit"
+            variant="outline-primary"
+            class="md-info md-round"
+            >답변작성</md-button
           >
         </b-form>
       </b-col>
@@ -83,9 +86,9 @@ export default {
         })
         .then(({ data }) => {
           console.log(this.articleno);
-          let msg = "등록 처리시 문제가 발생했습니다.";
+          let msg = "답변 수정 시 문제가 발생했습니다.";
           if (data == "success") {
-            msg = "등록이 완료되었습니다.";
+            msg = "수정이 완료되었습니다.";
           }
           alert(msg);
           this.moveList();

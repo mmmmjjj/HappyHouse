@@ -98,7 +98,7 @@
                         </li>
                         <li>
                           <a class="dropdown-item" @click="goToKakaoMap"
-                            >카카오맵</a
+                            >아파트맵</a
                           >
                         </li>
                         <li class="dropdown-divider"></li>

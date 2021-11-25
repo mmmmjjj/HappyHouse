@@ -5,8 +5,7 @@
         <div class="md-layout-item">
           <div class="image-wrapper">
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>공지사항글쓰기</h3>
+              <img src="@/assets/notice.png" width="300px" height="300px" />
             </div>
           </div>
         </div>
@@ -18,11 +17,6 @@
           <basic-elements></basic-elements>
         </div>
         <b-container class="bv-example-row mt-3">
-          <b-row>
-            <b-col>
-              <b-alert show><h3>글작성</h3></b-alert>
-            </b-col>
-          </b-row>
           <notice-board-write-form type="register" />
         </b-container>
       </div>

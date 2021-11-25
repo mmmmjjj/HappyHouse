@@ -31,17 +31,31 @@
       </b-tr>
     </b-table-simple>
     <div class="btn-cover">
-      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+      <!-- <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
         이전
-      </button>
+      </button> -->
+      <md-button
+        variant="outline-primary"
+        class="md-default md-round md-sm"
+        :disabled="pageNum === 0"
+        @click="prevPage"
+        >이전</md-button
+      >
       <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-      <button
+      <!-- <button
         :disabled="pageNum >= pageCount - 1"
         @click="nextPage"
         class="page-btn"
       >
         다음
-      </button>
+      </button> -->
+      <md-button
+        variant="outline-primary"
+        class="md-default md-round md-sm"
+        :disabled="pageNum >= pageCount - 1"
+        @click="nextPage"
+        >다음</md-button
+      >
     </div>
   </div>
 </template>

@@ -5,8 +5,7 @@
         <div class="md-layout-item">
           <div class="image-wrapper">
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>질문게시판입니다.</h3>
+              <img src="@/assets/qna.png" width="300px" height="300px" />
             </div>
           </div>
         </div>

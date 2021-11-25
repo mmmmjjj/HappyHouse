@@ -1,9 +1,6 @@
 <template>
   <!-- -->
   <div class="col-lg-12 mx-auto">
-    <h2 class="p-3 mb-3 shadow bg-light">
-      <mark class="pink">회원목록</mark>
-    </h2>
     <div class="p-3 mb-3 text-left">
       <form id="searchform" action="">
         검색 :
@@ -81,7 +78,7 @@ export default {
   },
   data() {
     return {
-      value: null,
+      value: "0",
       firstname: null,
       email: null,
       password: null,

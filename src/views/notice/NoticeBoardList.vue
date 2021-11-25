@@ -5,8 +5,8 @@
         <div class="md-layout-item">
           <div class="image-wrapper">
             <div class="brand">
-              <h1>Vue Material Kit</h1>
-              <h3>공지사항을 확인하세요</h3>
+              <img src="@/assets/notice.png" width="300px" height="300px" />
+              <!-- <h4>공지사항을 확인하세요</h4> -->
             </div>
           </div>
         </div>
