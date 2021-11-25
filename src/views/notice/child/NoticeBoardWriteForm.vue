@@ -1,5 +1,19 @@
 <template>
   <b-row class="mb-1">
+    <modal v-if="classicModal" @close="classicModalHide">
+      <template slot="body">
+        <p>
+          글 작성이 완료되었습니다.
+        </p>
+      </template>
+
+      <template slot="footer">
+        <md-button class="md-success md-simple" @click="moveList"
+          >확인</md-button
+        >
+      </template>
+    </modal>
+
     <b-col style="text-align: left">
       <b-form @submit="onSubmit" @reset="onReset">
         <b-form-group
@@ -44,17 +58,23 @@
           ></b-form-textarea>
         </b-form-group>
 
-        <b-button
+        <md-button
           type="submit"
           variant="primary"
-          class="m-1"
+          class="md-info md-round"
           v-if="this.type === 'register'"
-          >글작성</b-button
+          >글작성</md-button
         >
-        <b-button type="submit" variant="primary" class="m-1" v-else
-          >글수정</b-button
+        <md-button
+          type="submit"
+          variant="primary"
+          class="md-info md-round"
+          v-else
+          >글수정</md-button
         >
-        <b-button type="reset" variant="danger" class="m-1">초기화</b-button>
+        <md-button type="reset" variant="danger" class="md-simple md-round"
+          >초기화</md-button
+        >
       </b-form>
     </b-col>
   </b-row>
@@ -64,6 +84,7 @@
 import { writeArticle, getArticle, modifyArticle } from "@/api/board";
 
 import { mapActions, mapMutations, mapState } from "vuex";
+import { Modal } from "@/components";
 
 const memberStore = "memberStore";
 
@@ -78,8 +99,11 @@ export default {
         content: "",
       },
       isUserid: false,
+      classicModal: false,
     };
   },
+  components: { Modal },
+
   props: {
     type: { type: String },
   },
@@ -147,12 +171,11 @@ export default {
           content: this.article.content,
         },
         ({ data }) => {
-          let msg = "등록 처리시 문제가 발생했습니다.";
-          if (data == "success") {
-            msg = "등록이 완료되었습니다.";
-          }
-          alert(msg);
-          this.moveList();
+          if (data != "success") {
+            let msg = "등록 처리시 문제가 발생했습니다.";
+            alert(msg);
+            this.moveList();
+          } else this.classicModal = true;
         },
         (error) => {
           console.log(error);
@@ -168,13 +191,11 @@ export default {
           content: this.article.content,
         },
         ({ data }) => {
-          let msg = "수정 처리시 문제가 발생했습니다.";
-          if (data == "success") {
-            msg = "수정이 완료되었습니다.";
-          }
-          alert(msg);
-          // 현재 route를 /list로 변경.
-          this.$router.push({ name: "noticeboardlist" });
+          if (data != "success") {
+            let msg = "수정 처리시 문제가 발생했습니다.";
+            alert(msg);
+            this.moveList();
+          } else this.classicModal = true;
         },
         (error) => {
           console.log(error);
@@ -182,7 +203,15 @@ export default {
       );
     },
     moveList() {
-      this.$router.push({ name: "noticeboardlist" });
+      this.type === "register"
+        ? this.$router.push({ name: "noticeboardlist" })
+        : this.$router.push({
+            name: "noticeboardview",
+            params: { articleno: this.article.articleno },
+          });
+    },
+    classicModalHide() {
+      this.classicModal = false;
     },
   },
 };

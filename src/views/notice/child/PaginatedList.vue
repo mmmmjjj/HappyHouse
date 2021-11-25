@@ -1,7 +1,14 @@
 <template>
   <div>
-    <b-table-simple hover responsive>
-      <b-thead head-variant="dark">
+    <b-table-simple hover responsive style=" text-align: center;">
+      <colgroup>
+        <col style="width:10%;" />
+        <col style="width:40%;" />
+        <col style="width:10%;" />
+        <col style="width:20%;" />
+        <col style="width:20%;" />
+      </colgroup>
+      <b-thead>
         <b-tr>
           <b-th>글번호</b-th>
           <b-th>제목</b-th>
@@ -12,7 +19,7 @@
       </b-thead>
       <b-tr v-for="p in paginatedData" :key="p.no">
         <b-td>{{ p.articleno }}</b-td>
-        <b-th class="text-left">
+        <b-th>
           <router-link
             :to="{
               name: 'noticeboardview',

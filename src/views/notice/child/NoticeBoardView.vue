@@ -19,9 +19,6 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <div class="title">
-            <h2>Basic Elements</h2>
-          </div>
           <basic-elements></basic-elements>
         </div>
         <b-container class="bv-example-row mt-3">

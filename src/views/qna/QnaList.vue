@@ -1,31 +1,13 @@
 <template>
-  <b-container class="bv-example-row mt-3">
+  <b-container>
     <b-row class="mb-1">
       <b-col class="text-right">
-        <b-button variant="outline-primary" @click="moveWrite()"
-          >질문 작성</b-button
+        <md-button
+          class="md-info md-round"
+          variant="outline-primary"
+          @click="moveWrite()"
+          >질문 작성</md-button
         >
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <!-- <b-table
-          striped
-          hover
-          :items="articles"
-          :fields="fields"
-          @row-clicked="viewArticle"
-        >
-          <template #cell(subject)="data">
-            <router-link
-              :to="{
-                name: 'QnaView',
-                params: { articleno: data.item.articleno },
-              }"
-              >{{ data.item.subject }}</router-link
-            >
-          </template>
-        </b-table> -->
       </b-col>
     </b-row>
     <b-row>
