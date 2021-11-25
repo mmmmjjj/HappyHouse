@@ -395,7 +395,7 @@ export default {
   position: relative;
   width: 360px;
   height: 350px;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/box_movie.png")
+  background: url("https://user-images.githubusercontent.com/67090601/143394235-bb0b1743-5f9d-44ab-ab4e-18e2fff9e9ac.png")
     no-repeat;
   padding: 15px 10px;
 }

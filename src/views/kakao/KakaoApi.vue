@@ -153,22 +153,6 @@ export default {
       type: String,
       default: require("@/assets/img/vue-mk-header.jpg"),
     },
-    leaf4: {
-      type: String,
-      default: require("@/assets/img/leaf4.png"),
-    },
-    leaf3: {
-      type: String,
-      default: require("@/assets/img/leaf3.png"),
-    },
-    leaf2: {
-      type: String,
-      default: require("@/assets/img/leaf2.png"),
-    },
-    leaf1: {
-      type: String,
-      default: require("@/assets/img/leaf1.png"),
-    },
     signup: {
       type: String,
       default: require("@/assets/img/city.jpg"),
@@ -183,13 +167,6 @@ export default {
     },
   },
   methods: {
-    leafActive() {
-      if (window.innerWidth < 768) {
-        this.leafShow = false;
-      } else {
-        this.leafShow = true;
-      }
-    },
     ...mapActions(houseStore, [
       "getSido",
       "getGugun",
@@ -202,7 +179,6 @@ export default {
       "CLEAR_DONG_LIST",
     ]),
     gugunList() {
-      console.log("시 선택 했따 ~ sidocode=" + this.sidoCode);
       this.sidos.forEach((sido) => {
         if (this.sidoCode == sido.value) {
           this.sidoName = sido.text;
@@ -214,7 +190,6 @@ export default {
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      console.log("군 선택 했다~~ guguncode=" + this.gugunCode);
       this.guguns.forEach((gugun) => {
         if (this.gugunCode == gugun.value) {
           this.gugunName = gugun.text;
@@ -241,8 +216,6 @@ export default {
         }
         index -= 1;
       }
-
-      console.log(this.newArray);
     },
   },
   computed: {
