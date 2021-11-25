@@ -83,6 +83,7 @@
                   <div class="md-list-item-content">
                     <drop-down direction="down">
                       <md-button
+                        id="a"
                         slot="title"
                         class="md-button md-button-link md-info md-simple md-just-icon"
                         data-toggle="dropdown"
@@ -90,7 +91,7 @@
                         <md-icon>home_work</md-icon>
                       </md-button>
                       <ul class="dropdown-menu dropdown-menu-right">
-                        <li class="dropdown-header">Dropdown header</li>
+                        <li class="dropdown-header">apartment info</li>
                         <li>
                           <a class="dropdown-item" @click="goToAptList"
                             >아파트정보</a
@@ -473,3 +474,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+a:hover {
+  background-color: gold;
+}
+</style>
