@@ -56,13 +56,6 @@
         >이전</md-button
       >
       <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-      <!-- <button
-        :disabled="pageNum >= pageCount - 1"
-        @click="nextPage"
-        class="page-btn"
-      >
-        다음
-      </button> -->
       <md-button
         variant="outline-primary"
         class="md-default md-round md-sm"

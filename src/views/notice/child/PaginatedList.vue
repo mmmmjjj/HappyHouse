@@ -103,7 +103,6 @@ export default {
     paginatedData() {
       const start = this.pageNum * this.pageSize,
         end = start + this.pageSize;
-      console.log("우찬님사랑해요");
       return this.listArray.slice(start, end);
     },
   },

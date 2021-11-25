@@ -107,16 +107,10 @@ export default {
     this.article.userid = this.userInfo.userid;
     if (this.type === "modify") {
       http.get(`/qna/${this.$route.params.articleno}`).then(({ data }) => {
-        // this.article.articleno = data.article.articleno;
-        // this.article.userid = data.article.userid;
-        // this.article.subject = data.article.subject;
-        // this.article.content = data.article.content;
         this.article = data;
       });
       this.isUserid = true;
     }
-
-    //console.log(this.article.userid);
   },
   methods: {
     onSubmit(event) {

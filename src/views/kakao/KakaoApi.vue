@@ -184,7 +184,6 @@ export default {
           this.sidoName = sido.text;
         }
       });
-      console.log(this.sidoName);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
@@ -195,14 +194,11 @@ export default {
           this.gugunName = gugun.text;
         }
       });
-      console.log(this.gugunName);
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
     searchApt() {
-      console.log("dongname=" + this.dongName);
-      console.log("guguncode " + this.gugunCode);
       if (this.dongName) this.getHouseList(this.gugunCode);
     },
     sendKeyword() {

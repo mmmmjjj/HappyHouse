@@ -54,14 +54,6 @@
       </tbody>
     </b-table-simple>
     <b-col>
-      <!-- <b-table-simple hover responsive>
-        <b-thead head-variant="dark">
-          <b-tr>
-            <b-th>답변작성란</b-th>
-          </b-tr>
-        </b-thead>
-        <tbody> --><!-- </tbody>
-      </b-table-simple> -->
       <memo-write-form :articleno="articleno" :userid="userInfo.userid" />
     </b-col>
   </b-container>
@@ -97,16 +89,10 @@ export default {
         return this.article.content.split("\n").join("<br>");
       return "";
     },
-    // changeDateFormat() {
-    //   return moment(new Date(this.article.regtime)).format(
-    //     "YYYY.MM.DD hh:mm:ss"
-    //   );
-    // },
   },
   created() {
     this.articleno = this.$route.params.articleno;
     this.getArticle();
-    console.log(this.$route.params.articleno + "first");
   },
   methods: {
     async getArticle() {

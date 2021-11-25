@@ -48,9 +48,6 @@
             <b-button variant="primary" class="m-1" @click="update"
               >회원정보수정</b-button
             >
-            <!-- <b-button variant="danger" @click="withdraw"
-                            >회원탈퇴</b-button
-                          > -->
           </b-form>
         </b-card>
       </b-col>
@@ -60,15 +57,6 @@
 </template>
 
 <script>
-// import BasicElements from "./components/BasicElementsSection";
-// import Navigation from "./components/NavigationSection";
-// import SmallNavigation from "./components/SmallNavigationSection";
-// import Tabs from "./components/TabsSection";
-// import NavPills from "./components/NavPillsSection";
-// import Notifications from "./components/NotificationsSection";
-// import TypographyImages from "./components/TypographyImagesSection";
-// import JavascriptComponents from "./components/JavascriptComponentsSection";
-//import { LoginCard } from "@/components";
 import http from "@/util/http-common";
 
 export default {
@@ -79,22 +67,6 @@ export default {
     image: {
       type: String,
       default: require("@/assets/img/vue-mk-header.jpg"),
-    },
-    leaf4: {
-      type: String,
-      default: require("@/assets/img/leaf4.png"),
-    },
-    leaf3: {
-      type: String,
-      default: require("@/assets/img/leaf3.png"),
-    },
-    leaf2: {
-      type: String,
-      default: require("@/assets/img/leaf2.png"),
-    },
-    leaf1: {
-      type: String,
-      default: require("@/assets/img/leaf1.png"),
     },
     signup: {
       type: String,
@@ -123,43 +95,11 @@ export default {
     };
   },
   methods: {
-    leafActive() {
-      if (window.innerWidth < 768) {
-        this.leafShow = false;
-      } else {
-        this.leafShow = true;
-      }
-    },
     async update(event) {
       event.preventDefault();
 
       let err = true;
       let msg = "";
-
-      // !this.user.username &&
-      //   ((msg = "이름 입력해주세요"),
-      //   (err = false),
-      //   this.$refs.username.focus());
-      // err &&
-      //   !this.user.userpwd &&
-      //   ((msg = "비밀번호 입력해주세요"),
-      //   (err = false),
-      //   this.$refs.content.focus());
-      // err &&
-      //   !this.user.email &&
-      //   ((msg = "이메일 입력해주세요"),
-      //   (err = false),
-      //   this.$refs.email.focus());
-      // err &&
-      //   !this.user.region &&
-      //   ((msg = "거주지역 입력해주세요"),
-      //   (err = false),
-      //   this.$refs.region.focus());
-      // err &&
-      //   this.isCheckedPwd == false &&
-      //   ((msg = "비밀번호를 확인해주세요"),
-      //   (err = false),
-      //   this.$refs.pwdchk.focus());
       if (!err) alert(msg);
       else
         await http
@@ -172,7 +112,6 @@ export default {
           })
           .then(({ data }) => {
             let msg = "수정 처리시 문제가 발생했습니다.";
-            console.log(data);
             if (data == "success") {
               msg = "수정이 완료되었습니다.";
             }

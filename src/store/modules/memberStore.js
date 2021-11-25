@@ -42,7 +42,6 @@ const memberStore = {
             let token = response.data["access-token"];
             commit("SET_IS_LOGIN", true);
             commit("SET_IS_LOGIN_ERROR", false);
-            console.log("login success");
             sessionStorage.setItem("access-token", token);
           } else {
             commit("SET_IS_LOGIN", false);
@@ -72,22 +71,6 @@ const memberStore = {
       commit("SET_LOGOUT", false);
       sessionStorage.removeItem("access-token");
     },
-    // checkLogin({ commit }, token) {
-    //   let decode_token = jwt_decode(token);
-    //   findById(
-    //     decode_token.userid,
-    //     (response) => {
-    //       if (response.data.message === "success") {
-    //       } else {
-    //         alert("로그인 후 이용 가능합니다.");
-
-    //       }
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // }
   },
 };
 

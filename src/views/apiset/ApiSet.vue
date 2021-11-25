@@ -229,32 +229,26 @@ export default {
       "CLEAR_DONG_LIST",
     ]),
     gugunList() {
-      console.log("시 선택 했따 ~ sidocode=" + this.sidoCode);
       this.sidos.forEach((sido) => {
         if (this.sidoCode == sido.value) {
           this.sidoName = sido.text;
         }
       });
-      console.log(this.sidoName);
       this.CLEAR_GUGUN_LIST();
       this.gugunCode = null;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
     dongList() {
-      console.log("군 선택 했다~~ guguncode=" + this.gugunCode);
       this.guguns.forEach((gugun) => {
         if (this.gugunCode == gugun.value) {
           this.gugunName = gugun.text;
         }
       });
-      console.log(this.gugunName);
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.gugunCode) this.getDong(this.gugunCode);
     },
     searchApt() {
-      console.log("dongname=" + this.dongName);
-      console.log("guguncode " + this.gugunCode);
       if (this.dongName) this.getHouseList(this.gugunCode);
     },
     sendKeyword() {
@@ -268,8 +262,6 @@ export default {
         }
         index -= 1;
       }
-
-      console.log(this.newArray);
     },
   },
   computed: {

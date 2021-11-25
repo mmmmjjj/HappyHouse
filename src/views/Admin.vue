@@ -80,7 +80,6 @@ export default {
       let token = sessionStorage.getItem("access-token");
       if (this.getUserInfo(token)) {
         console.log("sucess");
-        console.log(this.user.admin);
       }
     },
   },

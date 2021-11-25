@@ -96,8 +96,6 @@ export default {
       }
     },
     searchUser() {
-      console.log(this.value);
-      console.log(this.keyword);
       let params = { select: this.value, keyword: this.keyword };
       http.get(`/admin/search`, { params }).then(({ data }) => {
         this.members = data;
@@ -122,7 +120,6 @@ export default {
     );
   },
   computed: {
-    // ...mapState(memberStore, ["isLogin", "userInfo"]),
     headerStyle() {
       return {
         backgroundImage: `url(${this.image})`,

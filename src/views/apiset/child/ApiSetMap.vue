@@ -94,7 +94,6 @@ export default {
       this.ps = new kakao.maps.services.Places(this.map);
       this.infoWindow = new kakao.maps.InfoWindow({ zIndex: 1 });
       this.contentNode = document.createElement("div");
-      // this.customOverlays = new kakao.maps.customOverlay({zIndex:1});
       this.geocoder = new kakao.maps.services.Geocoder();
 
       // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
@@ -103,7 +102,6 @@ export default {
       this.markers2 = []; // 마커를 담을 배열입니다
       this.currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
       // 지도에 idle 이벤트를 등록합니다
-      //console.log(this.searchPlaces);
       kakao.maps.event.addListener(this.map, "idle", this.searchPlaces);
       // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
       this.contentNode.className = "placeinfo_wrap";
@@ -359,19 +357,13 @@ export default {
     },
     async displayMarkers(places) {
       let listEl = document.getElementById("placeslist");
-      console.log("asdas" + listEl);
       this.removeAllChildNods(listEl);
-      // while (listEl.hasChildNodes()) {
-      //   listEl.removeChild(listEl.lastChild);
-      // }
       let fragment = document.createDocumentFragment();
       let bounds = new kakao.maps.LatLngBounds();
       // 지도에 표시되고 있는 마커를 제거합니다
-      // this.removeMarker();
 
       for (var i = 0; i < this.markers.length; i++) {
         this.markers[i].setMap(null);
-        console.log("dd");
         this.removeInfowindow();
       }
       this.markers = [];
@@ -396,21 +388,7 @@ export default {
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
                 this.result[1] = result[0].x;
                 this.result[0] = result[0].y;
-                // 결과값으로 받은 위치를 마커로 표시합니다
-                // var marker = new kakao.maps.Marker({
-                //   map: this.map,
-                //   position: coords,
-                // });
-                // marker.setMap(this.map);
-                // 인포윈도우로 장소에 대한 설명을 표시합니다
-                // var infowindow = new kakao.maps.InfoWindow({
-                //   content:
-                //     '<div style="width:150px;text-align:center;padding:6px 0;">' +
-                //     place.아파트 +
-                //     "</div>",
-                // });
-                // infowindow.open(this.map, marker);
-                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+
                 this.map.setCenter(coords);
                 resolve("success");
               }
@@ -422,8 +400,6 @@ export default {
           try {
             const result = await addressSearch(address);
             if (result) {
-              console.log("뙜다!");
-
               var position = new kakao.maps.LatLng(
                 this.result[0],
                 this.result[1]
@@ -437,7 +413,6 @@ export default {
 
               this.positions.push(p);
 
-              console.log(position);
               //마커 생성하고 지도에 표시.
               var marker = this.addMarker(position, index);
               // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -475,8 +450,6 @@ export default {
         })();
       });
 
-      // map.js에서는 이부분에 마커를 생성하고 지도에 표시합니다. 라는 주석이 있는데 코드는 없음..
-
       // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
     },
     //마커 생성하고 지도 위에 마커를 표시
@@ -502,7 +475,6 @@ export default {
       marker.setMap(this.map); // 지도 위에 마커를 표출합니다
       this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
-      console.log(this.markers);
       return marker;
     },
     removeMarker() {
@@ -537,14 +509,12 @@ export default {
         " " +
         `</h5> </tr>
           `;
-      // let itemStr = `<span > hi </span>`;
       el.innerHTML = itemStr;
       el.className = "item";
 
       return el;
     },
     displayInfowindow(marker, title, place) {
-      console.log("displayInfoWindow called");
       var content =
         `
 		<div class="overlaybox">
@@ -599,14 +569,11 @@ export default {
 
       this.customOverlays[this.overlayIdx] = customOverlay;
       this.customOverlays[this.overlayIdx++].setMap(this.map);
-      console.log("인덱스 증가 : " + this.overlayIdx);
     },
     removeInfowindow() {
-      console.log("Remove");
       if (this.overlayIdx > 0) {
         this.customOverlays[--this.overlayIdx].setMap(null);
       }
-      console.log("인덱스 감소 : " + this.overlayIdx);
     },
     removeAllChildNods(el) {
       while (el.hasChildNodes()) {
@@ -642,10 +609,8 @@ export default {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
         this.displayPlaces(data);
-        console.log(this.currCategory + "의 마커 표출");
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
-        console.log("검색결과 없");
       } else if (status === kakao.maps.services.Status.ERROR) {
         // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
       }
@@ -655,7 +620,6 @@ export default {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
 
-      console.log(places);
       var order = document
         .getElementById(this.currCategory)
         .getAttribute("data-order");
@@ -698,8 +662,6 @@ export default {
 
       marker.setMap(this.map); // 지도 위에 마커를 표출합니다
       this.markers2.push(marker); // 배열에 생성된 마커를 추가합니다
-      //console.log(marker);
-      //console.log(markers2);
       return marker;
     },
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
@@ -711,8 +673,6 @@ export default {
     },
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
     displayPlaceInfo(place) {
-      console.log("display");
-      console.log(place.place_name);
       var content =
         '<div class="placeinfo">' +
         '   <a class="title" href="' +
@@ -759,9 +719,7 @@ export default {
     addCategoryClickEvent() {
       var category = document.getElementById("category"),
         children = category.children;
-      // console.log(children[0]);
       for (var i = 0; i < children.length; i++) {
-        // children[i].onclick = this.onClickCategory(children[i]);
         ((children) => {
           children.addEventListener("click", () => {
             this.onClickCategory(children);
@@ -772,23 +730,17 @@ export default {
 
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     onClickCategory(el) {
-      console.log("onclick");
       var id = el.id;
       var className = el.className;
 
       this.placeOverlay.setMap(null);
-      // console.log(id);
-      console.log("classname : " + className);
 
       if (className === "on") {
         this.currCategory = "";
-        console.log("on -> off");
         this.changeCategoryClass();
         this.removeMarker2();
       } else {
         this.currCategory = id;
-        console.log("off->on");
-        console.log(this.currCategory);
         this.changeCategoryClass(el);
         this.searchPlaces();
       }

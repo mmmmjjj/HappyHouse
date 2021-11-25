@@ -87,19 +87,12 @@ export default {
     },
     async displayMarkers(places) {
       let listEl = document.getElementById("placeslist");
-      console.log("asdas" + listEl);
       this.removeAllChildNods(listEl);
-      // while (listEl.hasChildNodes()) {
-      //   listEl.removeChild(listEl.lastChild);
-      // }
       let fragment = document.createDocumentFragment();
       let bounds = new kakao.maps.LatLngBounds();
-      // 지도에 표시되고 있는 마커를 제거합니다
-      // this.removeMarker();
 
       for (var i = 0; i < this.markers.length; i++) {
         this.markers[i].setMap(null);
-        console.log("dd");
         this.removeInfowindow();
       }
       this.markers = [];
@@ -124,21 +117,6 @@ export default {
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
                 this.result[1] = result[0].x;
                 this.result[0] = result[0].y;
-                // 결과값으로 받은 위치를 마커로 표시합니다
-                // var marker = new kakao.maps.Marker({
-                //   map: this.map,
-                //   position: coords,
-                // });
-                // marker.setMap(this.map);
-                // 인포윈도우로 장소에 대한 설명을 표시합니다
-                // var infowindow = new kakao.maps.InfoWindow({
-                //   content:
-                //     '<div style="width:150px;text-align:center;padding:6px 0;">' +
-                //     place.아파트 +
-                //     "</div>",
-                // });
-                // infowindow.open(this.map, marker);
-                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
                 this.map.setCenter(coords);
                 resolve("success");
               }
@@ -150,8 +128,6 @@ export default {
           try {
             const result = await addressSearch(address);
             if (result) {
-              console.log("뙜다!");
-
               var position = new kakao.maps.LatLng(
                 this.result[0],
                 this.result[1]
@@ -165,7 +141,6 @@ export default {
 
               this.positions.push(p);
 
-              console.log(position);
               //마커 생성하고 지도에 표시.
               var marker = this.addMarker(position, index);
               // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
@@ -230,7 +205,6 @@ export default {
       marker.setMap(this.map); // 지도 위에 마커를 표출합니다
       this.markers.push(marker); // 배열에 생성된 마커를 추가합니다
 
-      console.log(this.markers);
       return marker;
     },
     removeMarker() {
@@ -271,7 +245,6 @@ export default {
       return el;
     },
     displayInfowindow(marker, title, place) {
-      console.log("displayInfoWindow called");
       var content =
         `
 		<div class="overlaybox">
@@ -322,14 +295,11 @@ export default {
 
       this.customOverlays[this.overlayIdx] = customOverlay;
       this.customOverlays[this.overlayIdx++].setMap(this.map);
-      console.log("인덱스 증가 : " + this.overlayIdx);
     },
     removeInfowindow() {
-      console.log("Remove");
       if (this.overlayIdx > 0) {
         this.customOverlays[--this.overlayIdx].setMap(null);
       }
-      console.log("인덱스 감소 : " + this.overlayIdx);
     },
     removeAllChildNods(el) {
       while (el.hasChildNodes()) {

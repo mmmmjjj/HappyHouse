@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     moveModifyArticle() {
-      console.log(this.memono);
       this.$router.replace({
         name: "memomodifyform",
         params: { memono: this.memono },
