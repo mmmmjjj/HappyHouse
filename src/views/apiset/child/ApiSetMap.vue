@@ -587,7 +587,7 @@ export default {
         position: position,
         content: content,
         xAnchor: 0.3,
-        yAnchor: 0.91,
+        yAnchor: 0.41,
       });
 
       this.customOverlays[this.overlayIdx] = customOverlay;
