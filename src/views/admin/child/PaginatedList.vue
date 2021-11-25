@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-table-simple hover responsive>
-      <b-thead head-variant="dark">
+      <b-thead>
         <b-tr>
           <b-th>아이디</b-th>
           <b-th>이름</b-th>

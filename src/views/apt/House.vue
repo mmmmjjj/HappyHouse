@@ -4,10 +4,6 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
               <h1>Vue Material Kit</h1>
               <h3>아파트정보확인</h3>

@@ -112,12 +112,6 @@
                             >Separated link</a
                           >
                         </li>
-                        <li class="dropdown-divider"></li>
-                        <li>
-                          <a href="#pablo" class="dropdown-item"
-                            >One more separated link</a
-                          >
-                        </li>
                       </ul>
                     </drop-down>
                   </div>
