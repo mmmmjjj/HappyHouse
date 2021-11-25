@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col cols="4" align="left">
-        <div>
+        <div style="overflow:scroll; width:100%; height:500px;">
           <table id="placeslist"></table>
         </div>
       </b-col>
@@ -249,8 +249,7 @@ export default {
         (index + 1) +
         `></span>
       <tr class="info"><h5>` +
-        (index + 1) +
-        " " +
+        `- ` +
         place.아파트 +
         `</h5>
       </tr> ` +

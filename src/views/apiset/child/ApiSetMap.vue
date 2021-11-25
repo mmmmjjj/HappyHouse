@@ -4,8 +4,12 @@
       <b-col cols="12" align="left">
         <div id="kakaomap">map</div>
       </b-col>
-      <button @click="removeCircles()">모두 지우기</button>
     </b-row>
+    <div class="form-row float-right">
+      <b-button variant="outline-primary" @click="removeCircles()"
+        >모두 지우기</b-button
+      >
+    </div>
     <b-row>
       <b-col cols="4" align="left">
         <div>
@@ -82,8 +86,8 @@ export default {
           level: 3, // 지도의 확대 레벨
         };
       ///as
-      mapContainer.style.height = "500px";
-      mapContainer.style.width = "95%";
+      mapContainer.style.height = "550px";
+      mapContainer.style.width = "120%";
 
       this.map = new kakao.maps.Map(mapContainer, mapOption);
 

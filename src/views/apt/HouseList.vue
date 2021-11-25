@@ -1,10 +1,13 @@
 <template>
   <b-container v-if="houses && houses.length != 0" class="bv-example-row mt-3">
-    <house-list-row
-      v-for="(house, index) in houses"
-      :key="index"
-      :house="house"
-    />
+    <div style="overflow:scroll; width:100%; height:803px;">
+      <house-list-row
+        v-for="(house, index) in houses"
+        :key="index"
+        :house="house"
+      />
+    </div>
+
     <!-- <apt-pagination no-arrows v-model="defaultPagination" :page-count="5">
     </apt-pagination>
 
