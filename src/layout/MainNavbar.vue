@@ -84,7 +84,7 @@
                     <drop-down direction="down">
                       <md-button
                         slot="title"
-                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        class="md-button md-button-link md-info md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
                         <md-icon>home_work</md-icon>
@@ -203,7 +203,7 @@
                     <drop-down direction="down">
                       <md-button
                         slot="title"
-                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        class="md-button md-button-link md-info md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
                         <md-icon>face</md-icon>
@@ -236,7 +236,7 @@
                     <drop-down direction="down">
                       <md-button
                         slot="title"
-                        class="md-button md-button-link md-white md-simple md-just-icon"
+                        class="md-button md-button-link md-info md-simple md-just-icon"
                         data-toggle="dropdown"
                       >
                         <md-icon>face</md-icon>
