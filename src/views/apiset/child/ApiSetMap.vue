@@ -553,28 +553,35 @@ export default {
         `</div>
 			<ul>
 				<li class="up">
-					<span class="title">건축년도</span>
+					<span class="title"> 건축년도 </span>
 					<span class="count"> ` +
         place.건축년도 +
         `</span>
 				</li>
 				<li>
-					<span class="title">주소</span>
+					<span class="title"> 주소 </span>
 					<span class="count"> ` +
         this.sidoName +
+        " " +
         this.gugunName +
+        " " +
         this.dongName +
+        " " +
         place.지번 +
         `</span>
 				</li>
 				<li>
-					<span class="title">최신거래금액</span>
+					<span class="title"> 최신거래금액 </span>
 					<span class="count"> ` +
         place.거래금액 +
         `</span>
 				</li>
 				<li>
-					<span class="last" id="recenthistor" data-toggle="modal" data-target="#myModal">아파트정보 update</span>
+        <span class="title"> 전용면적 </span>
+					<span class="count"> ` +
+        Math.round(place.전용면적 / 3.3) +
+        " 평 " +
+        `</span>
 				</li>
 			</ul>
 		</div>
@@ -587,7 +594,7 @@ export default {
         position: position,
         content: content,
         xAnchor: 0.3,
-        yAnchor: 0.91,
+        yAnchor: 0.41,
       });
 
       this.customOverlays[this.overlayIdx] = customOverlay;

@@ -300,8 +300,11 @@ export default {
         place.거래금액 +
         `</span>
 				</li>
-				<li>
-					<span class="last" id="recenthistor" data-toggle="modal" data-target="#myModal">아파트정보 update</span>
+				<li>	 <span class="title"> 전용면적 </span>
+        <span class="count"> ` +
+        Math.round(place.전용면적 / 3.3) +
+        " 평 " +
+        `</span>
 				</li>
 			</ul>
 		</div>
