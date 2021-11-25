@@ -4,10 +4,6 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <div class="image-wrapper">
-            <img :src="leaf4" alt="leaf4" class="leaf4" v-show="leafShow" />
-            <img :src="leaf3" alt="leaf3" class="leaf3" v-show="leafShow" />
-            <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
-            <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
               <h1>Vue Material Kit</h1>
               <h3>본인정보확인</h3>
@@ -18,98 +14,85 @@
     </parallax>
     <div class="main main-raised">
       <div class="section section-basic">
-        <b-container class="mt-4" v-if="userInfo">
+        <b-container v-if="userInfo">
           <b-row>
             <b-col>
-              <b-alert variant="secondary" show><h3>내정보</h3></b-alert>
+              <b-alert show><h3>내정보</h3></b-alert>
             </b-col>
           </b-row>
           <b-row>
-            <b-col></b-col>
-            <b-col cols="8">
-              <b-jumbotron>
-                <template #header>My Page</template>
+            <b-col>
+              <b-container>
+                <b-row>
+                  <b-col>
+                    <b-card
+                      class="text-center mt-3"
+                      style="max-width: 40rem"
+                      align="left"
+                    >
+                      <b-form @submit="update" class="text-left">
+                        <b-form-group label="아이디:" label-for="userid">
+                          <b-form-input
+                            id="userid"
+                            v-model="user.userid"
+                            required
+                            placeholder="이름 입력...."
+                            readonly
+                          ></b-form-input>
+                        </b-form-group>
+                        <b-form-group
+                          id="username-group"
+                          label="이름:"
+                          label-for="username"
+                        >
+                          <b-form-input
+                            id="username"
+                            v-model="user.username"
+                            required
+                            placeholder="이름 입력...."
+                            readonly
+                          ></b-form-input>
+                        </b-form-group>
 
-                <template #lead> 내 정보 확인페이지입니다. </template>
-
-                <hr class="my-4" />
-
-                <b-container class="mb-1">
-                  <b-row>
-                    <b-col></b-col>
-                    <b-col cols="8">
-                      <b-card
-                        class="text-center mt-3"
-                        style="max-width: 40rem"
-                        align="left"
-                      >
-                        <b-form @submit="update" class="text-left">
-                          <b-form-group label="아이디:" label-for="userid">
-                            <b-form-input
-                              id="userid"
-                              v-model="user.userid"
-                              required
-                              placeholder="이름 입력...."
-                              readonly
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            id="username-group"
-                            label="이름:"
-                            label-for="username"
-                          >
-                            <b-form-input
-                              id="username"
-                              v-model="user.username"
-                              required
-                              placeholder="이름 입력...."
-                              readonly
-                            ></b-form-input>
-                          </b-form-group>
-
-                          <b-form-group
-                            id="email-group"
-                            label="이메일:"
-                            label-for="email"
-                          >
-                            <b-form-input
-                              id="email"
-                              v-model="user.email"
-                              required
-                              readonly
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            id="region-group"
-                            label="거주지역:"
-                            label-for="region"
-                          >
-                            <b-form-input
-                              id="region"
-                              v-model="user.region"
-                              required
-                              readonly
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-button
-                            variant="primary"
-                            class="m-1"
-                            @click="gotoupdateanddelete"
-                            >회원정보수정및탈퇴</b-button
-                          >
-                          <!-- <b-button variant="danger" @click="withdraw"
+                        <b-form-group
+                          id="email-group"
+                          label="이메일:"
+                          label-for="email"
+                        >
+                          <b-form-input
+                            id="email"
+                            v-model="user.email"
+                            required
+                            readonly
+                          ></b-form-input>
+                        </b-form-group>
+                        <b-form-group
+                          id="region-group"
+                          label="거주지역:"
+                          label-for="region"
+                        >
+                          <b-form-input
+                            id="region"
+                            v-model="user.region"
+                            required
+                            readonly
+                          ></b-form-input>
+                        </b-form-group>
+                        <b-button
+                          variant="primary"
+                          class="m-1"
+                          @click="gotoupdateanddelete"
+                          >회원정보수정및탈퇴</b-button
+                        >
+                        <!-- <b-button variant="danger" @click="withdraw"
                             >회원탈퇴</b-button
                           > -->
-                        </b-form>
-                      </b-card>
-                    </b-col>
-                    <b-col></b-col>
-                  </b-row>
-                </b-container>
-                <hr class="my-4" />
-              </b-jumbotron>
+                      </b-form>
+                    </b-card>
+                  </b-col>
+                </b-row>
+              </b-container>
             </b-col>
-            <b-col></b-col>
           </b-row>
         </b-container>
       </div>
