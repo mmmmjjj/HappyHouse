@@ -545,6 +545,7 @@ export default {
     },
     displayInfowindow(marker, title, place) {
       console.log("displayInfoWindow called");
+      console.log(place);
       var content =
         `
 		<div class="overlaybox">

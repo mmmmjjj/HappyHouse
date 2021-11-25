@@ -32,9 +32,7 @@
             <b-col v-if="articles.length">
               <paginated-list :list-array="articles" />
             </b-col>
-            <b-col v-else class="text-center"
-              >작성된 공지사항이 없습니다.</b-col
-            >
+            <b-col v-else class="text-left">작성된 공지사항이 없습니다.</b-col>
           </b-row>
         </b-container>
         <!-- -->

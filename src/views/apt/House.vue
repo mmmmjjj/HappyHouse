@@ -20,8 +20,8 @@
               <b-col>
                 <div class="md-layout-item md-size-50 md-small-size-100 ">
                   <tabs
-                    :tab-name="['설명', '사용법', 'Schedule']"
-                    :tab-icon="['dashboard', 'list', 'schedule']"
+                    :tab-name="['설명', '사용법']"
+                    :tab-icon="['dashboard', 'list']"
                     plain
                     nav-pills-icons
                     color-button="info"
@@ -37,12 +37,6 @@
                       확인하세요.<br />
                       3. 원하시는 아파트를 클릭하여 우측에서 상세 정보를
                       확인하세요.<br />
-                    </template>
-                    <template slot="tab-pane-3">
-                      원하시는 시, 군구를 선택하신 후 검색 버튼을 누릅니다.<br />
-                      <br /><br />
-                      Dynamically innovate resource-leveling customer service
-                      for state of the art customer service.
                     </template>
                   </tabs>
                 </div>

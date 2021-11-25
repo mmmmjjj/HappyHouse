@@ -13,7 +13,7 @@
         <b-button
           variant="outline-primary"
           class="md-info md-round"
-          @click="listArticle"
+          @click="moveModifyArticle"
           >글수정</b-button
         >
         <b-button variant="outline-danger" size="sm" @click="deleteArticle"
