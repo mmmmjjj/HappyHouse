@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.vue.model.mapper.MemberMapper">
+
+	<select id="login" parameterType="memberDto" resultType="memberDto">
+		select username, userid, email, admin
+		from ssafy_member
+		where userid = #{userid} and userpwd = #{userpwd} and delflag = 0
+	</select>
+	
+	<select id="userInfo" parameterType="String" resultType="memberDto">
+		select username, userid, email, joindate, region, admin
+		from ssafy_member
+		where userid = #{userid}
+	</select>
+	
+	<insert id="registerMember" parameterType="MemberDto">
+		insert into ssafy_member (userid, username, userpwd, email, joindate, region)
+		values (#{userid}, #{username}, #{userpwd}, #{email}, now(), #{region})
+	</insert>
+	
+	<update id="deleteMember" parameterType="String">
+		update ssafy_member
+		set delflag = 1
+		where userid = #{userid}
+	</update>
+	
+	<update id="updateMember" parameterType="MemberDto">
+		update ssafy_member
+		<trim prefix="set" suffixOverrides=",">
+			<if test="username != null">username = #{username},</if>
+			<if test="userpwd != null">userpwd = #{userpwd},</if>
+			<if test="email != null">email = #{email},</if>
+			<if test="region != null">region = #{region},</if>
+		</trim>
+		where userid = #{userid}
+	</update>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(userid)
+		from ssafy_member
+		where userid = #{userid}
+	</select>
+	
+	<select id="listMember" resultType="memberDto">
+		select userid, username, email, date_format(joindate, '%y.%m.%d') joindate, delflag, region
+		from ssafy_member
+		order by joindate desc;
+	</select>
+	
+	<select id="searchMemberById" parameterType="String" resultType="memberDto">
+		select userid, userpwd, username, email, date_format(joindate, '%y.%m.%d') joindate, delflag, admin, region
+		from ssafy_member
+		where userid like CONCAT('%',#{userid},'%')
+	</select> 
+	
+	<select id="searchMemberByName" parameterType="String" resultType="memberDto">
+		select userid, userpwd, username, email, date_format(joindate, '%y.%m.%d') joindate, delflag, admin, region
+		from ssafy_member
+		where username like CONCAT('%',#{username},'%')
+	</select> 
+	
+	<select id="sortMember" resultType="memberDto">
+        select userid, userpwd, username, email, date_format(joindate, '%y.%m.%d') joindate, delflag
+        from ssafy_member
+        order by userid asc;
+    </select>
+</mapper>
